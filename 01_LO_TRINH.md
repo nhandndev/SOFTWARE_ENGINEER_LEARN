@@ -107,16 +107,16 @@
 ---
 
 ## Module 0-3 · DSA I: Big-O, Array/LinkedList/Stack/Queue, Binary Search, Sort
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 16h (4 buổi x 4h)
 **Mục tiêu:** Phân tích Big-O và giải ≥ 15 bài cấu trúc dữ liệu cơ bản kèm JUnit.
 
 ### Checklist kiến thức
-- [ ] Big-O: time/space, best/average/worst
-- [ ] Array vs LinkedList — trade-off
-- [ ] Stack, Queue, Deque — ứng dụng
-- [ ] Binary Search (iterative + recursive)
-- [ ] Sort phổ biến: merge, quick, heap — khi nào dùng
+- [x] Big-O: time/space, best/average/worst
+- [x] Array vs LinkedList — trade-off
+- [x] Stack, Queue, Deque — ứng dụng
+- [x] Binary Search (iterative + recursive)
+- [x] Sort phổ biến: merge, quick, heap — khi nào dùng
 
 ### Phần bỏ qua giai đoạn này
 - Dynamic Programming nâng cao — để Chặng 7 (LeetCode pattern)

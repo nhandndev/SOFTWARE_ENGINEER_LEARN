@@ -34,28 +34,30 @@ Phan biet best case, average case va worst case. Voi linear search, moi case co 
 
 So sanh ArrayList va LinkedList ve truy cap index, them/xoa giua list, va memory overhead.
 
-**Tra loi:**
+**Tra loi:** Arraylist truy cập index là O(1) còn LinkedList là O(n) , thêm và xóa giữa list thì cả 2 đều là O(n) , và memmory Overhead là vì linkedlist còn lưu cả địa chỉ node tiếp theo nữa nên là memmory của linkedlist lớn hơn so với arraylist
 
 
 ### Cau 4
 
 Stack, Queue va Deque khac nhau the nao? Moi cau truc theo nguyen tac LIFO/FIFO hay hai dau?
 
-**Tra loi:**
+**Tra loi:** Stack Là last in first out , ví dụ giống như cây đồ thì ta để đồ vô từ phải sang trái thì nó là pop từ trái sang phỉa , Queue là First in first out , giống như là một hàng dài mua đồ thì người nào tới trước được xử lý trước . Deque là  queue nhưng mà cả 2 đầu trước và sau , có thể dugnf như stack và queue
 
 
 ### Cau 5
 
 Binary Search can dieu kien gi de dung? Vi sao time complexity la `O(log n)`?
 
-**Tra loi:**
+**Tra loi:** Binaray Search cần điều kiện là mảng phải được sort . Binary search là ta sẽ mỗi bước sẽ bỏ 1 nữa để chọn 1 nữa chứa số cần tìm ( hoặc vị trí mà nó sẽ phải ở ) 
 
 
 ### Cau 6
 
 So sanh Merge Sort, Quick Sort va Heap Sort ve average/worst time, space, va khi nao nen dung.
 
-**Tra loi:**
+**Tra loi:**  Merge Sort: average/worst `O(n log n)`, space `O(n)`, stable neu implement dung.
+ Quick Sort: average `O(n log n)`, worst `O(n^2)`, space avg `O(log n)`, thuong nhanh thuc te.
+ Heap Sort: average/worst `O(n log n)`, space `O(1)` in-place, khong stable.
 
 
 ---
@@ -79,21 +81,21 @@ for (int i = 0; i < nums.length; i++) {
 }
 ```
 
-**Tra loi:**
+**Tra loi:** big O của cái này là O(n mũ 2) , dòng code for đầu tiên thì là O(n) , cái thứ 2 là 2 vòng lập for nên là O(n mũ 2) , ta có O(n) + O(n mũ 2) = O(n mũ 2) , space của code là O(1);
 
 
 ### Cau 8
 
 Ban can kiem tra chuoi ngoac hop le, vi du `"()[]{}"` la true, `"([)]"` la false. Nen dung Stack/Queue/Deque nao va vi sao?
 
-**Tra loi:**
+**Tra loi:** nên dùng stack vì cơ chế last in first out , bây giờ ta sẽ như này ban đầu là ( thì add vô stack , sau đó nó cần phải có ( hoặc [ hoặc { ( 3 cái này là add ) hoặc là )( cái này thì pop) thì do bài toán này tôi từng làm rồi nên biết
 
 
 ### Cau 9
 
 Ban co danh sach 1 trieu product da sort theo `id` va can tim product theo `id`. Nen dung linear search hay binary search? Neu danh sach chua sort thi sao?
 
-**Tra loi:**
+**Tra loi:** danh sách đã được sort rồi thì nên binary search , độ phức tạp của nó sẽ là O(log n) còn nếu ta dùng linear search thì sẽ là O(n) với n = 1 triệu . nếu danh sách chưa được sort thì ta nên linear search hoặc là ta sẽ sort rồi binaray search
 
 
 ---
@@ -110,4 +112,23 @@ Viet Java method `binarySearch(int[] nums, int target)` dang iterative:
 - Neu Big-O time va space.
 
 **Tra loi:**
+public int binarySearch(int[] nums, int target) {
+    int left = 0;
+    int right = nums.length - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] == target) {
+            return mid;
+        }
+
+        if (nums[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return -1;
 
