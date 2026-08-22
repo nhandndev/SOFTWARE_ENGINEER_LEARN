@@ -41,8 +41,8 @@
 
 | Module | Trạng thái | Điểm gần nhất | Ngày kiểm tra |
 |---|---|---|---|
-| M0-1 · Java hiện đại | 🔵 Chưa bắt đầu | — | — |
-| M0-2 · OOP SOLID | 🔵 Chưa bắt đầu | — | — |
+| M0-1 · Java hiện đại | 🟢 Đạt | 86 | 2026-08-19 |
+| M0-2 · OOP SOLID | 🟢 Đạt | 88 | 2026-08-20 |
 | M0-3 · DSA I | 🔵 Chưa bắt đầu | — | — |
 | M0-4 · DSA II Tree/Graph | 🔵 Chưa bắt đầu | — | — |
 | M0-5 · Git & Maven | 🔵 Chưa bắt đầu | — | — |
@@ -94,4 +94,17 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-08-20 · M0-2 · Chấm lại OOP SOLID & Patterns lần 1 sau khi lưu bản Lombok `@Builder`: 88/100 → 🟢 Đạt; còn lỗi validate trong constructor Lombok nhưng đủ ngưỡng OOP/SOLID/pattern.
+- 2026-08-20 · M0-2 · Chấm lại OOP SOLID & Patterns lần 1 có xét ý tưởng Lombok `@Builder`: 84/100 → 🟠 Cần ôn; gần đạt, cần viết rõ bản `@Builder` hoặc Builder có `builder()`/`build()`.
+- 2026-08-20 · M0-2 · Kiểm tra nhanh OOP SOLID & Patterns lần 1: 79/100 → 🟠 Cần ôn; lý thuyết/nhận diện tốt, yếu ở code Builder (`builder()`, `build()`, validate null).
+- 2026-08-19 · M0-1 · Chấm lại đề DAY_DU Java hiện đại lần 3 sau sửa bài: 86/100 → 🟢 Đạt; còn lỗi nhỏ ở `Result<T>` constructor/private và `fail(message)`, nhưng đủ ngưỡng kiến thức.
+- 2026-08-19 · M0-1 · Đề DAY_DU Java hiện đại lần 3: 83/100 → 🟠 Cần ôn; lý thuyết tốt, Stream/Records ổn, còn yếu Optional chain và `Result<T>` đúng contract.
+- 2026-08-19 · M0-1 · Thi lại Optional, Records và sealed classes lần 2: 53/100 → 🔴 Học lại; cần viết lại code Optional chain `map/orElse`, `orElseGet` thay vì chỉ nói ý tưởng.
+- 2026-08-19 · M0-1 · Kiểm tra nhanh Optional, Records và sealed classes: 74/100 → 🟠 Cần ôn; records/sealed ổn, cần ôn Optional chain `map/orElse`, `orElseGet`, tránh `.get()`.
+- 2026-08-18 · M0-1 · Chấm lại thi lại ngắn lần 3 sau sửa câu 7/9: 91/100 → đạt phần Generics & Lambda; tiếp tục M0-1 với Stream, Optional và deliverable `Result<T>`/`PageResponse<T>`.
+- 2026-08-18 · M0-1 · Chấm lại thi lại ngắn lần 3 bản mới nhất: 70/100 → 🟠 Cần ôn; PECS đã ổn hơn, còn thiếu method reference và `Result<T>` đúng contract/compile.
+- 2026-08-18 · M0-1 · Chấm lại thi lại ngắn lần 3 sau sửa câu 9: 68/100 → 🟠 Cần ôn; `Result<T>` đã có khung nhưng sai contract constructor, method `ok/fail`, field `data`.
+- 2026-08-18 · M0-1 · Thi lại ngắn Generics & Lambda lần 3: 59/100 → 🟠 Cần ôn; đã nắm PECS tốt hơn, còn thiếu method reference đầy đủ và code `Result<T>`.
+- 2026-08-18 · M0-1 · Thi lại Generics & Lambda lần 2: 49/100 → 🔴 Học lại; có tiến bộ nhưng vẫn yếu invariant generic, đọc từ `? super` và code `Result<T>` đúng contract.
+- 2026-08-18 · M0-1 · Kiểm tra nhanh Generics & Lambda lần 1: 38/100 → 🔴 Học lại; yếu ở `? super`, method reference và code `Result<T>`.
 - (chưa có buổi học — bắt đầu từ `M0-1`)

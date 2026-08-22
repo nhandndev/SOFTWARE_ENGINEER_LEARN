@@ -40,16 +40,16 @@
 # Chặng 0 — Nền tảng Java (68h / 4 tuần)
 
 ## Module 0-1 · Java hiện đại: Generics, Lambda, Stream, Optional
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 16h (4 buổi x 4h)
 **Mục tiêu:** Viết được utility type-safe với Generics, Stream và Optional; áp dụng ngay vào package `common` của shopcore.
 
 ### Checklist kiến thức
-- [ ] Generics: type parameter, bounded type, wildcards (`? extends` / `? super`)
-- [ ] Functional Interface, Lambda, method reference
-- [ ] Stream API: map/filter/reduce, collectors, flatMap
-- [ ] Optional: of/ofNullable, map/flatMap, orElse/orElseGet — tránh anti-pattern
-- [ ] Records và sealed classes (Java 17+) ở mức nhận diện và dùng khi hợp lý
+- [x] Generics: type parameter, bounded type, wildcards (`? extends` / `? super`)
+- [x] Functional Interface, Lambda, method reference
+- [x] Stream API: map/filter/reduce, collectors, flatMap
+- [x] Optional: of/ofNullable, map/flatMap, orElse/orElseGet — tránh anti-pattern
+- [x] Records và sealed classes (Java 17+) ở mức nhận diện và dùng khi hợp lý
 
 ### Phần bỏ qua giai đoạn này
 - Reactive Streams / Project Reactor — học khi sang WebFlux (không thuộc lộ trình hiện tại)
@@ -74,15 +74,15 @@
 ---
 
 ## Module 0-2 · OOP nâng cao, SOLID & nhận diện Design Pattern
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 12h (4 buổi x 3h)
 **Mục tiêu:** Thiết kế domain model shopcore tuân SOLID; nhận diện Singleton, Factory, Builder, Strategy, Observer.
 
 ### Checklist kiến thức
-- [ ] Encapsulation, composition over inheritance
-- [ ] SOLID: SRP, OCP, LSP, ISP, DIP — ví dụ vi phạm và sửa
-- [ ] Nhận diện: Singleton, Factory, Builder, Strategy, Observer
-- [ ] Khi nào không dùng pattern (over-engineering)
+- [x] Encapsulation, composition over inheritance
+- [x] SOLID: SRP, OCP, LSP, ISP, DIP — ví dụ vi phạm và sửa
+- [x] Nhận diện: Singleton, Factory, Builder, Strategy, Observer
+- [x] Khi nào không dùng pattern (over-engineering)
 
 ### Phần bỏ qua giai đoạn này
 - Áp sâu toàn bộ GoF vào code — đào sâu ở Chặng 6A
