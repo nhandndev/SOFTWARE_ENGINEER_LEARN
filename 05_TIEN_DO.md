@@ -44,7 +44,7 @@
 | M0-1 · Java hiện đại | 🟢 Đạt | 86 | 2026-08-19 |
 | M0-2 · OOP SOLID | 🟢 Đạt | 88 | 2026-08-20 |
 | M0-3 · DSA I | 🟢 Đạt | 95 | 2026-08-22 |
-| M0-4 · DSA II Tree/Graph | 🔵 Chưa bắt đầu | — | — |
+| M0-4 · DSA II Tree/Graph | 🟢 Đạt | 97 | 2026-08-23 |
 | M0-5 · Git & Maven | 🔵 Chưa bắt đầu | — | — |
 | M1-1 · IoC / DI | 🔵 Chưa bắt đầu | — | — |
 | M1-2 · MVC & REST | 🔵 Chưa bắt đầu | — | — |
@@ -94,6 +94,9 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-08-23 · M0-4 · Thi lại Graph/BFS/DFS/shortest path/cycle lần 3: 97/100 → 🟢 Đạt; đã nắm shortest path BFS trên unweighted graph, DFS recursive trace, cycle detection bằng parent và Big-O graph.
+- 2026-08-23 · M0-4 · Kiểm tra nhanh Graph/BFS/DFS/shortest path/cycle lần 2: 76/100 → 🟠 Cần ôn; yếu ở điều kiện shortest path bằng BFS, cycle detection bằng parent và thứ tự DFS recursive.
+- 2026-08-23 · M0-4 · Kiểm tra nhanh Tree cơ bản buổi 1: 98/100 → 🟢 Đạt phần Binary Tree/BST/traversal/max depth; cần học tiếp Graph, BFS/DFS, shortest path và cycle detection trước khi chốt cả module.
 - 2026-08-22 · M0-3 · Chấm lại DSA I lần 1 sau khi bổ sung câu 5, 6, 7 và 9: 95/100 → 🟢 Đạt; còn thiếu cách dùng `ArrayDeque` ở câu ngoặc và Big-O của code Binary Search.
 - 2026-08-22 · M0-3 · Kiểm tra nhanh DSA I lần 1: 77/100 → 🟠 Cần ôn; nắm Big-O cơ bản, ArrayList/LinkedList, Stack/Queue và code Binary Search, còn thiếu điều kiện/độ phức tạp Binary Search, phân tích space và so sánh Merge/Quick/Heap Sort.
 - 2026-08-20 · M0-2 · Chấm lại OOP SOLID & Patterns lần 1 sau khi lưu bản Lombok `@Builder`: 88/100 → 🟢 Đạt; còn lỗi validate trong constructor Lombok nhưng đủ ngưỡng OOP/SOLID/pattern.

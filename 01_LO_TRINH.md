@@ -141,16 +141,16 @@
 ---
 
 ## Module 0-4 · DSA II: Tree, Graph, BFS/DFS
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 12h (4 buổi x 3h)
 **Mục tiêu:** Triển khai BFS/DFS trên tree/graph; ghi Big-O từng bài trong README.
 
 ### Checklist kiến thức
-- [ ] Binary Tree, BST — thao tác cơ bản
-- [ ] Graph: adjacency list/matrix
-- [ ] BFS và DFS — iterative vs recursive
-- [ ] Shortest path khái niệm (BFS trên unweighted)
-- [ ] Cycle detection cơ bản
+- [x] Binary Tree, BST — thao tác cơ bản
+- [x] Graph: adjacency list/matrix
+- [x] BFS và DFS — iterative vs recursive
+- [x] Shortest path khái niệm (BFS trên unweighted)
+- [x] Cycle detection cơ bản
 
 ### Phần bỏ qua giai đoạn này
 - Dijkstra / A* / Union-Find nâng cao — học khi System Design / interview sâu
