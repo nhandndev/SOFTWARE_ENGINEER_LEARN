@@ -45,7 +45,7 @@
 | M0-2 · OOP SOLID | 🟢 Đạt | 88 | 2026-08-20 |
 | M0-3 · DSA I | 🟢 Đạt | 95 | 2026-08-22 |
 | M0-4 · DSA II Tree/Graph | 🟢 Đạt | 97 | 2026-08-23 |
-| M0-5 · Git & Maven | 🔵 Chưa bắt đầu | — | — |
+| M0-5 · Git & Maven | 🟢 Đạt | 97 | 2026-08-25 |
 | M1-1 · IoC / DI | 🔵 Chưa bắt đầu | — | — |
 | M1-2 · MVC & REST | 🔵 Chưa bắt đầu | — | — |
 | M1-3 · Spring Data JPA | 🔵 Chưa bắt đầu | — | — |
@@ -94,6 +94,9 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-08-25 · M0-5 · Chấm lại thi lại lỗi còn hở Git & Maven lần 2: 97/100 → 🟢 Đạt; đã vá tốt PR workflow, stash workflow, package/install, JUnit/Surefire, pom.xml và xử lý conflict, chỉ còn nên thuộc chính xác tên plugin Maven và lệnh `git rm -r --cached target`.
+- 2026-08-25 · M0-5 · Chấm lại đề DAY_DU Git & Maven lần 1 sau sửa câu 11 và 12: 88/100 → 🟢 Đạt; đã nắm workflow stash, Git/Maven nền tảng, Maven lifecycle, pom.xml và cấu trúc Maven tối thiểu, còn nên nhớ kỹ lệnh `git rm --cached` khi đã lỡ track file rác.
+- 2026-08-25 · M0-5 · Đề DAY_DU Git & Maven lần 1: 83/100 → 🟠 Cần ôn; nắm Git/Maven nền tảng, branch, lifecycle và pom.xml tốt, còn thiếu bước xử lý thực tế ở stash, xóa file rác khỏi Git tracking, PR workflow và conflict.
 - 2026-08-23 · M0-4 · Thi lại Graph/BFS/DFS/shortest path/cycle lần 3: 97/100 → 🟢 Đạt; đã nắm shortest path BFS trên unweighted graph, DFS recursive trace, cycle detection bằng parent và Big-O graph.
 - 2026-08-23 · M0-4 · Kiểm tra nhanh Graph/BFS/DFS/shortest path/cycle lần 2: 76/100 → 🟠 Cần ôn; yếu ở điều kiện shortest path bằng BFS, cycle detection bằng parent và thứ tự DFS recursive.
 - 2026-08-23 · M0-4 · Kiểm tra nhanh Tree cơ bản buổi 1: 98/100 → 🟢 Đạt phần Binary Tree/BST/traversal/max depth; cần học tiếp Graph, BFS/DFS, shortest path và cycle detection trước khi chốt cả module.

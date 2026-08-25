@@ -175,16 +175,16 @@
 ---
 
 ## Module 0-5 · Git & Maven — khởi tạo `shopcore`
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 12h (4 buổi x 3h)
 **Mục tiêu:** Tạo repo `shopcore` chuẩn Maven; thao thạo branch/PR/conflict.
 
 ### Checklist kiến thức
-- [ ] Git: branch, merge, rebase, stash, cherry-pick (nhận diện)
-- [ ] Pull Request workflow + resolve conflict
-- [ ] Maven lifecycle: validate → compile → test → package → install → deploy
-- [ ] `pom.xml`: dependencies, plugins, profiles
-- [ ] `.gitignore` cho Java/Maven/IDE
+- [x] Git: branch, merge, rebase, stash, cherry-pick (nhận diện)
+- [x] Pull Request workflow + resolve conflict
+- [x] Maven lifecycle: validate → compile → test → package → install → deploy
+- [x] `pom.xml`: dependencies, plugins, profiles
+- [x] `.gitignore` cho Java/Maven/IDE
 
 ### Phần bỏ qua giai đoạn này
 - Git submodule / monorepo tooling — không cần cho shopcore đơn repo
