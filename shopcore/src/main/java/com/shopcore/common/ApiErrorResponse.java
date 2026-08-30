@@ -11,9 +11,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiErrorResponse <T> {
-    int status;
-    String error;
+public class ApiErrorResponse {
+    int code;
     String message;
 }
-
