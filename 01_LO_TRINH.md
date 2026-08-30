@@ -211,16 +211,16 @@
 # Chặng 1 — Spring Boot thực chất (86h / 5 tuần)
 
 ## Module 1-1 · IoC / DI, Bean & ApplicationContext
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 14h (4 buổi x 3.5h)
 **Mục tiêu:** Giải thích và cấu hình được Bean lifecycle trong shopcore; chứng minh bằng log.
 
 ### Checklist kiến thức
-- [ ] IoC vs DI — constructor / setter / field injection (ưu tiên constructor)
-- [ ] `ApplicationContext`, `@Configuration`, `@Bean`, `@Component`
-- [ ] Bean scope: singleton, prototype, request, session
-- [ ] Lifecycle: `@PostConstruct`, `@PreDestroy`, `InitializingBean`
-- [ ] Circular dependency — nhận biết và tránh
+- [x] IoC vs DI — constructor / setter / field injection (ưu tiên constructor)
+- [x] `ApplicationContext`, `@Configuration`, `@Bean`, `@Component`
+- [x] Bean scope: singleton, prototype, request, session
+- [x] Lifecycle: `@PostConstruct`, `@PreDestroy`, `InitializingBean`
+- [x] Circular dependency — nhận biết và tránh
 
 ### Phần bỏ qua giai đoạn này
 - Spring AOP sâu (pointcut phức tạp) — chỉ cần biết khái niệm; đào sau nếu cần

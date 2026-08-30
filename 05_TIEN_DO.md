@@ -46,7 +46,7 @@
 | M0-3 · DSA I | 🟢 Đạt | 95 | 2026-08-22 |
 | M0-4 · DSA II Tree/Graph | 🟢 Đạt | 97 | 2026-08-23 |
 | M0-5 · Git & Maven | 🟢 Đạt | 97 | 2026-08-25 |
-| M1-1 · IoC / DI | 🔵 Chưa bắt đầu | — | — |
+| M1-1 · IoC / DI | 🟢 Đạt | 95 | 2026-08-26 |
 | M1-2 · MVC & REST | 🔵 Chưa bắt đầu | — | — |
 | M1-3 · Spring Data JPA | 🔵 Chưa bắt đầu | — | — |
 | M1-4 · Validation & Error | 🔵 Chưa bắt đầu | — | — |
@@ -94,6 +94,8 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-08-26 · M1-1 · Kiểm tra nhanh ôn lỗi lifecycle/scope/bean lần 2: 95/100 → 🟢 Đạt; đã vá tốt `@PostConstruct`, `@PreDestroy`, `InitializingBean`, `@Component` vs `@Bean`, prototype-in-singleton với `ObjectProvider`, `@Primary` và `@Qualifier`.
+- 2026-08-26 · M1-1 · Đề DAY_DU IoC/DI, Bean & ApplicationContext lần 1: 69/100 → 🟠 Cần ôn; nắm IoC/DI, constructor injection, bean cơ bản và code skeleton tốt, còn yếu bean lifecycle (`@PostConstruct`/`@PreDestroy`/`InitializingBean`), prototype-in-singleton và phân biệt stereotype/`@Bean`.
 - 2026-08-25 · M0-5 · Chấm lại thi lại lỗi còn hở Git & Maven lần 2: 97/100 → 🟢 Đạt; đã vá tốt PR workflow, stash workflow, package/install, JUnit/Surefire, pom.xml và xử lý conflict, chỉ còn nên thuộc chính xác tên plugin Maven và lệnh `git rm -r --cached target`.
 - 2026-08-25 · M0-5 · Chấm lại đề DAY_DU Git & Maven lần 1 sau sửa câu 11 và 12: 88/100 → 🟢 Đạt; đã nắm workflow stash, Git/Maven nền tảng, Maven lifecycle, pom.xml và cấu trúc Maven tối thiểu, còn nên nhớ kỹ lệnh `git rm --cached` khi đã lỡ track file rác.
 - 2026-08-25 · M0-5 · Đề DAY_DU Git & Maven lần 1: 83/100 → 🟠 Cần ôn; nắm Git/Maven nền tảng, branch, lifecycle và pom.xml tốt, còn thiếu bước xử lý thực tế ở stash, xóa file rác khỏi Git tracking, PR workflow và conflict.
