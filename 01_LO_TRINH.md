@@ -245,16 +245,16 @@
 ---
 
 ## Module 1-2 · Spring MVC 3-layer & REST API
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 16h (4 buổi x 4h)
 **Mục tiêu:** Xây CRUD Product + Category đủ 3 lớp với status code và pagination chuẩn.
 
 ### Checklist kiến thức
-- [ ] Controller → Service → Repository (3-layer)
-- [ ] `@RestController`, `@RequestMapping`, path/query params
-- [ ] HTTP methods & status codes (200/201/204/400/404/409)
-- [ ] DTO vs Entity — mapping thủ công hoặc MapStruct (tùy chọn)
-- [ ] Pagination cơ bản với `Pageable` / `Page`
+- [x] Controller → Service → Repository (3-layer)
+- [x] `@RestController`, `@RequestMapping`, path/query params
+- [x] HTTP methods & status codes (200/201/204/400/404/409)
+- [x] DTO vs Entity — mapping thủ công hoặc MapStruct (tùy chọn)
+- [x] Pagination cơ bản với `Pageable` / `Page`
 
 ### Phần bỏ qua giai đoạn này
 - GraphQL / gRPC — ngoài scope REST của shopcore

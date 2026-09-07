@@ -47,7 +47,7 @@
 | M0-4 · DSA II Tree/Graph | 🟢 Đạt | 97 | 2026-08-23 |
 | M0-5 · Git & Maven | 🟢 Đạt | 97 | 2026-08-25 |
 | M1-1 · IoC / DI | 🟢 Đạt | 95 | 2026-08-26 |
-| M1-2 · MVC & REST | 🔵 Chưa bắt đầu | — | — |
+| M1-2 · MVC & REST | 🟢 Đạt | 92 | 2026-09-07 |
 | M1-3 · Spring Data JPA | 🔵 Chưa bắt đầu | — | — |
 | M1-4 · Validation & Error | 🔵 Chưa bắt đầu | — | — |
 | M1-5 · Config & Profiles | 🔵 Chưa bắt đầu | — | — |
@@ -94,6 +94,7 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-09-07 · M1-2 · Thi lại/pass module MVC REST lần 4: 92/100 → 🟢 Đạt phần lý thuyết/luồng; đã nắm FilterChain, DispatcherServlet, HandlerMapping/Adapter, DTO, AppException, status code và paging, còn nhầm nhỏ `price < 0` nên là 400 thay vì 409.
 - 2026-08-26 · M1-1 · Kiểm tra nhanh ôn lỗi lifecycle/scope/bean lần 2: 95/100 → 🟢 Đạt; đã vá tốt `@PostConstruct`, `@PreDestroy`, `InitializingBean`, `@Component` vs `@Bean`, prototype-in-singleton với `ObjectProvider`, `@Primary` và `@Qualifier`.
 - 2026-08-26 · M1-1 · Đề DAY_DU IoC/DI, Bean & ApplicationContext lần 1: 69/100 → 🟠 Cần ôn; nắm IoC/DI, constructor injection, bean cơ bản và code skeleton tốt, còn yếu bean lifecycle (`@PostConstruct`/`@PreDestroy`/`InitializingBean`), prototype-in-singleton và phân biệt stereotype/`@Bean`.
 - 2026-08-25 · M0-5 · Chấm lại thi lại lỗi còn hở Git & Maven lần 2: 97/100 → 🟢 Đạt; đã vá tốt PR workflow, stash workflow, package/install, JUnit/Surefire, pom.xml và xử lý conflict, chỉ còn nên thuộc chính xác tên plugin Maven và lệnh `git rm -r --cached target`.
