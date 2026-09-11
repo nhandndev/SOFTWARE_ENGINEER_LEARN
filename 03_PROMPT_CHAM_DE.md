@@ -16,6 +16,22 @@ file = <đường dẫn file đề đã làm, ví dụ: de-kiem-tra/M1-3-jpa__20
 
 ## Output bắt buộc (theo đúng thứ tự — không bỏ mục, không đảo)
 
+### 0. Snapshot nhận xét
+
+- Luôn tạo file snapshot sau mỗi lần chấm tại:
+
+```
+Exams/nhan-xet/<ten-file-de-khong-duoi-md>__NHANXET.md
+```
+
+- Snapshot phải lưu được để sau này nhìn lại biết đã sai gì, gồm tối thiểu:
+  - Điểm tổng và trạng thái.
+  - Bảng điểm từng câu.
+  - Những câu sai/thiếu.
+  - Kiến thức cần học lại.
+  - Hành động tiếp theo.
+- Nếu chấm lại cùng một đề, cập nhật snapshot tương ứng bằng kết quả mới nhất, không chỉ trả lời trong chat.
+
 ### 1. Điểm tổng + điểm nhóm kiến thức
 
 - Điểm tổng thang 100 (đã normalize theo công thức trong `02_PROMPT_TAO_DE.md`)
