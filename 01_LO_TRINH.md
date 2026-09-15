@@ -279,19 +279,19 @@
 ---
 
 ## Module 1-3 · Spring Data JPA
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 20h (5 buổi x 4h)
 **Mục tiêu:** Viết CRUD JPA đầy đủ, hiểu transaction, phát hiện N+1 trong shopcore (fix sâu ở Chặng 2).
 
 ### Checklist kiến thức
-- [ ] Entity, `@Id`, `@GeneratedValue`, `@Column`, `@Table`
-- [ ] `JpaRepository` vs `CrudRepository` vs `PagingAndSortingRepository`
-- [ ] Derived query methods (`findByXxx`, `findByXxxAndYyy`)
-- [ ] `@Query` với JPQL và native SQL
-- [ ] `@Transactional` — propagation, isolation, rollback rules
-- [ ] Lazy vs Eager loading — khi nào dùng cái nào
-- [ ] N+1 problem — detect bằng Hibernate SQL log (nhận diện; fix sâu ở 2-4)
-- [ ] Auditing — `@CreatedDate`, `@LastModifiedDate`, `@EnableJpaAuditing`
+- [x] Entity, `@Id`, `@GeneratedValue`, `@Column`, `@Table`
+- [x] `JpaRepository` vs `CrudRepository` vs `PagingAndSortingRepository`
+- [x] Derived query methods (`findByXxx`, `findByXxxAndYyy`)
+- [x] `@Query` với JPQL và native SQL
+- [x] `@Transactional` — propagation, isolation, rollback rules
+- [x] Lazy vs Eager loading — khi nào dùng cái nào
+- [x] N+1 problem — detect bằng Hibernate SQL log (nhận diện; fix sâu ở 2-4)
+- [x] Auditing — `@CreatedDate`, `@LastModifiedDate`, `@EnableJpaAuditing`
 
 ### Phần bỏ qua giai đoạn này
 - Specification API — học sau khi nắm chắc derived queries

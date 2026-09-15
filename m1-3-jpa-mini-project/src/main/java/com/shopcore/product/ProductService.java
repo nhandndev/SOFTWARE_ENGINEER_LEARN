@@ -8,9 +8,6 @@ import com.shopcore.common.PageResponse;
 import com.shopcore.product.dto.CreateProductRequest;
 import com.shopcore.product.dto.ProductResponse;
 import com.shopcore.product.dto.UpdateProductRequest;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -102,12 +99,29 @@ public class ProductService {
                 .totalPages(productPage.getTotalPages())
                 .build();
     }
-
+    @Transactional
     public ProductResponse update(Long id, UpdateProductRequest request) {
-        throw new UnsupportedOperationException("TODO: implement ProductService.update");
+        Product product =productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setCategory(category);
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .sku(product.getSku())
+                .price(product.getPrice())
+                .categoryName(category.getName())
+                .categoryId(category.getId())
+                .createdAt(product.getCreatedAt())
+                .updatedAt(product.getUpdatedAt())
+                .build();
     }
-
+    @Transactional
     public void delete(Long id) {
-        throw new UnsupportedOperationException("TODO: implement ProductService.delete");
+        if(!productRepository.existsById(id)) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
+        }
+        productRepository.deleteById(id);
     }
 }

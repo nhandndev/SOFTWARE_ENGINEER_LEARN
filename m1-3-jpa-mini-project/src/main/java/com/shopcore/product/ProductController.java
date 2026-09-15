@@ -1,6 +1,8 @@
 package com.shopcore.product;
 
 import com.shopcore.common.ApiResponse;
+import com.shopcore.common.AppException;
+import com.shopcore.common.ErrorCode;
 import com.shopcore.common.PageResponse;
 import com.shopcore.product.dto.CreateProductRequest;
 import com.shopcore.product.dto.ProductResponse;
@@ -22,9 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.function.EntityResponse;
-
-import java.net.URI;
 
 @RestController
 @RequestMapping("/api/products")
@@ -58,6 +57,9 @@ public class ProductController {
                                                                              @RequestParam(required = false) Long categoryId ,
                                                                              @RequestParam(required = false) String keyword
                                                                              ) {
+        if (page < 0 || page > 100 || size < 1 || size > 100) {
+            throw new AppException(ErrorCode.INVALID_PARAMETER);
+        }
         Pageable pageable = PageRequest.of(page, size);
        PageResponse<ProductResponse> pageResponse = productService.getAll(categoryId,keyword,pageable);
        ApiResponse<PageResponse<ProductResponse>> apiResponse = ApiResponse.<PageResponse<ProductResponse>>builder()
@@ -69,16 +71,21 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponse>> update(
-            @PathVariable Long id,
-            @Valid @RequestBody UpdateProductRequest request
-    ) {
-        return ResponseEntity.ok(ApiResponse.success("Product updated", productService.update(id, request)));
+    public ResponseEntity<ApiResponse<ProductResponse>> update(@PathVariable Long id , @Valid @RequestBody UpdateProductRequest request) {
+        ApiResponse<ProductResponse> apiResponse = ApiResponse.<ProductResponse>builder()
+                .data(productService.update(id , request ))
+                .message("Product successfully updated")
+                .success(true)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
         productService.delete(id);
-        return ResponseEntity.noContent().build();
+        ApiResponse<Void> apiResponse = ApiResponse.<Void>builder()
+                .message("Product deleted")
+                .success(true)
+                .build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(apiResponse);
     }
 }

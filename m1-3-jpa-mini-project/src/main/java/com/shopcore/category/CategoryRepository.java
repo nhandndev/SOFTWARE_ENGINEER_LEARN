@@ -1,6 +1,5 @@
 package com.shopcore.category;
 
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
