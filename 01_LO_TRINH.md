@@ -75,7 +75,7 @@
 
 ## Module 0-2 · OOP nâng cao, SOLID & nhận diện Design Pattern
 **Trạng thái:** 🟢 Đạt
-**Thời gian ước tính:** 12h (4 buổi x 3h)
+**Thời gian ước tính:** 12h (4 lesson x 3h)
 **Mục tiêu:** Thiết kế domain model shopcore tuân SOLID; nhận diện Singleton, Factory, Builder, Strategy, Observer.
 
 ### Checklist kiến thức
@@ -328,6 +328,12 @@
 - [ ] `@ControllerAdvice` + `@ExceptionHandler`
 - [ ] `ProblemDetail` (RFC 7807) — format lỗi thống nhất
 
+### Cách chia lesson
+- [ ] Lesson 01: Request error flow và phân biệt validation/business error
+- [ ] Lesson 02: DTO validation, `@Valid`, `@Validated`, nested DTO
+- [ ] Lesson 03: Custom validator và Global Exception Handler
+- [ ] Lesson 04: ProblemDetail và mini project tổng hợp
+
 ### Phần bỏ qua giai đoạn này
 - Cross-field validation phức tạp với nhiều bean — đủ 1 custom validator đơn giản
 
@@ -347,6 +353,7 @@
 
 ### Liên kết kiểm tra
 → Dùng `02_PROMPT_TAO_DE.md`, topic = M1-4-validation-error
+→ Chi tiết cách chia: `Notes/M1_Spring_Boot/M1_4_Validation_Error/LESSON_PLAN.md`
 
 ---
 

@@ -1,5 +1,7 @@
 # M1-4 - Lesson 01: Tong Quan Validation & Error Handling
 
+> Lo trinh module da duoc gom lai con 4 lesson de tranh trung lap. Xem [LESSON_PLAN.md](LESSON_PLAN.md) de biet file nao thuoc lesson nao.
+
 ## 1. Bai nay giai quyet cai gi?
 
 O M1-2 va M1-3, ban da co luong:
