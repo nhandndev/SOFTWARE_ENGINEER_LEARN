@@ -1,29 +1,25 @@
-# M1-4 - Lesson 03: Custom Validator Va Global Exception Handler
+# M1-4 - Lesson 03: Custom Validator Và Global Exception Handler
 
-> Muc tieu: tu viet duoc mot rule validation rieng va hieu exception tu Service/Controller di len `@RestControllerAdvice` roi tro thanh HTTP response.
-
-## 0. Lesson nay hoc gi?
-
-Ban da hoc:
-
-- DTO co the bi validate bang annotation co san.
-- `@Valid` giup kich hoat validation cho request body.
-- Loi format va loi business la hai nhom khac nhau.
-
-Lesson nay hoc tiep hai viec:
-
-```text
-1. Rule nao chua duoc annotation co san thi tao custom validator.
-2. Exception tu nhieu noi duoc gom lai va tra ve mot format thong nhat.
-```
-
-Khong hoc lai chi tiet `@Valid`, `page=abc` hay `page=-1`. Neu quen, xem Lesson 01 va Lesson 02.
+> **Mục tiêu:** Tự viết được một quy tắc kiểm tra dữ liệu riêng (Custom Validator) và hiểu cách Ngoại lệ (Exception) từ Service/Controller ném ra trôi lên `@RestControllerAdvice` để trở thành HTTP Response thống nhất cho Client.
 
 ---
 
-## 1. Khi nao dung custom validator?
+## 0. Lesson này học gì?
 
-Annotation co san phu hop voi rule don gian:
+Trong các bài học trước, bạn đã nắm được:
+- DTO được kiểm tra dữ liệu bằng các Annotation có sẵn (`@NotBlank`, `@Size`, `@Min`, `@Max`...).
+- Annotation `@Valid` giúp kích hoạt quá trình kiểm tra cho Request Body.
+- Lỗi định dạng (Format Error) và lỗi nghiệp vụ (Business Error) là hai nhóm hoàn toàn khác nhau.
+
+**Trong Lesson 03, chúng ta sẽ làm 2 việc quan trọng nâng cao:**
+1. **Tạo Custom Validator:** Quy tắc nào domain yêu cầu mà Annotation có sẵn không đáp ứng tốt thì tự viết rule riêng.
+2. **Global Exception Handler:** Gom tất cả Exception từ nhiều nơi trôi lên về một chỗ và trả về format JSON thống nhất.
+
+---
+
+## 1. Khi nào dùng Custom Validator?
+
+Các Annotation có sẵn rất phù hợp với các quy tắc cơ bản:
 
 ```java
 @NotBlank
@@ -32,49 +28,47 @@ Annotation co san phu hop voi rule don gian:
 @Pattern(regexp = "...")
 ```
 
-Nhung co rule dac thu cua domain, vi du:
+Tuy nhiên, có những quy tắc đặc thụ của nghiệp vụ (Domain Rule), ví dụ quy tắc cho **mã SKU sản phẩm**:
+- Bắt buộc viết hoa.
+- Chỉ bao gồm các ký tự `A-Z`, `0-9` và dấu gạch ngang `-`.
+- Độ dài từ 3 đến 30 ký tự.
+- Không được bắt đầu hoặc kết thúc bằng dấu gạch ngang `-`.
 
-```text
-SKU:
-- bat buoc viet hoa
-- chi gom A-Z, 0-9 va dau -
-- dai tu 3 den 30 ky tu
-- khong bat dau hoac ket thuc bang -
-```
-
-Ta co the viet `@Pattern`, nhung ten `@ValidSku` doc de hieu hon:
+Ta có thể viết một chuỗi Regex dài trong `@Pattern`, nhưng việc tự tạo Annotation `@ValidSku` giúp mã nguồn rõ ràng, thể hiện đúng ý niệm nghiệp vụ và dễ tái sử dụng hơn rất nhiều:
 
 ```java
-@NotBlank
-@ValidSku
+@NotBlank(message = "Mã SKU không được để trống")
+@ValidSku(message = "Mã SKU không đúng định dạng chuẩn")
 private String sku;
 ```
 
-Y tuong:
+**Luồng hoạt động ý tưởng:**
 
 ```text
-@ValidSku
-     |
-     v
-ValidSkuValidator.isValid(value)
-     |
-     +-- true  -> field hop le
-     |
-     +-- false -> tao validation error
+@ValidSku trên DTO
+        │
+        ▼
+ValidSkuValidator.isValid(value, context)
+        │
+        ├──────► true  : Trường dữ liệu hợp lệ
+        │
+        └──────► false : Tạo lỗi Validation Error (ném MethodArgumentNotValidException)
 ```
 
 ---
 
-## 2. Custom validator gom may phan?
+## 2. Cấu trúc của một Custom Validator (2 Phần bắt buộc)
 
-Can hai file:
+Để tạo ra một Custom Validator hoàn chỉnh trong Java / Spring Boot, bạn **luôn phải viết 2 file**:
+1. **Annotation Interface:** Khai báo tên Annotation và các cấu hình metadata.
+2. **Validator Class:** Cài đặt logic kiểm tra thực tế.
 
 ```text
-ValidSku.java
-ValidSkuValidator.java
+ValidSku.java          (Annotation definition)
+ValidSkuValidator.java (Logic implementation)
 ```
 
-### 2.1. Annotation `@ValidSku`
+### 2.1. File 1: Annotation `@ValidSku`
 
 ```java
 package com.shopcore.common.validation;
@@ -89,41 +83,32 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Documented
-@Constraint(validatedBy = ValidSkuValidator.class)
-@Target({ElementType.FIELD, ElementType.PARAMETER})
-@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = ValidSkuValidator.class) // Chỉ định class chứa logic kiểm tra
+@Target({ElementType.FIELD, ElementType.PARAMETER}) // Cho phép gắn ở Field của DTO hoặc Tham số phương thức
+@Retention(RetentionPolicy.RUNTIME)                // Giữ lại Annotation ở Runtime để Spring đọc được
 public @interface ValidSku {
 
-    String message() default "SKU format is invalid";
+    String message() default "Format SKU không hợp lệ"; // Thông báo lỗi mặc định
 
-    Class<?>[] groups() default {};
+    Class<?>[] groups() default {};                   // Nhóm validation (theo chuẩn Jakarta Validation)
 
-    Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};  // Metadata mở rộng (theo chuẩn Jakarta Validation)
 }
 ```
 
-### 2.2. Y nghia tung annotation
+### 2.2. Giải thích chi tiết các Annotation bổ trợ
 
-| Annotation | Y nghia |
+| Annotation | Ý nghĩa và Vai trò |
 |---|---|
-| `@Constraint` | Noi cho Bean Validation biet class nao kiem tra rule |
-| `validatedBy` | Validator thuc te se duoc goi |
-| `@Target` | Cho phep dat annotation o field/parameter |
-| `@Retention(RUNTIME)` | Runtime van doc duoc annotation |
-| `message` | Message mac dinh neu rule fail |
-| `groups` | Ho tro validation group, phai khai bao theo chuan |
-| `payload` | Du lieu metadata tuy chon, phai khai bao theo chuan |
+| `@Constraint` | Đánh dấu đây là một Bean Validation Constraint và khai báo `validatedBy` để chỉ định Class xử lý logic. |
+| `validatedBy` | Nối Annotation này với Validator Class thực tế sẽ chạy khi validate. |
+| `@Target` | Giới hạn nơi có thể đặt Annotation (ở đây là `FIELD` trong DTO hoặc `PARAMETER` trong Controller). |
+| `@Retention(RUNTIME)` | Đảm bảo Annotation không bị xóa sau khi biên dịch, giúp Spring Reflection đọc được ở Runtime. |
+| `message()` | Thuộc tính chứa câu thông báo lỗi mặc định khi kiểm tra thất bại. |
+| `groups()` | Cho phép phân nhóm kiểm tra (Validation Groups) khi cần validate nâng cao. |
+| `payload()` | Chứa dữ liệu tải kèm bổ sung cho các công cụ đo đạc hoặc phân tích. |
 
-Quan he giua hai file:
-
-```text
-DTO co @ValidSku
--> Bean Validation doc @Constraint
--> tim thay ValidSkuValidator
--> goi isValid(sku, context)
-```
-
-### 2.3. Validator
+### 2.3. File 2: Validator Class `ValidSkuValidator`
 
 ```java
 package com.shopcore.common.validation;
@@ -131,17 +116,14 @@ package com.shopcore.common.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class ValidSkuValidator
-        implements ConstraintValidator<ValidSku, String> {
+public class ValidSkuValidator implements ConstraintValidator<ValidSku, String> {
 
-    private static final String SKU_PATTERN =
-            "^[A-Z0-9](?:[A-Z0-9-]{1,28}[A-Z0-9])?$";
+    // Ký tự đầu và cuối phải là A-Z hoặc 0-9. Ở giữa được phép chứa A-Z, 0-9, hoặc dấu - (độ dài 3-30)
+    private static final String SKU_PATTERN = "^[A-Z0-9](?:[A-Z0-9-]{1,28}[A-Z0-9])?$";
 
     @Override
-    public boolean isValid(
-            String value,
-            ConstraintValidatorContext context
-    ) {
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        // NGUYÊN TẮC VÀNG: Nếu giá trị là null hoặc rỗng -> Trả về true!
         if (value == null || value.isBlank()) {
             return true;
         }
@@ -151,220 +133,180 @@ public class ValidSkuValidator
 }
 ```
 
-`ConstraintValidator<ValidSku, String>` doc la:
+Mối quan hệ Generic `ConstraintValidator<ValidSku, String>` được hiểu là:
+- `ValidSku`: Annotation mà Validator này chịu trách nhiệm xử lý.
+- `String`: Kiểu dữ liệu của trường (Field) cần được kiểm tra.
 
-```text
-ValidSku: annotation ma validator xu ly.
-String: kieu du lieu cua field duoc kiem tra.
-```
+### 2.4. Tại sao `null` hoặc `blank` lại trả về `true`?
 
-### 2.4. Tai sao null/blank tra ve `true`?
-
-Tach mot field thanh hai trach nhiem:
+Chúng ta phân chia rõ ràng trách nhiệm của một trường trong DTO:
 
 ```java
-@NotBlank(message = "SKU is required")
-@ValidSku(message = "SKU format is invalid")
+@NotBlank(message = "SKU không được để trống")
+@ValidSku(message = "SKU không đúng định dạng")
 private String sku;
 ```
 
-```text
-Khong co gia tri -> @NotBlank xu ly.
-Co gia tri nhung sai format -> @ValidSku xu ly.
-```
+- **Khi không truyền giá trị (null/rỗng):** Do `@NotBlank` chịu trách nhiệm bắt lỗi.
+- **Khi có truyền giá trị nhưng sai định dạng (ví dụ: `abc 001`):** Do `@ValidSku` chịu trách nhiệm bắt lỗi.
 
-Neu `ValidSku` cung bat blank, mot request co the nhan hai loi cho cung mot nguyen nhan.
-
-Quy tac de nho:
-
-```text
-@NotBlank = co bat buoc nhap hay khong?
-@ValidSku = gia tri da nhap co dung format hay khong?
-```
+> 💡 **Quy tắc ghi nhớ:**
+> - `@NotBlank`: Có bắt buộc phải nhập dữ liệu hay không?
+> - `@ValidSku`: Dữ liệu đã nhập có đúng định dạng chuẩn hay không?
+> 
+> Nếu `@ValidSku` cũng trả về `false` khi `null`, client gửi một Request rỗng sẽ nhận về **2 câu lỗi trùng lặp** cho cùng một nguyên nhân.
 
 ---
 
-## 3. Format validation khac business validation
+## 3. Phân biệt Format Validation và Business Validation
 
-### Format validation
+### Format Validation (Kiểm tra định dạng)
+- **Mục đích:** Kiểm tra xem dữ liệu client gửi lên có đúng hình dáng cấu trúc hay không.
+- **Ví dụ:** Mã SKU chứa khoảng trắng (`"abc xyz"`), giá sản phẩm bị âm (`-50000`).
+- **Đặc điểm:** Không cần truy vấn Database. Thất bại sẽ trả về **`HTTP 400 Bad Request`**.
 
-Kiem tra gia tri co dung hinh dang khong:
-
-```text
-SKU "abc xyz" sai format -> 400 Bad Request
-SKU "-ABC" sai format -> 400 Bad Request
-```
-
-No khong can truy cap database.
-
-### Business validation
-
-Kiem tra gia tri co hop le trong trang thai he thong khong:
+### Business Validation (Kiểm tra nghiệp vụ)
+- **Mục đích:** Kiểm tra xem dữ liệu có hợp lệ trong trạng thái hiện tại của hệ thống hay không.
+- **Ví dụ:** Mã SKU `"KB-001"` đúng định dạng nhưng đã bị trùng trong Database; `categoryId = 999` không tồn tại.
+- **Đặc điểm:** Phải do **Service Layer** kiểm tra vì cần gọi Repository truy vấn Database. Thất bại sẽ trả về **`HTTP 409 Conflict`** hoặc **`HTTP 404 Not Found`**.
 
 ```text
-SKU "KB-001" dung format nhung da ton tai -> 409 Conflict
-categoryId = 999 khong ton tai -> 404 Not Found
+Custom Validator : Kiểm tra "Mã SKU này có viết đúng hình dáng quy định không?"
+Service Layer    : Kiểm tra "Mã SKU này đã có ai dùng trong hệ thống chưa?"
 ```
 
-No can nam trong Service vi Service biet business rule va co the goi Repository.
-
-```text
-Custom Validator: SKU co dung hinh dang?
-Service: SKU nay co bi trung trong he thong khong?
-```
-
-Khong nen viet `existsBySku()` trong `ValidSkuValidator`, vi nhu vay validation layer se phu thuoc database.
+> ⚠️ **CẢNH BÁO:** Không bao giờ autowired `Repository` vào `ValidSkuValidator` để check trùng DB. Việc làm này làm vi phạm nguyên tắc đơn trách nhiệm (SRP), khiến Validator bị phụ thuộc Database và vô cùng khó viết Unit Test.
 
 ---
 
-## 4. Khi custom validator fail thi luong chay ra sao?
+## 4. Luồng xử lý khi Custom Validator bị sai (Fail)
 
-DTO:
+Hãy nhìn vào luồng thực thi đầy đủ khi Client gửi thông tin tạo sản phẩm:
 
 ```java
+// DTO
 public class CreateProductRequest {
-
     @NotBlank
     @ValidSku
     private String sku;
 }
-```
 
-Controller:
-
-```java
+// Controller
 @PostMapping
-public ResponseEntity<?> create(
-        @Valid @RequestBody CreateProductRequest request
-) {
-    return ResponseEntity.ok(productService.create(request));
+public ResponseEntity<?> createProduct(@Valid @RequestBody CreateProductRequest request) {
+    return ResponseEntity.ok(productService.createProduct(request));
 }
 ```
 
-Request:
-
-```json
-{
-  "sku": "abc xyz"
-}
-```
-
-Luong:
+**Kịch bản Client gửi Request sai format:** `{"sku": "abc 001"}`
 
 ```text
-JSON body
--> Jackson tao CreateProductRequest
--> @Valid kich hoat Bean Validation
--> Bean Validation goi ValidSkuValidator
--> isValid("abc xyz") tra false
--> tao field error cho sku
--> nem MethodArgumentNotValidException
--> Controller method khong chay tiep
--> Service/Repository khong chay
--> GlobalExceptionHandler xu ly
--> tra HTTP 400
-```
-
-Diem quan trong:
-
-```text
-Custom validator khong tu tra HTTP 400.
-No chi bao cho Bean Validation biet field pass hay fail.
-Global handler moi la noi doi exception thanh response.
+1. Request Body JSON tới HTTP Server
+        │
+        ▼
+2. Jackson Mapper giải mã JSON thành Java Object CreateProductRequest
+        │
+        ▼
+3. Annotation @Valid kích hoạt quá trình Bean Validation
+        │
+        ▼
+4. Bean Validation đọc @ValidSku -> Gọi ValidSkuValidator.isValid("abc 001")
+        │
+        ▼
+5. isValid() trả về false -> Bean Validation tạo ra FieldError cho field "sku"
+        │
+        ▼
+6. Spring ném ra ngoại lệ MethodArgumentNotValidException
+        │
+        ▼
+7. Controller Method bị chặn đứng (KHÔNG CHẠY dòng code nào bên trong)
+        │
+        ▼
+8. Service Layer & Repository hoàn toàn KHÔNG ĐƯỢC GỌI
+        │
+        ▼
+9. Exception trôi lên và bị GlobalExceptionHandler bắt lấy
+        │
+        ▼
+10. Trả về cho Client HTTP 400 Bad Request cùng danh sách lỗi JSON
 ```
 
 ---
 
-## 5. Vi sao can Global Exception Handler?
+## 5. Tại sao cần Global Exception Handler?
 
-Neu moi Controller tu try/catch:
+Nếu không dùng Global Handler, mỗi phương thức trong Controller đều phải tự viết khối `try-catch` cực kỳ cồng kềnh:
 
 ```java
+// CÁCH VIẾT XẤU (Lặp code ở mọi nơi)
 try {
-    ...
+    return ResponseEntity.ok(productService.create(request));
 } catch (AppException e) {
-    ...
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(e.getMessage());
 }
 ```
 
-thi se bi lap code o nhieu Controller.
-
-Ta gom xu ly loi tai mot noi:
-
-```java
-@RestControllerAdvice
-public class GlobalExceptionHandler {
-}
-```
-
-Co the hieu don gian:
+Chúng ta tập trung tất cả logic xử lý lỗi về một nơi duy nhất bằng cách tạo class dùng `@RestControllerAdvice`:
 
 ```text
-Controller A throw exception
-Controller B throw exception
-Controller C throw exception
-          |
-          v
-GlobalExceptionHandler
-          |
-          v
-HTTP error response
+Controller A ném Exception ──┐
+Controller B ném Exception ──┼──► GlobalExceptionHandler ──► HTTP Error Response (JSON)
+Controller C ném Exception ──┘
 ```
 
-`@RestControllerAdvice` ket hop hai vai tro:
-
-```text
-@ControllerAdvice: lang nghe exception tu cac Controller.
-@ResponseBody: ket qua handler duoc viet thanh JSON.
-```
+Mối quan hệ:
+- `@ControllerAdvice`: Đóng vai trò lớp lót nghe ngóng tất cả Exception bắn ra từ toàn bộ các Controller.
+- `@ResponseBody`: Đảm bảo kết quả trả về từ các phương thức xử lý lỗi được tự động chuyển thành JSON.
+- `@RestControllerAdvice` = bao gồm cả 2 Annotation trên.
 
 ---
 
-## 6. Exception tu Service di len nhu the nao?
+## 6. Luồng Ngoại lệ (Exception Bubble) từ Service trôi lên như thế nào?
 
-Vi du Service:
+Giả sử trong Service kiểm tra trùng mã SKU:
 
 ```java
-public ProductResponse create(CreateProductRequest request) {
-    if (productRepository.existsBySku(request.getSku())) {
-        throw new AppException(ErrorCode.DUPLICATE_SKU);
+@Service
+public class ProductService {
+    public ProductResponse createProduct(CreateProductRequest request) {
+        if (productRepository.existsBySku(request.getSku())) {
+            throw new AppException(ErrorCode.DUPLICATE_SKU);
+        }
+        // ...
     }
-
-    return ...;
 }
 ```
 
-Khong co `try/catch` o Controller van duoc:
+Luồng di chuyển của Ngoại lệ:
 
 ```text
-Service throw AppException
--> stack frame cua Service ket thuc
--> exception bubble len Controller
--> Controller khong co handler cuc bo
--> Spring tim @ExceptionHandler phu hop
--> GlobalExceptionHandler.handleAppException(...)
--> ErrorCode cung cap status/message
--> response 409 tra ve client
-```
-
-`AppException` khong phai validation error:
-
-```text
-Request sai format -> Bean Validation -> 400
-Request dung format nhung trung SKU -> AppException -> 409
+1. Service phát hiện trùng SKU -> ném throw new AppException(ErrorCode.DUPLICATE_SKU)
+        │
+        ▼
+2. Phương thức của Service lập tức dừng lại, trả ngoại lệ về cho Controller
+        │
+        ▼
+3. Controller không bắt try-catch -> Ngoại lệ tiếp tục trôi (bubble up) ra khỏi Controller
+        │
+        ▼
+4. Spring Framework tìm kiếm phương thức chứa @ExceptionHandler phù hợp trong @RestControllerAdvice
+        │
+        ▼
+5. GlobalExceptionHandler.handleAppException() thực thi
+        │
+        ▼
+6. Lấy HTTP Status (409 Conflict) và mã lỗi từ ErrorCode để đóng gói thành JSON trả về Client
 ```
 
 ---
 
-## 7. `@ExceptionHandler` lam gi?
+## 7. `@ExceptionHandler` làm nhiệm vụ gì?
 
-Vi du xu ly business error:
+### 7.1. Xử lý Lỗi Nghiệp vụ (Business Error - `AppException`)
 
 ```java
 @ExceptionHandler(AppException.class)
-public ResponseEntity<ApiErrorResponse> handleAppException(
-        AppException exception
-) {
+public ResponseEntity<ApiErrorResponse> handleAppException(AppException exception) {
     ErrorCode errorCode = exception.getErrorCode();
 
     ApiErrorResponse response = ApiErrorResponse.builder()
@@ -378,28 +320,15 @@ public ResponseEntity<ApiErrorResponse> handleAppException(
 }
 ```
 
-Doc theo luong:
-
-```text
-@ExceptionHandler(AppException.class)
--> method nay chi xu ly AppException
--> lay ErrorCode tu exception
--> tao error response
--> lay HTTP status tu ErrorCode
--> tra response
-```
-
-Handler validation:
+### 7.2. Xử lý Lỗi Định dạng DTO (Validation Error - `MethodArgumentNotValidException`)
 
 ```java
 @ExceptionHandler(MethodArgumentNotValidException.class)
-public ResponseEntity<ApiErrorResponse> handleValidation(
-        MethodArgumentNotValidException exception
-) {
+public ResponseEntity<ApiErrorResponse> handleValidation(MethodArgumentNotValidException exception) {
     Map<String, String> errors = new LinkedHashMap<>();
 
-    for (FieldError fieldError :
-            exception.getBindingResult().getFieldErrors()) {
+    // Lặp qua tất cả các trường bị lỗi dữ liệu
+    for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
         errors.putIfAbsent(
                 fieldError.getField(),
                 fieldError.getDefaultMessage()
@@ -408,7 +337,7 @@ public ResponseEntity<ApiErrorResponse> handleValidation(
 
     ApiErrorResponse response = ApiErrorResponse.builder()
             .code(400)
-            .message("Validation failed")
+            .message("Dữ liệu đầu vào không hợp lệ")
             .errors(errors)
             .build();
 
@@ -416,174 +345,115 @@ public ResponseEntity<ApiErrorResponse> handleValidation(
 }
 ```
 
-Handler nay khong tu validate lai. No chi doc ket qua ma Bean Validation da tao trong `BindingResult`, sau do format lai cho API.
-
 ---
 
-## 8. Nhieu field loi duoc gom nhu the nao?
+## 8. Gom nhiều lỗi của DTO thành một JSON phản hồi chuẩn
 
-Request:
+Khi Client gửi một Request chứa nhiều trường sai cùng lúc:
 
 ```json
 {
   "sku": "",
   "name": "",
-  "price": -1
+  "price": -100
 }
 ```
 
-Bean Validation co the tao nhieu `FieldError`:
+Bean Validation sẽ tạo ra một danh sách chứa 3 đối tượng `FieldError`:
+- `sku` -> Mã SKU không được để trống
+- `name` -> Tên sản phẩm không được để trống
+- `price` -> Giá sản phẩm phải lớn hơn 0
 
-```text
-sku   -> Product sku is required
-name  -> Product name is required
-price -> Product price must be greater than 0
-```
-
-Handler gom thanh:
+Global Handler dùng `putIfAbsent` để gom lại thành cấu trúc JSON rõ ràng cho Frontend dễ hiển thị:
 
 ```json
 {
   "code": 400,
-  "message": "Validation failed",
+  "message": "Dữ liệu đầu vào không hợp lệ",
   "errors": {
-    "sku": "Product sku is required",
-    "name": "Product name is required",
-    "price": "Product price must be greater than 0"
+    "sku": "Mã SKU không được để trống",
+    "name": "Tên sản phẩm không được để trống",
+    "price": "Giá sản phẩm phải lớn hơn 0"
   }
 }
 ```
 
-`putIfAbsent` giup moi field chi giu message dau tien khi co nhieu constraint cung fail.
+> 💡 **Tác dụng của `putIfAbsent`:** Nếu một trường bị vi phạm nhiều Annotation cùng lúc (ví dụ vừa `@NotBlank` vừa `@Size`), `putIfAbsent` đảm bảo chỉ lấy câu thông báo lỗi đầu tiên, không làm rối màn hình người dùng.
 
 ---
 
-## 9. Thu tu handler nen viet
+## 9. Thứ tự sắp xếp các `@ExceptionHandler` chuẩn trong dự án
+
+Nguyên tắc bắt ngoại lệ trong Java: **Ngoại lệ cụ thể xử lý trước, Ngoại lệ tổng quát xử lý sau**.
 
 ```java
-AppException
-MethodArgumentNotValidException
-ConstraintViolationException
-MethodArgumentTypeMismatchException
-HttpMessageNotReadableException
-Exception
+1. @ExceptionHandler(AppException.class)                         // Lỗi nghiệp vụ tự định nghĩa
+2. @ExceptionHandler(MethodArgumentNotValidException.class)       // Lỗi validate @RequestBody
+3. @ExceptionHandler(ConstraintViolationException.class)          // Lỗi validate @RequestParam / @PathVariable
+4. @ExceptionHandler(MethodArgumentTypeMismatchException.class)  // Lỗi sai kiểu dữ liệu tham số URL
+5. @ExceptionHandler(HttpMessageNotReadableException.class)      // Lỗi JSON sai cú pháp
+6. @ExceptionHandler(Exception.class)                             // Lỗi hệ thống không lường trước (Bọc lót cuối)
 ```
 
-Tu duy:
-
-```text
-Loi cu the -> handler cu the
-Loi khong xac dinh -> handler Exception o cuoi
-```
-
-Handler tong quat:
+**Phương thức bọc lót lỗi hệ thống (bắt `Exception.class`):**
 
 ```java
 @ExceptionHandler(Exception.class)
-public ResponseEntity<ApiErrorResponse> handleUnknown(Exception exception) {
-    log.error("Unexpected error", exception);
+public ResponseEntity<ApiErrorResponse> handleUnknownException(Exception exception) {
+    // Ghi log đầy đủ StackTrace vào file log trên server để lập trình viên xem và sửa lỗi
+    log.error("Hệ thống gặp lỗi không xác định: ", exception);
 
+    // Tuyệt đối KHÔNG trả StackTrace ra cho Client vì lý do bảo mật
     return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(ApiErrorResponse.builder()
                     .code(500)
-                    .message("Internal server error")
+                    .message("Hệ thống gặp sự cố nội bộ. Vui lòng thử lại sau.")
                     .build());
 }
 ```
 
-Khong tra stacktrace cho client. Stacktrace de trong log de developer debug.
+---
+
+## 10. Bảng tổng kết kiến thức Lesson 03
+
+| Tình huống / Lỗi | Nơi xử lý trực tiếp | Loại Exception / Cơ chế | HTTP Status trả về |
+|---|---|---|:---:|
+| SKU bị rỗng | `@NotBlank` trên DTO | `MethodArgumentNotValidException` | **400** |
+| SKU sai định dạng | `ValidSkuValidator` | `MethodArgumentNotValidException` | **400** |
+| SKU bị trùng trong DB | Service + Repository | `AppException(DUPLICATE_SKU)` | **409** |
+| Danh mục không tồn tại | Service + Repository | `AppException(CATEGORY_NOT_FOUND)` | **404** |
+| Gom danh sách lỗi DTO | `GlobalExceptionHandler` | Đọc từ `BindingResult` | **400** |
+| Nổ lỗi NullPointer / Bug code | Handler `Exception.class` | Log lỗi ra server, trả JSON chung | **500** |
 
 ---
 
-## 10. Bang tong ket Lesson 03
+## 11. Bài tập thực hành ngắn (Thực hiện trên dự án `shopcore`)
 
-| Noi dung | Noi xu ly | Ket qua |
-|---|---|---|
-| SKU rong | `@NotBlank` | Validation error, 400 |
-| SKU sai format | `ValidSkuValidator` | Validation error, 400 |
-| SKU trung | Service + Repository | `AppException`, 409 |
-| Category khong ton tai | Service + Repository | `AppException`, 404 |
-| Gom validation errors | `GlobalExceptionHandler` | JSON error response |
-| Loi khong du kien | Handler `Exception.class` | 500, khong lo chi tiet |
+### Bài 1 - Cài đặt `@ValidSku`
+1. Tạo 2 file: `common/validation/ValidSku.java` và `common/validation/ValidSkuValidator.java`.
+2. Gắn `@ValidSku` vào thuộc tính `sku` của `CreateProductRequest`.
+3. Kiểm thử các trường hợp dữ liệu:
+   - `KB-001` -> Pass
+   - `ABC123` -> Pass
+   - `abc-001` -> Fail (chứa chữ thường)
+   - `ABC 001` -> Fail (chứa khoảng trắng)
+   - `-ABC` -> Fail (bắt đầu bằng dấu -)
+   - `ABC-` -> Fail (kết thúc bằng dấu -)
 
-Cau nhac:
-
-```text
-Validator quyet dinh field dung hay sai.
-Service quyet dinh business co duoc phep hay khong.
-Global handler quyet dinh exception bien thanh response nhu the nao.
-```
+### Bài 2 - Bổ sung Global Handler
+Trong `GlobalExceptionHandler`, đảm bảo bạn đã viết đầy đủ các phương thức bắt lỗi cho: `AppException`, `MethodArgumentNotValidException`, `ConstraintViolationException`, `HttpMessageNotReadableException`, và `Exception`.
 
 ---
 
-## 11. Bài tập thực hành ngắn
+## 12. Checklist tự đánh giá trước khi làm Bài kiểm tra
 
-Khong can tao project moi. Lam tren `shopcore`.
-
-### Bai 1 - `@ValidSku`
-
-Tao:
-
-```text
-common/validation/ValidSku.java
-common/validation/ValidSkuValidator.java
-```
-
-Gan `@ValidSku` vao `CreateProductRequest.sku`.
-
-Test:
-
-```text
-KB-001  -> pass
-ABC123  -> pass
-abc-001 -> fail
-ABC 001 -> fail
--ABC    -> fail
-ABC-    -> fail
-```
-
-### Bai 2 - Error handler
-
-Trong `GlobalExceptionHandler`, dam bao co handler cho:
-
-```text
-AppException
-MethodArgumentNotValidException
-ConstraintViolationException
-MethodArgumentTypeMismatchException
-HttpMessageNotReadableException
-Exception
-```
-
-### Bai 3 - Trace bang loi
-
-Viet ra luong cua hai request:
-
-```text
-sku = "abc 001"
-sku = "KB-001" nhung SKU da ton tai
-```
-
-Phai chi ra:
-
-```text
-Exception nao?
-Service co chay khong?
-Status nao?
-Handler nao bat?
-```
-
-## 12. Checklist truoc khi lam bai kiem tra
-
-- [ ] Giai thich duoc `@Constraint(validatedBy = ...)`.
-- [ ] Biet vi sao custom validator can annotation va validator class.
-- [ ] Phan biet `@NotBlank` va `@ValidSku`.
-- [ ] Phan biet SKU sai format voi SKU bi trung.
-- [ ] Biet custom validator khong tu tra HTTP response.
-- [ ] Giai thich duoc exception bubble tu Service len handler.
-- [ ] Viet duoc `@RestControllerAdvice`.
-- [ ] Biet `@ExceptionHandler` chon handler theo exception type.
-- [ ] Gom duoc nhieu `FieldError`.
-- [ ] De handler `Exception.class` o cuoi.
-
+- [ ] Giải thích được vai trò của `@Constraint(validatedBy = ...)` trong Custom Annotation.
+- [ ] Hiểu vì sao Custom Validator luôn cần 2 file (Annotation + Validator Class).
+- [ ] Phân biệt được trách nhiệm giữa `@NotBlank` và `@ValidSku`.
+- [ ] Phân biệt được SKU sai định dạng (Format - 400) và SKU bị trùng (Business - 409).
+- [ ] Biết rằng Custom Validator không tự trả về HTTP Status mà chỉ báo `true/false`.
+- [ ] Giải thích được luồng ngoại lệ trôi (bubble) từ Service lên Global Handler.
+- [ ] Viết thành thạo `@RestControllerAdvice` và `@ExceptionHandler`.
+- [ ] Biết cách dùng `BindingResult.getFieldErrors()` để gom danh sách lỗi DTO.
+- [ ] Hiểu lý do phải để Handler `Exception.class` ở vị trí cuối cùng.
