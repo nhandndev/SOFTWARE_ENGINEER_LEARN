@@ -1,0 +1,8 @@
+/Users/lilnhan/Downloads/SOFTWARE_ENGINEER_LEARN/m1-4-validation-mini-project/src/main/java/com/shopcore/validation/Application.java
+/Users/lilnhan/Downloads/SOFTWARE_ENGINEER_LEARN/m1-4-validation-mini-project/src/main/java/com/shopcore/validation/Valid/ValidSku.java
+/Users/lilnhan/Downloads/SOFTWARE_ENGINEER_LEARN/m1-4-validation-mini-project/src/main/java/com/shopcore/validation/Valid/ValidSkuValidator.java
+/Users/lilnhan/Downloads/SOFTWARE_ENGINEER_LEARN/m1-4-validation-mini-project/src/main/java/com/shopcore/validation/controller/ProductController.java
+/Users/lilnhan/Downloads/SOFTWARE_ENGINEER_LEARN/m1-4-validation-mini-project/src/main/java/com/shopcore/validation/dto/CreateProductRequest.java
+/Users/lilnhan/Downloads/SOFTWARE_ENGINEER_LEARN/m1-4-validation-mini-project/src/main/java/com/shopcore/validation/exception/AppException.java
+/Users/lilnhan/Downloads/SOFTWARE_ENGINEER_LEARN/m1-4-validation-mini-project/src/main/java/com/shopcore/validation/exception/ErrorCode.java
+/Users/lilnhan/Downloads/SOFTWARE_ENGINEER_LEARN/m1-4-validation-mini-project/src/main/java/com/shopcore/validation/exception/GlobalExceptionHandler.java

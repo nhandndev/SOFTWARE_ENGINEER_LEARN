@@ -317,22 +317,22 @@
 ---
 
 ## Module 1-4 · Bean Validation & Exception Handling
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 12h (4 buổi x 3h)
 **Mục tiêu:** Validate DTO bằng `@Valid` + custom validator SKU; trả lỗi thống nhất qua ProblemDetail.
 
 ### Checklist kiến thức
-- [ ] Jakarta Validation: `@NotNull`, `@Size`, `@Email`, `@Min`/`@Max`, `@Pattern`
-- [ ] `@Valid` / `@Validated` trên controller
-- [ ] Custom `ConstraintValidator` (ví dụ SKU)
-- [ ] `@ControllerAdvice` + `@ExceptionHandler`
-- [ ] `ProblemDetail` (RFC 7807) — format lỗi thống nhất
+- [x] Jakarta Validation: `@NotNull`, `@Size`, `@Email`, `@Min`/`@Max`, `@Pattern`
+- [x] `@Valid` / `@Validated` trên controller
+- [x] Custom `ConstraintValidator` (ví dụ SKU)
+- [x] `@ControllerAdvice` + `@ExceptionHandler`
+- [x] `ProblemDetail` (RFC 7807) — format lỗi thống nhất
 
 ### Cách chia lesson
-- [ ] Lesson 01: Request error flow và phân biệt validation/business error
-- [ ] Lesson 02: DTO validation, `@Valid`, `@Validated`, nested DTO
-- [ ] Lesson 03: Custom validator và Global Exception Handler
-- [ ] Lesson 04: ProblemDetail và mini project tổng hợp
+- [x] Lesson 01: Request error flow và phân biệt validation/business error
+- [x] Lesson 02: DTO validation, `@Valid`, `@Validated`, nested DTO
+- [x] Lesson 03: Custom validator và Global Exception Handler
+- [x] Lesson 04: ProblemDetail và mini project tổng hợp
 
 ### Phần bỏ qua giai đoạn này
 - Cross-field validation phức tạp với nhiều bean — đủ 1 custom validator đơn giản

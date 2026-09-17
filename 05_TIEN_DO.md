@@ -89,12 +89,14 @@
 
 | Ngày | Module | Chế độ | Điểm | Kết quả | Ghi chú |
 |---|---|---|---|---|---|
+| 2026-09-17 | M1-4 (Lesson 4) | DAY_DU | 95 | 🟢 Đạt | Nắm vững ProblemDetail RFC 7807, lý do dùng chuẩn quốc tế & trace luồng lỗi DTO |
 | 2026-09-16 | M1-4 (Lesson 3) | DAY_DU | 98 | 🟢 Đạt | Nắm vững Custom Validator @ValidSku, Exception Bubble, RestControllerAdvice & Trace request |
 
 ---
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-09-17 · M1-4 · Chấm bài Lesson 04 ProblemDetail RFC 7807: 95/100 → 🟢 Đạt; hiểu rõ bản chất chuẩn RFC 7807, lý do microservices dùng ProblemDetail thay cho ApiErrorResponse tự chế, trace luồng DispatcherServlet/HandlerAdapter rất mượt. Hoàn thành Module M1-4.
 - 2026-09-16 · M1-4 · Chấm bài Lesson 03 Custom Validator & Global Exception Handler: 98/100 → 🟢 Đạt; nắm rất vững luồng Tomcat/DispatcherServlet/HandlerAdapter, Single Responsibility Principle của Validator, RestControllerAdvice và putIfAbsent; chỉ lỗi nhỏ thiếu check null trước isBlank() trong ValidSkuValidator.
 - 2026-09-15 · M1-3 · Chấm final project Spring Data JPA: 91/100 → 🟢 Đạt; Category/Product CRUD, Entity relationship LAZY, JpaRepository, derived query/JPQL, paging/filter, transaction, DTO, auditing và API thực tế đều hoạt động; còn thiếu automated test và chưa chứng minh N+1 bằng test đếm query.
 - 2026-09-07 · M1-2 · Thi lại/pass module MVC REST lần 4: 92/100 → 🟢 Đạt phần lý thuyết/luồng; đã nắm FilterChain, DispatcherServlet, HandlerMapping/Adapter, DTO, AppException, status code và paging, còn nhầm nhỏ `price < 0` nên là 400 thay vì 409.
