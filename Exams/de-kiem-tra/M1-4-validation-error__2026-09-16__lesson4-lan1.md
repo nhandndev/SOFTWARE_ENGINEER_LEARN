@@ -41,7 +41,7 @@ thứ nhất là ApiErrorResponse là do dự án đó tự định nghĩa và c
 
 **Trả lời:**
 
- 
+ câu này trả lời miết mà bắt trả lời lại hả
 ---
 
 ## Câu 4 - Trace luồng lỗi DTO với ProblemDetail (12đ)
@@ -53,3 +53,4 @@ Khi Client gửi Body sai format `{"sku": "abc 001"}` đến API `@PostMapping`,
 
 **Trả lời:**
 
+đầu tiên là client gửi reqeust xuống thì tomcat sẽ bắt và đi qua filter chain ( lớp bảo mật security) và đi đến dispatcher servlet và hanlder mapping sẽ map method phù hợp và chuyền về cho dispatcher servlet và nó tới handler dapter thì nó sẽ tới method phù hợp và dùng jackson đọc json và chuyển thành dto , nhưng mà thấy có @Valid nên nó sẽ kiểm tra các field phù hợp k , nó thấy sku gửi sai format nên là đi đến globalExceptionHandler để kiểm tra và nó sẽ đi vào method có @ExceptionHandler(MethodArgumentNotValidException.class) và trả về cho client và trong đó có có ResponseEntity<ProblemDetaiL> và nó trả về cho Client thôi . Controller và service khong ochayj nhé . 

@@ -7,9 +7,9 @@
 
 ## Con trỏ hiện tại
 
-- Module đang học: `M0-1` · Java hiện đại: Generics, Lambda, Stream, Optional
+- Module đang học: `M1-5` · Config, Profiles & `@ConfigurationProperties`
 - Buổi trong tuần: 1 / 5
-- Ngày bắt đầu module: —
+- Ngày bắt đầu module: 2026-09-17
 - Giờ học tuần này: 0h / 20h
 
 ---
@@ -49,7 +49,7 @@
 | M1-1 · IoC / DI | 🟢 Đạt | 95 | 2026-08-26 |
 | M1-2 · MVC & REST | 🟢 Đạt | 92 | 2026-09-07 |
 | M1-3 · Spring Data JPA | 🟢 Đạt | 91 | 2026-09-15 |
-| M1-4 · Validation & Error | 🔵 Chưa bắt đầu | — | — |
+| M1-4 · Validation & Error | 🟢 Đạt | 95 | 2026-09-17 |
 | M1-5 · Config & Profiles | 🔵 Chưa bắt đầu | — | — |
 | M1-6 · Testing | 🔵 Chưa bắt đầu | — | — |
 | M2-1 · SQL & Index | 🔵 Chưa bắt đầu | — | — |

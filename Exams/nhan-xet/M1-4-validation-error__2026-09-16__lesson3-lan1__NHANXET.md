@@ -8,7 +8,7 @@
 
 ---
 
-## Bảng điểm chi tiết từng câu
+## Bảng điểm chi tiết từng câuÍ
 
 | Câu | Nội dung | Điểm tối đa | Điểm đạt | Nhận xét |
 |:---:|---|:---:|:---:|---|
