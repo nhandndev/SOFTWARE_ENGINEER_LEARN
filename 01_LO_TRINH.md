@@ -358,7 +358,7 @@
 ---
 
 ## Module 1-5 · Config, Profiles & `@ConfigurationProperties`
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟡 Đang học
 **Thời gian ước tính:** 8h (2 buổi x 4h)
 **Mục tiêu:** Tách config theo profile và bind typed properties cho shopcore.
 
@@ -368,6 +368,12 @@
 - [ ] `@ConfigurationProperties` — typed config, validation
 - [ ] Externalized config: env vars, default values
 - [ ] Không commit secret vào repo
+
+### Cách chia lesson
+- [x] Lesson 01: Externalized config, YAML và `@Value`
+- [ ] Lesson 02: Profiles `dev`, `test`, `prod`
+- [ ] Lesson 03: `@ConfigurationProperties` và typed config validation
+- [ ] Lesson 04: Secrets, env vars và mini project M1-5
 
 ### Phần bỏ qua giai đoạn này
 - Spring Cloud Config Server — quá sớm; dùng env/yml local là đủ
@@ -387,6 +393,7 @@
 
 ### Liên kết kiểm tra
 → Dùng `02_PROMPT_TAO_DE.md`, topic = M1-5-config-profiles
+→ Chi tiết cách chia: `Notes/M1_Spring_Boot/M1_5_Config_Profiles/LESSON_PLAN.md`
 
 ---
 
