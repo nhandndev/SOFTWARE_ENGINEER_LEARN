@@ -50,7 +50,7 @@
 | M1-2 · MVC & REST | 🟢 Đạt | 92 | 2026-09-07 |
 | M1-3 · Spring Data JPA | 🟢 Đạt | 91 | 2026-09-15 |
 | M1-4 · Validation & Error | 🟢 Đạt | 95 | 2026-09-17 |
-| M1-5 · Config & Profiles | 🟡 Đang học | 99 | 2026-09-20 |
+| M1-5 · Config & Profiles | 🟡 Đang học | 89 | 2026-09-24 |
 | M1-6 · Testing | 🔵 Chưa bắt đầu | — | — |
 | M2-1 · SQL & Index | 🔵 Chưa bắt đầu | — | — |
 | M2-2 · PostgreSQL | 🔵 Chưa bắt đầu | — | — |
@@ -89,6 +89,8 @@
 
 | Ngày | Module | Chế độ | Điểm | Kết quả | Ghi chú |
 |---|---|---|---|---|---|
+| 2026-09-24 | M1-5 (Lesson 3) | LESSON | 89 | 🟢 Đạt | Đã nắm ConfigurationProperties, scan, validation config, nested @Valid; còn cần cẩn thận YAML list/map key và indentation |
+| 2026-09-21 | M1-5 (Lesson 2) | LESSON | 91 | 🟢 Đạt | Đã vá tốt cách kích hoạt profile, phân biệt file profile với @Profile, và rủi ro local/test vô tình chạy prod |
 | 2026-09-20 | M1-5 (Lesson 1) | LESSON | 99 | 🟢 Đạt | Đã sửa tốt YAML syntax và code @Value; nắm externalized config, placeholder default, secret và lý do dùng ConfigurationProperties |
 | 2026-09-17 | M1-4 (Lesson 4) | DAY_DU | 95 | 🟢 Đạt | Nắm vững ProblemDetail RFC 7807, lý do dùng chuẩn quốc tế & trace luồng lỗi DTO |
 | 2026-09-16 | M1-4 (Lesson 3) | DAY_DU | 98 | 🟢 Đạt | Nắm vững Custom Validator @ValidSku, Exception Bubble, RestControllerAdvice & Trace request |
@@ -97,6 +99,8 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-09-24 · M1-5 · Chấm lại Lesson 03 `@ConfigurationProperties`: 89/100 → 🟢 Đạt lesson; đã nắm typed config, `@ConfigurationPropertiesScan`, validation config fail lúc app start, nested `@Valid`; còn cần cẩn thận YAML list/map key và indentation.
+- 2026-09-21 · M1-5 · Chấm lại Lesson 02 Profiles dev/test/prod: 91/100 → 🟢 Đạt lesson; nắm merge config, cách kích hoạt profile bằng IDE/arg/env var, phân biệt file profile với `@Profile`, và rủi ro local/test vô tình chạy `prod`. Tiếp tục Lesson 03.
 - 2026-09-20 · M1-5 · Chấm lại Lesson 01 Externalized Config/YAML/@Value: 99/100 → 🟢 Đạt lesson; đã sửa đúng YAML parent key có `:`, code `@Value` trong `@Service`, hiểu secret/env var và lý do dùng `@ConfigurationProperties`. Tiếp tục Lesson 02 Profiles.
 - 2026-09-17 · M1-4 · Chấm bài Lesson 04 ProblemDetail RFC 7807: 95/100 → 🟢 Đạt; hiểu rõ bản chất chuẩn RFC 7807, lý do microservices dùng ProblemDetail thay cho ApiErrorResponse tự chế, trace luồng DispatcherServlet/HandlerAdapter rất mượt. Hoàn thành Module M1-4.
 - 2026-09-16 · M1-4 · Chấm bài Lesson 03 Custom Validator & Global Exception Handler: 98/100 → 🟢 Đạt; nắm rất vững luồng Tomcat/DispatcherServlet/HandlerAdapter, Single Responsibility Principle của Validator, RestControllerAdvice và putIfAbsent; chỉ lỗi nhỏ thiếu check null trước isBlank() trong ValidSkuValidator.

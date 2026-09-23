@@ -371,8 +371,8 @@
 
 ### Cách chia lesson
 - [x] Lesson 01: Externalized config, YAML và `@Value`
-- [ ] Lesson 02: Profiles `dev`, `test`, `prod`
-- [ ] Lesson 03: `@ConfigurationProperties` và typed config validation
+- [x] Lesson 02: Profiles `dev`, `test`, `prod`
+- [x] Lesson 03: `@ConfigurationProperties` và typed config validation
 - [ ] Lesson 04: Secrets, env vars và mini project M1-5
 
 ### Phần bỏ qua giai đoạn này
