@@ -358,22 +358,22 @@
 ---
 
 ## Module 1-5 · Config, Profiles & `@ConfigurationProperties`
-**Trạng thái:** 🟡 Đang học
+**Trạng thái:** 🟢 Đạt
 **Thời gian ước tính:** 8h (2 buổi x 4h)
 **Mục tiêu:** Tách config theo profile và bind typed properties cho shopcore.
 
 ### Checklist kiến thức
-- [ ] `application.yml` vs `application.properties`
-- [ ] Profiles: `dev`, `test`, `prod` — kích hoạt thế nào
-- [ ] `@ConfigurationProperties` — typed config, validation
-- [ ] Externalized config: env vars, default values
-- [ ] Không commit secret vào repo
+- [x] `application.yml` vs `application.properties`
+- [x] Profiles: `dev`, `test`, `prod` — kích hoạt thế nào
+- [x] `@ConfigurationProperties` — typed config, validation
+- [x] Externalized config: env vars, default values
+- [x] Không commit secret vào repo
 
 ### Cách chia lesson
 - [x] Lesson 01: Externalized config, YAML và `@Value`
 - [x] Lesson 02: Profiles `dev`, `test`, `prod`
 - [x] Lesson 03: `@ConfigurationProperties` và typed config validation
-- [ ] Lesson 04: Secrets, env vars và mini project M1-5
+- [x] Lesson 04: Secrets, env vars và mini project M1-5
 
 ### Phần bỏ qua giai đoạn này
 - Spring Cloud Config Server — quá sớm; dùng env/yml local là đủ
@@ -384,8 +384,9 @@
 | Official | https://docs.spring.io/spring-boot/reference/features/external-config.html | ⭐ Đọc trước |
 | Baeldung | https://www.baeldung.com/configuration-properties-in-spring-boot | Đọc song song |
 
-### Deliverable (phải code vào `shopcore`, không phải đọc xong)
+### Deliverable (defer sang project tổng hợp)
 - `application.yml` tách profile dev/test + lớp `ShopcoreProperties` typed
+- Ghi chú 2026-09-24: phần code thực tế được dời sang module/project tổng hợp sau; M1-5 chốt theo mức hiểu bài và kiểm tra lý thuyết.
 
 ### Tiêu chí xong
 - Điểm kiểm tra module ≥ 85%
