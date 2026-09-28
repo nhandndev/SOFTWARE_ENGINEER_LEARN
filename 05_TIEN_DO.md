@@ -7,9 +7,9 @@
 
 ## Con trỏ hiện tại
 
-- Module đang học: `M1-5` · Config, Profiles & `@ConfigurationProperties`
+- Module đang học: `M2-1` · SQL nâng cao & Index chiến lược
 - Buổi trong tuần: 1 / 5
-- Ngày bắt đầu module: 2026-09-17
+- Ngày bắt đầu module: 2026-09-28
 - Giờ học tuần này: 0h / 20h
 
 ---
@@ -20,12 +20,15 @@
 |---|---|---|---|
 | Chưa bắt đầu | 🔵 | Mặc định | Bắt đầu học → 🟡 |
 | Đang học | 🟡 | Bắt đầu module | Hoàn thành → làm đề `DAY_DU` |
+| Tạm hoãn | ⏸️ | Người học chủ động dời module | Quay lại học và làm bài trước khi đánh dấu đạt |
 | Đạt | 🟢 | Điểm ≥ 85 | Mở module kế tiếp |
 | Cần ôn | 🟠 | Điểm 55–84 | Ôn chủ đề yếu → `NHANH` (70–84) hoặc `THI_LAI` (55–69) |
 | Học lại | 🔴 | Điểm < 55 | Học lại cả module, bớt video tăng code |
 
 **Quy tắc chuyển state:** `🔵 → 🟡` · `🟡 → 🟢/🟠/🔴` · `🟠 → 🟢` (sau `NHANH`/`THI_LAI` ≥ 85) · `🔴 → 🟡`.  
 **Không có đường tắt** `🔵 → 🟢`.
+
+**Ngoại lệ theo quyết định của người học (2026-09-28):** M1-6 được tạm hoãn để học M2-1 trước. Đây không phải trạng thái đạt; checklist và deliverable Testing vẫn còn nguyên.
 
 ### Ngưỡng điểm
 
@@ -51,8 +54,8 @@
 | M1-3 · Spring Data JPA | 🟢 Đạt | 91 | 2026-09-15 |
 | M1-4 · Validation & Error | 🟢 Đạt | 95 | 2026-09-17 |
 | M1-5 · Config & Profiles | 🟢 Đạt | 88 | 2026-09-24 |
-| M1-6 · Testing | 🔵 Chưa bắt đầu | — | — |
-| M2-1 · SQL & Index | 🔵 Chưa bắt đầu | — | — |
+| M1-6 · Testing | ⏸️ Tạm hoãn | 44 (tạm, câu 1–3) | 2026-09-28 |
+| M2-1 · SQL & Index | 🟡 Đang học | 95 (Lesson 01) | 2026-09-29 |
 | M2-2 · PostgreSQL | 🔵 Chưa bắt đầu | — | — |
 | M2-3 · Flyway | 🔵 Chưa bắt đầu | — | — |
 | M2-4 · N+1 & HikariCP | 🔵 Chưa bắt đầu | — | — |
@@ -100,7 +103,14 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-09-29 · M2-1 Lesson 01 · Chấm lại: 38/40 = 95/100, 🟢 đạt lesson; đã sửa output và PK/FK. Hoàn lại điểm từng trừ sai cho `FROM Products` (PostgreSQL gộp tên không quote về chữ thường). Còn `SELECT category` không có trong bảng; M2-1 vẫn đang học.
+- 2026-09-29 · M2-1 Lesson 01 · Chấm lại cả 7 câu: 33/40 = 83/100, 🟠 cần ôn lesson; đã sửa tốt WHERE, OR/AND, OFFSET; còn sai tên cột `category_id` ở câu 4 và thiếu giải thích đầy đủ ở câu 7. M2-1 vẫn đang học.
+- 2026-09-29 · M2-1 Lesson 01 · Chấm tạm câu 1–6: 16/35 (46% phần đã làm); hiểu ý nghĩa từ khóa SQL, cần viết đúng ngưỡng/cột, kể dòng kết quả cụ thể và sửa OFFSET trang 2; câu 7 chưa chấm, module đang học.
+- 2026-09-28 · M2-1 · Sắp xếp lại bài học theo phản hồi người học: Lesson 01 là SQL cơ bản trên một bảng; chuyển JOIN và đề cũ sang Lesson 02 để học theo thứ tự dễ hiểu.
+- 2026-09-28 · Theo quyết định người học, tạm hoãn M1-6 Testing (chưa đạt) và bắt đầu M2-1 SQL & Index; tạo Lesson 01 JOIN cùng bài kiểm tra. Quay lại M1-6 sau.
+- 2026-09-28 · M1-6 Lesson 01 · Chấm tạm câu 1–3: 7/16 (44% phần đã làm); nắm mục đích test, cần ôn unit/integration và sắp đúng Arrange–Act–Assert; câu 4–7 chưa chấm, module vẫn đang học.
 - 2026-09-24 · M1-5 · Chốt module Config & Profiles: 88/100 → 🟢 Đạt phần học; code deliverable thực tế được defer sang module/project tổng hợp sau theo quyết định học hiện tại.
+- 2026-09-24 · M1-6 · Bắt đầu Testing & Clean Code tối thiểu; tạo Lesson 01 JUnit 5, test mindset, Arrange-Act-Assert và clean test naming.
 - 2026-09-24 · M1-5 · Chấm lại Lesson 04 Secrets/env vars/mini project: 88/100 → 🟢 Đạt lesson; đã bổ sung tốt deliverable config, `@ConfigurationPropertiesScan`, service inject `ShopcoreProperties`, command chạy dev/prod và test fail-fast khi thiếu env var bắt buộc.
 - 2026-09-24 · M1-5 · Chấm lại Lesson 03 `@ConfigurationProperties`: 89/100 → 🟢 Đạt lesson; đã nắm typed config, `@ConfigurationPropertiesScan`, validation config fail lúc app start, nested `@Valid`; còn cần cẩn thận YAML list/map key và indentation.
 - 2026-09-21 · M1-5 · Chấm lại Lesson 02 Profiles dev/test/prod: 91/100 → 🟢 Đạt lesson; nắm merge config, cách kích hoạt profile bằng IDE/arg/env var, phân biệt file profile với `@Profile`, và rủi ro local/test vô tình chạy `prod`. Tiếp tục Lesson 03.

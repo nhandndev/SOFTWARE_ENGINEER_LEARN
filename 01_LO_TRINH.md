@@ -399,7 +399,7 @@
 ---
 
 ## Module 1-6 · Testing & Clean Code tối thiểu
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** ⏸️ Tạm hoãn theo quyết định của người học (2026-09-28); chưa đạt, học lại sau M2-1
 **Thời gian ước tính:** 16h (4 buổi x 4h)
 **Mục tiêu:** Viết ≥ 15 test tầng khác nhau; áp naming + method ≤ 20 dòng từ buổi đầu.
 
@@ -436,7 +436,7 @@
 # Chặng 2 — Database & Persistence (52h / 3 tuần)
 
 ## Module 2-1 · SQL nâng cao & Index chiến lược
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟡 Đang học (bắt đầu 2026-09-28)
 **Thời gian ước tính:** 16h (4 buổi x 4h)
 **Mục tiêu:** Viết query báo cáo có JOIN/subquery và chứng minh index bằng EXPLAIN ANALYZE.
 
