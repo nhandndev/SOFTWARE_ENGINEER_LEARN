@@ -438,12 +438,15 @@
 ## Module 2-1 · SQL nâng cao & Index chiến lược
 **Trạng thái:** 🟡 Đang học (bắt đầu 2026-09-28)
 **Thời gian ước tính:** 16h (4 buổi x 4h)
-**Mục tiêu:** Viết query báo cáo có JOIN/subquery và chứng minh index bằng EXPLAIN ANALYZE.
+**Mục tiêu:** Viết query đọc/tổng hợp dữ liệu đúng cho backend và phân tích, có JOIN/subquery; chứng minh tác dụng index bằng EXPLAIN ANALYZE.
 
 ### Checklist kiến thức
 - [ ] JOIN: inner/left/right, multi-table
+- [ ] Lọc và biến đổi kết quả: `DISTINCT`, `IN`, `BETWEEN`, `CASE` (bên cạnh `WHERE`/`LIKE`)
 - [ ] Subquery vs CTE (WITH)
+- [ ] `EXISTS` / `NOT EXISTS` và tránh JOIN làm nhân dòng khi chỉ cần kiểm tra sự tồn tại
 - [ ] Aggregate, GROUP BY, HAVING, window functions cơ bản
+- [ ] Đọc đúng một dòng kết quả đại diện cho gì; nhận diện NULL và JOIN nhân dòng trong báo cáo
 - [ ] Index: B-tree, composite, covering — khi nào hại
 - [ ] `EXPLAIN ANALYZE` — đọc plan trước/sau index
 
@@ -458,7 +461,7 @@
 | Baeldung | https://www.baeldung.com/sql-join | Đọc song song |
 
 ### Deliverable (phải code vào `shopcore`, không phải đọc xong)
-- Bộ query báo cáo (JOIN/subquery) + index cho product/order, kèm EXPLAIN ANALYZE trước–sau
+- Bộ query đọc/tổng hợp dữ liệu (JOIN/subquery/aggregate) + index cho Product/Category (Order khi có), kèm EXPLAIN ANALYZE trước–sau
 
 ### Tiêu chí xong
 - Điểm kiểm tra module ≥ 85%
@@ -472,11 +475,14 @@
 ## Module 2-2 · PostgreSQL thực chiến
 **Trạng thái:** 🔵 Chưa bắt đầu
 **Thời gian ước tính:** 12h (4 buổi x 3h)
-**Mục tiêu:** Chuyển shopcore sang PostgreSQL với constraint và kiểu dữ liệu chuẩn.
+**Mục tiêu:** Chuyển shopcore sang PostgreSQL, thao tác dữ liệu an toàn với constraint, transaction và truy vấn có tham số.
 
 ### Checklist kiến thức
 - [ ] Kiểu dữ liệu: `UUID`, `NUMERIC`, `TIMESTAMPTZ`, `JSONB` (nhận diện)
 - [ ] Constraint: PK, FK, UNIQUE, CHECK, NOT NULL
+- [ ] `INSERT`/`UPDATE`/`DELETE` với `WHERE` an toàn; kiểm tra số dòng bị ảnh hưởng
+- [ ] Transaction `BEGIN`/`COMMIT`/`ROLLBACK` và ranh giới `@Transactional` khi ghi nhiều bước
+- [ ] Truy vấn có tham số qua JDBC/JPA; không ghép input người dùng vào chuỗi SQL
 - [ ] Sequence / identity columns
 - [ ] VACUUM / autovacuum — khái niệm vận hành
 - [ ] Connection URL và driver JDBC cho Postgres
@@ -492,7 +498,7 @@
 | Baeldung | https://www.baeldung.com/spring-boot-postgresql-setup | Đọc song song |
 
 ### Deliverable (phải code vào `shopcore`, không phải đọc xong)
-- Chuyển shopcore sang PostgreSQL: kiểu dữ liệu chuẩn, constraint FK/unique/check, ghi chú VACUUM
+- Chuyển shopcore sang PostgreSQL: kiểu dữ liệu chuẩn, constraint FK/unique/check, thao tác ghi an toàn trong transaction, ghi chú VACUUM
 
 ### Tiêu chí xong
 - Điểm kiểm tra module ≥ 85%

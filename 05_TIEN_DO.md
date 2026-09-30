@@ -55,7 +55,7 @@
 | M1-4 · Validation & Error | 🟢 Đạt | 95 | 2026-09-17 |
 | M1-5 · Config & Profiles | 🟢 Đạt | 88 | 2026-09-24 |
 | M1-6 · Testing | ⏸️ Tạm hoãn | 44 (tạm, câu 1–3) | 2026-09-28 |
-| M2-1 · SQL & Index | 🟡 Đang học | 95 (Lesson 01) | 2026-09-29 |
+| M2-1 · SQL & Index | 🟡 Đang học | 90 (Lesson 02; Lesson 01: 95) | 2026-10-01 |
 | M2-2 · PostgreSQL | 🔵 Chưa bắt đầu | — | — |
 | M2-3 · Flyway | 🔵 Chưa bắt đầu | — | — |
 | M2-4 · N+1 & HikariCP | 🔵 Chưa bắt đầu | — | — |
@@ -103,6 +103,10 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-10-01 · M2-1 Lesson 02 · Chấm câu 6: 4/7; JOIN và cột đúng, thiếu giải thích alias và số dòng. Tổng Lesson 02: 36/40 = 90/100, đạt lesson; M2-1 vẫn đang học. Snapshot đã cập nhật.
+- 2026-10-01 · M2-1 Lesson 02 · Chấm riêng câu 7: 5/5, đếm đúng 5 dòng sau JOIN và hiểu COUNT(*) đếm dòng kết quả; tổng tạm 32/33 = 97,0% trên 6 câu đã chấm. Câu 6 đang làm, chưa kết luận lesson/module; snapshot đã cập nhật.
+- 2026-10-01 · M2-1 Lesson 02 · Chấm thử cập nhật: 30/33 = 90,9% phần đã xem; câu 4 đã sửa đúng ON/WHERE, câu 7 liệt kê đúng 5 dòng nhưng chưa hiểu COUNT(*), câu 6 mới là bản nháp nên chưa chấm. Đã cập nhật snapshot; M2-1 vẫn đang học.
+- 2026-10-01 · M2-1 Lesson 02 · Chấm thử câu 1-3 và 5: 20/21 = 95,2% phần đã làm; câu 4 mới ghi ý ban đầu và đang đảo chiều ON/WHERE nên chưa tính điểm, câu 5 query đúng nhưng cần giải thích NULL chuẩn hơn; câu 6-7 chưa làm. Có snapshot nhận xét; M2-1 vẫn đang học.
 - 2026-09-29 · M2-1 Lesson 01 · Chấm lại: 38/40 = 95/100, 🟢 đạt lesson; đã sửa output và PK/FK. Hoàn lại điểm từng trừ sai cho `FROM Products` (PostgreSQL gộp tên không quote về chữ thường). Còn `SELECT category` không có trong bảng; M2-1 vẫn đang học.
 - 2026-09-29 · M2-1 Lesson 01 · Chấm lại cả 7 câu: 33/40 = 83/100, 🟠 cần ôn lesson; đã sửa tốt WHERE, OR/AND, OFFSET; còn sai tên cột `category_id` ở câu 4 và thiếu giải thích đầy đủ ở câu 7. M2-1 vẫn đang học.
 - 2026-09-29 · M2-1 Lesson 01 · Chấm tạm câu 1–6: 16/35 (46% phần đã làm); hiểu ý nghĩa từ khóa SQL, cần viết đúng ngưỡng/cột, kể dòng kết quả cụ thể và sửa OFFSET trang 2; câu 7 chưa chấm, module đang học.

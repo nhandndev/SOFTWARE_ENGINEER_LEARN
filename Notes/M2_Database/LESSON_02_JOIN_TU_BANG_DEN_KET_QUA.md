@@ -2,10 +2,13 @@
 
 > Sau bài này, bạn nhìn hai bảng và nói được JOIN trả những dòng nào, vì sao một dòng lặp lại, và vì sao `LEFT JOIN` đôi khi vẫn làm mất dòng.
 
+Ở Lesson 01, bạn đã viết `SELECT id, name FROM products` để đọc **một bảng**. Bảng `products` có `category_id` nhưng chưa có **tên Category**. Muốn lấy cả tên Product và tên Category, ta phải đọc thêm bảng `categories`. Trước khi học JOIN, bài này dạy cách đọc tên bảng viết tắt (`p`, `c`, `oi`), dấu chấm trong `p.name`, và `AS` trong `p.name AS product`.
+
 ## Tài liệu / video
 
 - [PostgreSQL: Joins Between Tables](https://www.postgresql.org/docs/current/tutorial-join.html) - đọc sau khi xem ví dụ trong bài.
 - [PostgreSQL: JOIN, ON và WHERE](https://www.postgresql.org/docs/current/queries-table-expressions.html) - xem khi học mục 5.
+- [PostgreSQL: tên cột trong SELECT và AS](https://www.postgresql.org/docs/current/queries-select-lists.html) - xem sau mục 1.1.
 - Video: tìm `SQL JOIN explained with tables` trên YouTube; chọn video hiển thị bảng dữ liệu và kết quả song song.
 
 ## 1. Bắt đầu từ dữ liệu, chưa cần nhớ cú pháp
@@ -36,7 +39,49 @@ categories.id = 1  <->  products.category_id = 1
       Bàn phím          K1, K2
 ```
 
-**JOIN là thao tác ghép dòng của hai bảng theo một điều kiện.** Ở đây điều kiện ghép là `p.category_id = c.id`. Một category khớp hai product thì tạo **hai dòng kết quả**. JOIN không tự tạo một object `Category` chứa list Product.
+**JOIN là thao tác ghép dòng của hai bảng theo một điều kiện.** Ở đây, Product có `category_id` bằng `id` của Category thì hai dòng được ghép. Một category khớp hai product sẽ tạo **hai dòng kết quả**. JOIN không tự tạo một object `Category` chứa list Product.
+
+### 1.1. Từ cú pháp Lesson 01 sang cú pháp hai bảng
+
+Ở Lesson 01 bạn đã đọc một bảng:
+
+```sql
+SELECT name FROM products;
+```
+
+Kết quả có cột tên `name`. Nếu muốn cột **kết quả** mang tên dễ hiểu hơn, viết:
+
+```sql
+SELECT name AS product FROM products;
+```
+
+Cùng những Product ấy, chỉ tiêu đề đổi từ `name` thành `product`; cột thật trong bảng vẫn là `name`.
+
+Bây giờ `products` và `categories` đều có cột `id`, `name`: khi đọc cả hai bảng, viết mỗi `SELECT name` sẽ không rõ bạn muốn tên Product hay tên Category. Ta gắn tên bảng phía trước cột:
+
+```sql
+SELECT p.name AS product, c.name AS category
+FROM products AS p
+JOIN categories AS c ON p.category_id = c.id;
+```
+
+Đọc từng ký hiệu:
+
+| Đoạn SQL | Nghĩa |
+|---|---|
+| `products AS p` | Trong **query này**, gọi tắt bảng `products` là `p`. |
+| `categories AS c` | Trong query này, gọi tắt bảng `categories` là `c`. |
+| `p.name` | Lấy cột `name` **của products**. Dấu `.` nghĩa là “cột thuộc bảng/alias này”. |
+| `c.name` | Lấy cột `name` **của categories**. |
+| `p.name AS product` | Lấy giá trị `p.name`, đặt tên **cột kết quả** là `product`. |
+| `c.name AS category` | Lấy giá trị `c.name`, đặt tên cột kết quả là `category`. |
+| `ON p.category_id = c.id` | Chỉ ghép Product với Category có id trùng khóa ngoại. |
+
+Kết quả có cột `product` và `category`, ví dụ `(K1, Bàn phím)`. `AS product` **không đổi tên cột `name` trong database** và không sửa dữ liệu; nó chỉ đặt tên cho cột trả về.
+
+Viết `FROM products p` cũng được: `AS` ở phần khai báo alias bảng có thể bỏ. Để dễ học, bạn có thể đọc `products p` thành “bảng products, gọi tắt là p”. Còn trong `SELECT`, hãy viết rõ `AS product` để người đọc nhận ra tên cột kết quả. Các ví dụ bên dưới dùng cả hai cách viết alias bảng nhưng ý nghĩa như nhau.
+
+> Phân biệt hai kiểu tên: `p` là **tên tạm của bảng**; `product` sau `AS` là **tên cột của kết quả**. `p.name` là **cột thật được đọc**.
 
 ## 2. INNER JOIN: chỉ lấy các cặp ghép được
 
@@ -187,7 +232,26 @@ JOIN categories c ON c.id = p.category_id
 ORDER BY oi.id;
 ```
 
-Lần theo item 100: `product_id=10` tìm K1; K1 có `category_id=1` tìm Bàn phím. Item 101 cũng tìm K1, nên K1 xuất hiện lần nữa.
+**Đọc phần FROM/JOIN trước** để biết `oi`, `p`, `c` là ai:
+
+1. `FROM order_items oi`: lấy bảng `order_items`, gọi tắt là `oi`.
+2. `JOIN products p ON p.id = oi.product_id`: tìm Product mà item đang trỏ tới; gọi bảng Product là `p`.
+3. `JOIN categories c ON c.id = p.category_id`: từ Product vừa tìm, lấy Category của nó; gọi bảng Category là `c`.
+
+Sau đó đọc **đúng bốn cột trong SELECT, từ trái sang phải**:
+
+| Biểu thức | Giá trị lấy từ đâu? | Tên cột hiện trong kết quả |
+|---|---|---|
+| `oi.id AS item_id` | Cột `id` của `order_items` | `item_id` |
+| `p.name AS product` | Cột `name` của `products` | `product` |
+| `c.name AS category` | Cột `name` của `categories` | `category` |
+| `oi.quantity` | Cột `quantity` của `order_items` | `quantity` (không đổi tên) |
+
+Ví dụ với item `id=100`: `oi.id` là `100`, `oi.product_id` là `10` nên `p.name` là `K1`; Product 10 có `category_id=1` nên `c.name` là `Bàn phím`; `oi.quantity` là `2`. Một dòng output sẽ là **`(100, K1, Bàn phím, 2)`**, với tiêu đề `item_id | product | category | quantity`.
+
+Nếu bỏ cả ba `AS` ở phần SELECT, dữ liệu từng dòng vẫn là những giá trị ấy nhưng tiêu đề sẽ không còn các tên `item_id`, `product`, `category` mà bạn muốn dùng. `oi.quantity` không có `AS` nên giữ tên cột `quantity`.
+
+Item 101 cũng trỏ tới Product 10 là K1, nên K1 xuất hiện lần nữa trong kết quả.
 
 | item_id | product | category | quantity |
 |---:|---|---|---:|
@@ -201,7 +265,7 @@ Ví dụ khác: một category có 2 products; product A có 3 items và B có 2
 
 ## 8. Hai lưu ý trước khi làm bài
 
-**Đếm dòng:** Sau `categories LEFT JOIN products`, category Tai nghe vẫn tạo một dòng có `p.id = NULL`. Vì vậy `COUNT(*)` tính là 1; `COUNT(p.id)` tính là 0. Bài aggregate ở Lesson 03 sẽ học kỹ hơn.
+**Đếm dòng:** Sau `categories LEFT JOIN products`, category Tai nghe vẫn tạo một dòng có `p.id = NULL`. Vì vậy `COUNT(*)` tính là 1; `COUNT(p.id)` tính là 0. Bài aggregate ở Lesson 04 sẽ học kỹ hơn.
 
 **Thứ tự:** Không có `ORDER BY` thì đừng đoán thứ tự trả về. Khi chấm bài, thứ tự các dòng tương đương đều được chấp nhận.
 
@@ -225,5 +289,7 @@ Khi đọc bất kỳ query nào, hỏi: **mỗi dòng kết quả đại diện
 3. Muốn giữ product 13 thì bảng nào phải nằm bên trái?
 4. Vì sao đưa `p.name LIKE 'K%'` xuống WHERE làm mất Chuột?
 5. Trong query ba bảng, K1 lặp hai lần là lỗi hay là kết quả đúng?
+6. Trong `oi.id AS item_id`, `oi` và `item_id` là tên của cái gì? Có đổi cột `id` trong database không?
+7. Vì sao phải viết `p.name` và `c.name` thay vì chỉ viết `name` khi JOIN Product với Category?
 
 Sau khi tự trả lời, làm [bài kiểm tra Lesson 02](../../Exams/de-kiem-tra/M2-1-sql-index__2026-09-28__lesson2-lan1.md). File đáp án nằm riêng để bạn tự kiểm tra sau.
