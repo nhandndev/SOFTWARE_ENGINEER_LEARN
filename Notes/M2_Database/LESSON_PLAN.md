@@ -1,6 +1,6 @@
 # Kế hoạch M2-1: SQL & Index (BE làm nền cho AI Engineer)
 
-Vẫn gồm **5 lesson**. Lesson 01 đã chấm, Lesson 02 đang học; không phải làm lại. Mục tiêu là đọc dữ liệu đúng, ghép bảng không nhân sai dòng, tạo báo cáo đáng tin và biết kiểm tra hiệu năng. Đây cũng là nền để sau này trích xuất dữ liệu cho phân tích/AI; chưa cần học ML trong module SQL.
+Vẫn gồm **5 lesson**. Lesson 01-04 đã đạt; không phải làm lại. Mục tiêu là đọc dữ liệu đúng, ghép bảng không nhân sai dòng, tạo báo cáo đáng tin và biết kiểm tra hiệu năng. Đây cũng là nền để sau này trích xuất dữ liệu cho phân tích/AI; chưa cần học ML trong module SQL.
 
 | Lesson | Câu hỏi cần trả lời | Sản phẩm tự học |
 |---|---|---|

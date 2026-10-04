@@ -55,7 +55,7 @@
 | M1-4 · Validation & Error | 🟢 Đạt | 95 | 2026-09-17 |
 | M1-5 · Config & Profiles | 🟢 Đạt | 88 | 2026-09-24 |
 | M1-6 · Testing | ⏸️ Tạm hoãn | 44 (tạm, câu 1–3) | 2026-09-28 |
-| M2-1 · SQL & Index | 🟡 Đang học | 90 (Lesson 02; Lesson 01: 95) | 2026-10-01 |
+| M2-1 · SQL & Index | 🟡 Đang học | 87,5 (Lesson 05; Lesson 04: 88,5) | 2026-10-05 |
 | M2-2 · PostgreSQL | 🔵 Chưa bắt đầu | — | — |
 | M2-3 · Flyway | 🔵 Chưa bắt đầu | — | — |
 | M2-4 · N+1 & HikariCP | 🔵 Chưa bắt đầu | — | — |
@@ -103,6 +103,11 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-10-05 · M2-1 Lesson 05 · Chấm đủ 8 câu: 35/40 = 87,5/100, đạt lesson. Câu 7 nắm đúng EXPLAIN/ANALYZE nhưng thiếu BUFFERS; câu 8 cần dữ liệu đại diện, điều kiện trước-sau giống nhau và cân chi phí index. Snapshot đã cập nhật; M2-1 vẫn đang học, chưa chốt deliverable/module.
+- 2026-10-04 · M2-1 Lesson 05 · Chấm lại câu 1–6: 28/30 = 93,3/100 tạm tính; đã sửa đúng câu 2 (index A là ứng viên), câu 4 (3.900 ms và giới hạn kết luận), bổ sung MVCC câu 3 và EXPLAIN ANALYZE câu 6. Câu 7–8 còn trống; snapshot đã cập nhật, M2-1 vẫn đang học.
+- 2026-10-04 · M2-1 Lesson 05 · Chấm tạm câu 1–6: 24/30 = 80/100 trên phần đã làm; hiểu chọn index/selectivity và Seq Scan, cần ôn Index Only Scan/MVCC, đọc đúng 3.900 ms và chi phí index. Câu 7–8 chưa làm; đã lưu snapshot, M2-1 vẫn đang học.
+- 2026-10-04 · M2-1 Lesson 04 · Chấm cả 8 câu: 35,4/40 = 88,5/100, đạt lesson. Vững WHERE/HAVING, JOIN nhân dòng và window; cần ôn SUM/MIN có Product category_id NULL, GROUP BY nhóm NULL và COUNT(p.id)=0 sau LEFT JOIN. Đã lưu snapshot; M2-1 vẫn đang học.
+- 2026-10-03 · M2-1 Lesson 03 · Chấm cả 7 câu: 34/40 = 85/100, đạt lesson. Vững DISTINCT/IN/BETWEEN/CTE; cần sửa alias `p` ở câu 4, nói EXISTS theo từng Category và liệt kê output câu 5-6. Đã lưu snapshot; M2-1 vẫn đang học.
 - 2026-10-01 · M2-1 Lesson 02 · Chấm câu 6: 4/7; JOIN và cột đúng, thiếu giải thích alias và số dòng. Tổng Lesson 02: 36/40 = 90/100, đạt lesson; M2-1 vẫn đang học. Snapshot đã cập nhật.
 - 2026-10-01 · M2-1 Lesson 02 · Chấm riêng câu 7: 5/5, đếm đúng 5 dòng sau JOIN và hiểu COUNT(*) đếm dòng kết quả; tổng tạm 32/33 = 97,0% trên 6 câu đã chấm. Câu 6 đang làm, chưa kết luận lesson/module; snapshot đã cập nhật.
 - 2026-10-01 · M2-1 Lesson 02 · Chấm thử cập nhật: 30/33 = 90,9% phần đã xem; câu 4 đã sửa đúng ON/WHERE, câu 7 liệt kê đúng 5 dòng nhưng chưa hiểu COUNT(*), câu 6 mới là bản nháp nên chưa chấm. Đã cập nhật snapshot; M2-1 vẫn đang học.
