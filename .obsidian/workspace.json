@@ -181,8 +181,79 @@
       "bases:Create new base": false
     }
   },
-  "active": "5674e3fbc0142119",
+  "floating": {
+    "id": "3ec460ebfc5cf474",
+    "type": "floating",
+    "children": [
+      {
+        "id": "59109350063aa8ad",
+        "type": "window",
+        "children": [
+          {
+            "id": "08d567ece01ed669",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "04618a4862fac174",
+                "type": "leaf",
+                "state": {
+                  "type": "empty",
+                  "state": {},
+                  "icon": "lucide-file",
+                  "title": "New tab"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 388,
+        "y": 129,
+        "width": 1024,
+        "height": 800,
+        "maximize": false,
+        "zoom": 0
+      }
+    ]
+  },
+  "active": "04618a4862fac174",
   "lastOpenFiles": [
+    "Untitled",
+    "Learning_Vault/Software_Engineer/Projects/m1-4-validation-mini-project/REQUEST.md",
+    "Learning_Vault/Software_Engineer/Projects/m1-4-validation-mini-project",
+    "Learning_Vault/Software_Engineer/Projects/m1-3-jpa-mini-project/REQUEST.md",
+    "Learning_Vault/Software_Engineer/Projects/m1-3-jpa-mini-project/PROJECT_FEATURES.md",
+    "Learning_Vault/Software_Engineer/Projects/shopcore/HELP.md",
+    "Learning_Vault/Software_Engineer/Projects/shopcore",
+    "Learning_Vault/automation/com.lilnhan.learning-vault-sync.plist",
+    "Learning_Vault/automation",
+    "Learning_Vault/Software_Engineer/Projects/m1-3-jpa-mini-project/README.md",
+    "Learning_Vault/Software_Engineer/Projects/m1-3-jpa-mini-project",
+    "Learning_Vault/Software_Engineer/Projects",
+    "Learning_Vault/Software_Engineer/Progress/11-08-2026/11-08-2026-part-1.md",
+    "Learning_Vault/Software_Engineer/Progress/11-08-2026",
+    "Learning_Vault/Software_Engineer/Progress",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-2-postgres__2026-10-05__lesson1-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-2-postgres__2026-10-05__lesson1-lan1.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-10-04__lesson5-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-10-04__lesson5-lan1.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-10-03__lesson4-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-10-03__lesson4-lan1.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-10-01__lesson3-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-10-01__lesson3-lan1.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-09-28__lesson2-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-09-28__lesson2-lan1.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-09-28__lesson1-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M2-1-sql-index__2026-09-28__lesson1-lan1.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M1-6-testing__2026-09-24__lesson1-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M1-6-testing__2026-09-24__lesson1-lan1.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M1-5-config-profiles__2026-09-20__lesson4-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M1-5-config-profiles__2026-09-20__lesson4-lan1.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M1-5-config-profiles__2026-09-20__lesson3-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M1-5-config-profiles__2026-09-20__lesson3-lan1.md",
+    "Learning_Vault/Software_Engineer/Exams/de-kiem-tra/M1-5-config-profiles__2026-09-20__lesson2-lan1__DAPAN.md",
+    "Learning_Vault/Software_Engineer/Exams/nop-bai",
+    "Learning_Vault/Software_Engineer/Exams/nhan-xet",
     "Untitled.canvas"
   ]
 }

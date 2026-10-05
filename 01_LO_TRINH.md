@@ -436,7 +436,7 @@
 # Chặng 2 — Database & Persistence (52h / 3 tuần)
 
 ## Module 2-1 · SQL nâng cao & Index chiến lược
-**Trạng thái:** 🟡 Đang học (bắt đầu 2026-09-28)
+**Trạng thái:** 🟢 Đạt theo phạm vi học rút gọn (5 lesson đều ≥ 85; bỏ qua đề tổng kết và deliverable theo quyết định của người học ngày 2026-10-05)
 **Thời gian ước tính:** 16h (4 buổi x 4h)
 **Mục tiêu:** Viết query đọc/tổng hợp dữ liệu đúng cho backend và phân tích, có JOIN/subquery; chứng minh tác dụng index bằng EXPLAIN ANALYZE.
 
@@ -473,13 +473,13 @@
 ---
 
 ## Module 2-2 · PostgreSQL thực chiến
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟡 Đang học (bắt đầu 2026-10-05, Lesson 01)
 **Thời gian ước tính:** 12h (4 buổi x 3h)
 **Mục tiêu:** Chuyển shopcore sang PostgreSQL, thao tác dữ liệu an toàn với constraint, transaction và truy vấn có tham số.
 
 ### Checklist kiến thức
-- [ ] Kiểu dữ liệu: `UUID`, `NUMERIC`, `TIMESTAMPTZ`, `JSONB` (nhận diện)
-- [ ] Constraint: PK, FK, UNIQUE, CHECK, NOT NULL
+- [x] Kiểu dữ liệu: `UUID`, `NUMERIC`, `TIMESTAMPTZ`, `JSONB` (nhận diện)
+- [x] Constraint: PK, FK, UNIQUE, CHECK, NOT NULL
 - [ ] `INSERT`/`UPDATE`/`DELETE` với `WHERE` an toàn; kiểm tra số dòng bị ảnh hưởng
 - [ ] Transaction `BEGIN`/`COMMIT`/`ROLLBACK` và ranh giới `@Transactional` khi ghi nhiều bước
 - [ ] Truy vấn có tham số qua JDBC/JPA; không ghép input người dùng vào chuỗi SQL

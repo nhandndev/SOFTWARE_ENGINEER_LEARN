@@ -1,0 +1,5 @@
+# Absolute local source path<TAB>vault destination<TAB>mode (se or docs)
+/Users/lilnhan/Downloads/SOFTWARE_ENGINEER_LEARN	Software_Engineer	se
+# /absolute/path/to/AWS	AWS/Imported	docs
+# /absolute/path/to/AI_Engineer	AI_Engineer/Imported	docs
+# /absolute/path/to/Classes	Classes/Imported	docs
