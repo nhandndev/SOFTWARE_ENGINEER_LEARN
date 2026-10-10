@@ -14,7 +14,7 @@
 
 - 2đ: A được nhận; bỏ cột `created_at` thì default cấp giá trị.
 - 2đ: B bị `NOT NULL(created_at)` từ chối; `NULL` tường minh không kích hoạt default.
-- 1đ: nói rõ A/B độc lập nên `BK-04` ở A không tạo xung đột SKU cho B.
+- 1đ: giải thích default chỉ áp dụng khi bỏ cột/dùng DEFAULT, không thay NULL tường minh. A/B độc lập là giả định đề đã cho: không trừ điểm vì học viên không nhắc lại, miễn không cộng dồn A gây lỗi UNIQUE cho B.
 
 ## Câu 3 (5đ)
 

@@ -7,7 +7,7 @@
 - `NUMERIC(12,2)` cho số thập phân chính xác, hợp với tiền; floating-point không bảo đảm biểu diễn thập phân chính xác: 2đ.
 - `TIMESTAMPTZ` biểu diễn thời điểm có quy đổi múi giờ; **không giữ tên múi giờ gốc**: 1đ.
 - `JSONB` cho thuộc tính linh hoạt, không nên thay cột lõi cần ràng buộc: 1đ.
-- `UUID` là kiểu ID khi cần định danh được tạo phân tán/khó đoán; không bắt buộc dùng ở schema này: 1đ.
+- `UUID` là kiểu định danh, phù hợp khi cần tạo ID phân tán; không bắt buộc dùng ở schema này: 1đ. Khả năng khó đoán phụ thuộc phiên bản và bộ sinh UUID, không phải cam kết của kiểu dữ liệu và không thay authorization. Đây là lưu ý làm rõ, không thêm tiêu chí để trừ điểm bài đã chấm.
 
 ## Câu 2 - 5đ
 

@@ -1,0 +1,34 @@
+{
+  "destination": "/Users/lilnhan/Documents/Learning_Vault/Software_Engineer",
+  "files": [
+    "Notes/M2_Database/M2_2_PostgreSQL/LESSON_01_KIEU_DU_LIEU_CONSTRAINT.md",
+    "Notes/M2_Database/M2_2_PostgreSQL/LESSON_04_KET_NOI_THAM_SO_IDENTITY_VACUUM.md",
+    "Notes/M2_Database/M2_2_PostgreSQL/README.md",
+    "Exams/de-kiem-tra/M2-2-postgres__2026-10-05__lesson1-lan1__DAPAN.md",
+    "Exams/de-kiem-tra/M2-2-postgres__2026-10-05__lesson2-lan1__DAPAN.md",
+    "Exams/de-kiem-tra/M2-3-flyway__2026-10-05__lesson2-lan1__DAPAN.md",
+    "Notes/M3_API_Security/M3_3_JWT/LESSON_01_JWT_STRUCTURE_VALIDATION.md",
+    "Notes/M3_API_Security/M3_3_JWT/LESSON_02_REGISTER_LOGIN_BEARER_API.md",
+    "Notes/M3_API_Security/M3_4_OAuth2_OIDC/LESSON_02_SPRING_GOOGLE_LOGIN_CONFIG.md",
+    "Exams/de-kiem-tra/M3-3-jwt__2026-10-07__lesson1-lan1__DAPAN.md",
+    "Exams/de-kiem-tra/M3-3-jwt__2026-10-07__lesson4-lan1__DAPAN.md",
+    "Exams/de-kiem-tra/M3-4-oauth2__2026-10-07__lesson2-lan1__DAPAN.md",
+    "Exams/de-kiem-tra/M3-5-openapi-client__2026-10-07__lesson4-lan1__DAPAN.md",
+    "Exams/de-kiem-tra/M4-1-docker__2026-10-07__lesson2-lan1__DAPAN.md",
+    "Notes/M3_API_Security/README.md",
+    "Notes/M3_API_Security/README_TICH_HOP_CONTRACT.md",
+    "Notes/M3_API_Security/M3_1_REST_Best_Practices/README.md",
+    "Notes/M3_API_Security/M3_2_Security_Core/README.md",
+    "Notes/M3_API_Security/M3_3_JWT/README.md",
+    "Notes/M3_API_Security/M3_4_OAuth2_OIDC/README.md",
+    "Notes/M3_API_Security/M3_5_OpenAPI_Client/README.md"
+  ],
+  "auditDirectory": "Notes/QUALITY_AUDIT_2026_10_07",
+  "exclude": [
+    "01_LO_TRINH.md",
+    "05_TIEN_DO.md",
+    "learner question files",
+    "capstone"
+  ],
+  "mode": "copy selected files; no deletion"
+}

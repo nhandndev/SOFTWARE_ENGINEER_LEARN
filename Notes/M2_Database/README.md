@@ -25,3 +25,10 @@ M1-6 Testing đang tạm hoãn theo quyết định của bạn, chưa được 
 Không cần học toàn bộ mục lục SQL trên W3Schools. [Bản đồ phạm vi SQL cho BE -> AI Engineer](README_PHAM_VI_SQL_BE_TO_AI.md) phân biệt nội dung học ở M2-1, M2-2 và phần chỉ cần nhận diện. `INSERT`/`UPDATE`/`DELETE`, transaction, constraint và truy vấn có tham số thuộc M2-2; chúng quan trọng nhưng nên học cùng database thật.
 
 Tiếp theo: [M2-2 - PostgreSQL thực chiến](M2_2_PostgreSQL/README.md), bắt đầu từ kiểu dữ liệu và constraint. Theo phạm vi bạn chọn, các lesson đi kèm đề kiểm tra riêng và không giao capstone.
+
+Tài liệu module kế tiếp đã chuẩn bị sẵn để học lần lượt sau M2-2:
+
+- [M2-3 Flyway: 3 lesson](M2_3_Flyway/README.md), mỗi lesson có đề và đáp án riêng.
+- [M2-4 N+1 & HikariCP: 4 lesson](M2_4_Performance/README.md), từ SQL log đến paging, pool và benchmark.
+
+Soạn sẵn tài liệu không đồng nghĩa bắt đầu hoặc pass hai module này; trạng thái roadmap và tiến độ giữ nguyên.

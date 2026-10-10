@@ -42,49 +42,51 @@
 
 ## Trạng thái từng module
 
-| Module | Trạng thái | Điểm gần nhất | Ngày kiểm tra |
-|---|---|---|---|
-| M0-1 · Java hiện đại | 🟢 Đạt | 86 | 2026-08-19 |
-| M0-2 · OOP SOLID | 🟢 Đạt | 88 | 2026-08-20 |
-| M0-3 · DSA I | 🟢 Đạt | 95 | 2026-08-22 |
-| M0-4 · DSA II Tree/Graph | 🟢 Đạt | 97 | 2026-08-23 |
-| M0-5 · Git & Maven | 🟢 Đạt | 97 | 2026-08-25 |
-| M1-1 · IoC / DI | 🟢 Đạt | 95 | 2026-08-26 |
-| M1-2 · MVC & REST | 🟢 Đạt | 92 | 2026-09-07 |
-| M1-3 · Spring Data JPA | 🟢 Đạt | 91 | 2026-09-15 |
-| M1-4 · Validation & Error | 🟢 Đạt | 95 | 2026-09-17 |
-| M1-5 · Config & Profiles | 🟢 Đạt | 88 | 2026-09-24 |
-| M1-6 · Testing | ⏸️ Tạm hoãn | 44 (tạm, câu 1–3) | 2026-09-28 |
-| M2-1 · SQL & Index | 🟢 Đạt (phạm vi học rút gọn) | 87,5 (Lesson 05; cả 5 lesson ≥ 85) | 2026-10-05 |
-| M2-2 · PostgreSQL | 🟡 Đang học (Lesson 01 đạt) | 97,5 (Lesson 01) | 2026-10-05 |
-| M2-3 · Flyway | 🔵 Chưa bắt đầu | — | — |
-| M2-4 · N+1 & HikariCP | 🔵 Chưa bắt đầu | — | — |
-| M3-1 · REST best practices | 🔵 Chưa bắt đầu | — | — |
-| M3-2 · Security Core | 🔵 Chưa bắt đầu | — | — |
-| M3-3 · JWT | 🔵 Chưa bắt đầu | — | — |
-| M3-4 · OAuth2 / OIDC | 🔵 Chưa bắt đầu | — | — |
-| M3-5 · OpenAPI & Client | 🔵 Chưa bắt đầu | — | — |
-| M4-1 · Docker | 🔵 Chưa bắt đầu | — | — |
-| M4-2 · GitHub Actions CI | 🔵 Chưa bắt đầu | — | — |
-| M4-3 · TDD & Coverage | 🔵 Chưa bắt đầu | — | — |
-| M4-4 · Logging & Hexagonal | 🔵 Chưa bắt đầu | — | — |
-| M5-1 · Redis | 🔵 Chưa bắt đầu | — | — |
-| M5-2 · Kafka | 🔵 Chưa bắt đầu | — | — |
-| M5-3 · Microservices | 🔵 Chưa bắt đầu | — | — |
-| M5-4 · Actuator | 🔵 Chưa bắt đầu | — | — |
-| M5-5 · System Design | 🔵 Chưa bắt đầu | — | — |
-| M6A-1 · Clean Code | 🔵 Chưa bắt đầu | — | — |
-| M6A-2 · Patterns C&S | 🔵 Chưa bắt đầu | — | — |
-| M6A-3 · Patterns Behavioral | 🔵 Chưa bắt đầu | — | — |
-| M6A-4 · DDD & Hexagonal | 🔵 Chưa bắt đầu | — | — |
-| M6B-1 · AWS Core | 🔵 Chưa bắt đầu | — | — |
-| M6B-2 · RDS & S3 | 🔵 Chưa bắt đầu | — | — |
-| M6B-3 · Deploy AWS | 🔵 Chưa bắt đầu | — | — |
-| M6B-4 · AWS Ops | 🔵 Chưa bắt đầu | — | — |
-| M7-1 · LeetCode | 🔵 Chưa bắt đầu | — | — |
-| M7-2 · SD Interview | 🔵 Chưa bắt đầu | — | — |
-| M7-3 · Behavioral STAR | 🔵 Chưa bắt đầu | — | — |
-| M7-4 · Portfolio & CV | 🔵 Chưa bắt đầu | — | — |
+“Đã có đề + lesson” chỉ xác nhận tài liệu đã được soạn, không có nghĩa đã học hoặc đạt module. Nếu mới có một phần, ghi rõ lesson tương ứng.
+
+| Module | Trạng thái | Điểm gần nhất | Ngày kiểm tra | Tài liệu |
+|---|---|---|---|---|
+| M0-1 · Java hiện đại | 🟢 Đạt | 86 | 2026-08-19 | Đã có đề + lesson |
+| M0-2 · OOP SOLID | 🟢 Đạt | 88 | 2026-08-20 | Đã có đề + lesson |
+| M0-3 · DSA I | 🟢 Đạt | 95 | 2026-08-22 | Đã có đề + lesson |
+| M0-4 · DSA II Tree/Graph | 🟢 Đạt | 97 | 2026-08-23 | Đã có đề + lesson |
+| M0-5 · Git & Maven | 🟢 Đạt | 97 | 2026-08-25 | Đã có đề + lesson |
+| M1-1 · IoC / DI | 🟢 Đạt | 95 | 2026-08-26 | Đã có đề + lesson |
+| M1-2 · MVC & REST | 🟢 Đạt | 92 | 2026-09-07 | Đã có đề + lesson |
+| M1-3 · Spring Data JPA | 🟢 Đạt | 91 | 2026-09-15 | Đã có đề + lesson |
+| M1-4 · Validation & Error | 🟢 Đạt | 95 | 2026-09-17 | Đã có đề + lesson |
+| M1-5 · Config & Profiles | 🟢 Đạt | 88 | 2026-09-24 | Đã có đề + lesson |
+| M1-6 · Testing | ⏸️ Tạm hoãn | 44 (tạm, câu 1–3) | 2026-09-28 | Đã có đề + lesson (Lesson 01) |
+| M2-1 · SQL & Index | 🟢 Đạt (phạm vi học rút gọn) | 87,5 (Lesson 05; cả 5 lesson ≥ 85) | 2026-10-05 | Đã có đề + lesson |
+| M2-2 · PostgreSQL | 🟡 Đang học (4 lesson đạt) | 96,25 (Lesson 04) | 2026-10-10 | Đã có đề + lesson |
+| M2-3 · Flyway | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M2-4 · N+1 & HikariCP | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M3-1 · REST best practices | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M3-2 · Security Core | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M3-3 · JWT | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M3-4 · OAuth2 / OIDC | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M3-5 · OpenAPI & Client | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M4-1 · Docker | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M4-2 · GitHub Actions CI | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M4-3 · TDD & Coverage | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |(=))))
+| M4-4 · Logging & Hexagonal | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M5-1 · Redis | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M5-2 · Kafka | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M5-3 · Microservices | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M5-4 · Actuator | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M5-5 · System Design | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M6A-1 · Clean Code | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M6A-2 · Patterns C&S | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M6A-3 · Patterns Behavioral | 🔵 Chưa bắt đầu | — | — | — |
+| M6A-4 · DDD & Hexagonal | 🔵 Chưa bắt đầu | — | — | — |
+| M6B-1 · AWS Core | 🔵 Chưa bắt đầu | — | — | — |
+| M6B-2 · RDS & S3 | 🔵 Chưa bắt đầu | — | — | — |
+| M6B-3 · Deploy AWS | 🔵 Chưa bắt đầu | — | — | — |
+| M6B-4 · AWS Ops | 🔵 Chưa bắt đầu | — | — | — |
+| M7-1 · LeetCode | 🔵 Chưa bắt đầu | — | — | — |
+| M7-2 · SD Interview | 🔵 Chưa bắt đầu | — | — | — |
+| M7-3 · Behavioral STAR | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M7-4 · Portfolio & CV | 🔵 Chưa bắt đầu | — | — | — |
 
 ---
 
@@ -103,6 +105,15 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-10-10 · M2-2 Lesson 04 · Chấm lại bản đã lưu đủ 8 câu: 38,5/40 = 96,25/100, đạt lesson. Câu 6 đã đủ race MAX+1; câu 8 đã sửa rollback sau commit và tái sử dụng dung lượng, còn thiếu rủi ro khóa/chi phí FULL trong bản hiện tại; câu 4 thiếu kiểm soát sort động. Snapshot chữa bài kèm giải thích phần còn thiếu, giữ lịch sử; không chốt deliverable/toàn module.
+- 2026-10-10 · M2-2 Lesson 04 · Chấm lại đủ 8 câu theo ngữ cảnh: 37/40 = 92,5/100, đạt lesson. Nhận ý JPA starter bổ sung ở câu 1 cho câu 2; đã sửa binding/sort câu 4, đếm ID câu 6 và rủi ro khóa FULL câu 8. Còn củng cố whitelist sort, race MAX+1 và không ROLLBACK transaction đã commit. Cập nhật snapshot/tick checklist khái niệm; cả 4 lesson đạt, chưa xác nhận deliverable hoặc chốt module.
+- 2026-10-10 · M2-2 Lesson 04 · Chấm đủ 8 câu: 29,5/40 = 73,75/100, cần ôn lesson. Đúng câu 1/3/5/7; thiếu Data JPA starter câu 2, nhầm JPA binding/ORDER BY câu 4, thiếu race max+1 và cách đếm câu 6, nhầm rollback sau commit và rủi ro VACUUM FULL câu 8. Cập nhật snapshot chữa từng câu; Lesson 01–03 vẫn đạt, chưa chốt module/tick thêm checklist.
+- 2026-10-10 · M2-2 Lesson 04 · Chấm lại riêng câu 1: 5/5 = 100% trên câu được chấm. Đã sửa đủ pgJDBC/host localhost, bổ sung driver/connection và phân biệt lỗi kết nối với database không tồn tại. Cập nhật snapshot, giữ lịch sử lỗi; chưa chấm các câu khác hoặc kết luận lesson/module đạt.
+- 2026-10-10 · M2-2 Lesson 04 · Chỉ chấm câu 1 theo yêu cầu: 2/5 = 40% trên câu đã chấm. Đúng port/database/user-password; cần sửa JDBC/pgJDBC, host localhost, bổ sung dependency driver/cách lấy connection và phân biệt connection refused với database không tồn tại. Đã lưu snapshot; chưa chấm các câu khác, chưa kết luận lesson/module hoặc tick checklist mới.
+- 2026-10-09 · M2-2 Lesson 03 · Chấm đủ 8 câu theo ngữ cảnh: 39/40 = 97,5/100, đạt lesson. Hiểu commit/rollback, visibility, proxy, checked exception, catch/rollback-only và side effect; cần phân biệt aborted với rollback hoàn tất, và giải thích transaction riêng bằng ranh giới commit thay vì isolation. Đã lưu snapshot kèm gỡ nhầm dirty checking/flush/commit, tick checklist transaction; toàn module vẫn đang học.
+- 2026-10-09 · M2-2 Lesson 02 · Chấm lại bản mới đủ 8 câu: 40/40 = 100/100 theo rubric. Đã sửa CASCADE thành một lựa chọn và làm rõ SET FK/WHERE ở câu 7; cập nhật snapshot, giữ lịch sử lỗi trước. Lesson 01–02 đạt; toàn module vẫn đang học, chưa xác nhận thực hành DB/deliverable.
+- 2026-10-09 · M2-2 Lesson 02 · Chấm lại đủ 8 câu: 39/40 = 97,5/100, đạt lesson. Đã bổ sung count, luồng Service/handler, sửa FK và giải thích race SELECT–DELETE; còn cần tránh khẳng định bắt buộc CASCADE và làm rõ WHERE/SET category_id ở câu 7. Đã cập nhật snapshot và tick thao tác ghi an toàn/kiểm count; toàn module vẫn đang học.
+- 2026-10-09 · M2-2 Lesson 02 · Chấm tạm câu 1–7: 29,5/35 = 84,3% phần đã làm; INSERT/default/DO NOTHING đúng, cần bổ sung count câu 3, bước Service câu 4, sửa DELETE Category bị FK chặn câu 5 và phân biệt WHERE/SET FK câu 7. Câu 8 còn trống; đã lưu snapshot, chưa kết luận lesson/module đạt hoặc tick checklist mới.
 - 2026-10-05 · M2-2 Lesson 01 · Chấm lại đủ 8 câu: 39/40 = 97,5/100, đạt lesson. Đã bổ sung PK cấm NULL, race condition và SQL câu 8; còn cần nói rõ CHECK nhận NULL khi thiếu NOT NULL. Cập nhật snapshot và tick kiểu dữ liệu/constraint; toàn module vẫn đang học.
 - 2026-10-05 · M2-2 Lesson 01 · Chấm đủ 8 câu: 31/40 = 77,5/100, cần ôn. Vững kiểu dữ liệu, FK và default; cần phân biệt CHECK/NOT NULL, bổ sung race condition câu 7 và ba định nghĩa cột câu 8. Đã lưu snapshot; chưa tick checklist hoặc kết luận toàn module đạt.
 - 2026-10-05 · M2-2 · Bắt đầu PostgreSQL thực chiến theo 4 lesson; đã tạo Lesson 01 kiểu dữ liệu & constraint và đề kiểm tra riêng. Theo cách học hiện tại, không giao capstone; chưa chấm nên chưa có điểm hoặc tick checklist.

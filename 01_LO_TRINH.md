@@ -480,12 +480,12 @@
 ### Checklist kiến thức
 - [x] Kiểu dữ liệu: `UUID`, `NUMERIC`, `TIMESTAMPTZ`, `JSONB` (nhận diện)
 - [x] Constraint: PK, FK, UNIQUE, CHECK, NOT NULL
-- [ ] `INSERT`/`UPDATE`/`DELETE` với `WHERE` an toàn; kiểm tra số dòng bị ảnh hưởng
-- [ ] Transaction `BEGIN`/`COMMIT`/`ROLLBACK` và ranh giới `@Transactional` khi ghi nhiều bước
-- [ ] Truy vấn có tham số qua JDBC/JPA; không ghép input người dùng vào chuỗi SQL
-- [ ] Sequence / identity columns
-- [ ] VACUUM / autovacuum — khái niệm vận hành
-- [ ] Connection URL và driver JDBC cho Postgres
+- [x] `INSERT`/`UPDATE`/`DELETE` với `WHERE` an toàn; kiểm tra số dòng bị ảnh hưởng
+- [x] Transaction `BEGIN`/`COMMIT`/`ROLLBACK` và ranh giới `@Transactional` khi ghi nhiều bước
+- [x] Truy vấn có tham số qua JDBC/JPA; không ghép input người dùng vào chuỗi SQL
+- [x] Sequence / identity columns
+- [x] VACUUM / autovacuum — khái niệm vận hành
+- [x] Connection URL và driver JDBC cho Postgres
 
 ### Phần bỏ qua giai đoạn này
 - Logical replication / PG extension nâng cao — không cần cho shopcore MVP

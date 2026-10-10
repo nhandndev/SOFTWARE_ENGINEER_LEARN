@@ -143,6 +143,8 @@ RETURNING id, name;
 
 `RETURNING` trả về ID **thực tế**, không cần đoán. `IDENTITY` **không tự đảm bảo duy nhất**: `PRIMARY KEY` trong schema mới đảm bảo điều đó. [PostgreSQL identity columns](https://www.postgresql.org/docs/current/ddl-identity-columns.html).
 
+Chèn ID tường minh với `BY DEFAULT` không tự đẩy sequence lên `max(id)`. Nếu seed Category id 1/2 bằng tay rồi để lần INSERT sau tự sinh, sequence vẫn có thể cấp 1 và PK chặn. Với dữ liệu mẫu, ưu tiên để DB sinh ID và lấy `RETURNING`; nếu bắt buộc import ID cũ, việc đồng bộ sequence phải có kế hoạch riêng trên đúng DB, không reset sequence tùy tiện khi có ghi đồng thời.
+
 Đừng tạo ID bằng `SELECT max(id) + 1`: hai request đồng thời có thể cùng tính ra một số. Đừng suy `id=11` chắc chắn xuất hiện sau `id=10`. Sequence có thể có khoảng trống, chẳng hạn transaction lấy số rồi rollback; việc lấy số sequence **không được rollback như dữ liệu bảng**. Đây là lý do ID dùng để **định danh**, không dùng để đếm số bản ghi hoặc suy ra mọi thao tác đã commit. [PostgreSQL sequence functions](https://www.postgresql.org/docs/current/functions-sequence.html).
 
 Trong JPA, ví dụ `@GeneratedValue(strategy = GenerationType.IDENTITY)` biểu thị chiến lược ID do DB cấp; cách ánh xạ cụ thể phụ thuộc entity và dialect. Mục tiêu ở đây là hiểu ai cấp ID và vì sao không tự tính, chưa cần thuộc mọi annotation.

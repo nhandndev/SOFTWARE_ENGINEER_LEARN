@@ -73,6 +73,10 @@ CREATE TABLE products (
 
 `NUMERIC(12,2)` có tối đa 12 chữ số tổng, trong đó 2 chữ số sau dấu thập phân. PostgreSQL khuyến nghị `numeric` khi cần độ chính xác như tiền; `double precision` là số dấu phẩy động, không phù hợp khi yêu cầu kết quả thập phân chính xác. [PostgreSQL: Numeric Types](https://www.postgresql.org/docs/current/datatype-numeric.html).
 
+“Chính xác” không có nghĩa giữ vô hạn chữ số: `NUMERIC(12,2)` làm tròn input theo scale 2 trước khi lưu/kiểm constraint. Ví dụ `0.004` thành `0.00` nên bị `CHECK (price > 0)` chặn. Nếu nghiệp vụ cấm nhận quá hai chữ số thập phân, cần kiểm input riêng, không trông chờ kiểu cột tự báo lỗi mọi giá trị dư phần lẻ.
+
+`UUID` là kiểu định danh, không tự bảo đảm khó đoán: còn phụ thuộc phiên bản/cách sinh, chẳng hạn UUID ngẫu nhiên khác UUID có thành phần thời gian. Không dùng “ID khó đoán” thay cho kiểm quyền truy cập tài nguyên.
+
 `TIMESTAMPTZ` lưu thời điểm được chuẩn hóa; khi hiển thị sẽ theo múi giờ của session. Nó **không giữ lại** múi giờ gốc của người gửi. [PostgreSQL: Date/Time Types](https://www.postgresql.org/docs/current/datatype-datetime.html).
 
 `JSONB` lưu JSON đã xử lý để truy vấn hiệu quả; không giữ nguyên thứ tự key hoặc khoảng trắng đầu vào. Dùng cho dữ liệu linh hoạt, còn field phải lọc/ràng buộc thường xuyên thì cột quan hệ rõ ràng vẫn dễ quản lý hơn. [PostgreSQL: JSON Types](https://www.postgresql.org/docs/current/datatype-json.html).

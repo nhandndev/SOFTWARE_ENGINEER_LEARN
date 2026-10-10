@@ -1,6 +1,8 @@
 # Bài kiểm tra M2-2 - Lesson 03: Transaction và `@Transactional`
 
-> 8 câu, tổng 40 điểm thô. Bạn có thể trả lời bằng lời và sơ đồ; SQL/Java chỉ cần nói đúng ý tưởng. **Mỗi câu là tình huống độc lập**, không cộng dồn dữ liệu từ câu trước. Chưa cần chạy PostgreSQL. Đáp án để ở file riêng.
+> Soạn lại ngày 2026-10-09 theo [Lesson 03](../../Notes/M2_Database/M2_2_PostgreSQL/LESSON_03_TRANSACTION_VA_SPRING.md). Chế độ `PHONG_VAN`: 8 tình huống × 5 = 40 điểm; đạt từ **34/40**. Mỗi câu có 5 ý, mỗi ý 1 điểm; đúng một phần 0,5, thiếu/sai 0. Trả lời bằng lời, SQL ngắn hoặc sơ đồ, không bắt nhớ import/cú pháp Java chính xác. Không cần chạy PostgreSQL hay làm project.
+
+**Mỗi câu độc lập**, không cộng dồn dữ liệu. Đọc phần giả định rồi trả lời đúng 5 ý của từng câu; không cần viết bài lý thuyết dài. Không hỏi isolation level chi tiết, savepoint, locking hoặc giao dịch phân tán. Đáp án/rubric nằm riêng, không cần mở trước.
 
 ## Giả định chung
 
@@ -21,7 +23,24 @@ CREATE TABLE products (
 );
 ```
 
-Ban đầu `categories` có `(1, 'Books')`, `(2, 'Electronics')`; `products` có `(10, 'BK-01', 'Java Book', 120.00, 1)`. Không có Category `3` hay Product SKU `ST-01`. `id=3` được ghi tường minh trong bài cho dễ theo dõi; cột identity là `BY DEFAULT` nên điều này hợp lệ. Giả sử không có trigger, rule, transaction khác hoặc lỗi nào ngoài lỗi được nêu. Các lệnh của một câu chạy trên **cùng kết nối** theo đúng thứ tự.
+**categories ban đầu**
+
+| id | name |
+|---:|---|
+| 1 | Books |
+| 2 | Electronics |
+
+**products ban đầu**
+
+| id | sku | name | price | category_id |
+|---:|---|---|---:|---:|
+| 10 | BK-01 | Java Book | 120.00 | 1 |
+
+Không có Category `3` hay Product SKU `ST-01`. `id=3` được ghi tường minh cho dễ theo dõi; identity là `BY DEFAULT` nên cho phép. Giả sử sequence sinh Product ID không trùng, không có trigger/rule/lỗi nào ngoài lỗi được nêu. Các lệnh của một câu chạy trên **cùng kết nối** theo đúng thứ tự. Khi không có BEGIN, client đang dùng autocommit và không tự mở transaction bao quanh nhiều lệnh.
+
+Ở phần Spring: ứng dụng đã có Spring Web, Spring Data JPA, driver PostgreSQL và kết nối tới DB có constraint như trên. Transaction management đã bật, dùng proxy mode mặc định và transaction manager cho cùng DB. Không có transaction ngoài hoặc quy tắc rollback tùy chỉnh nếu câu không nói khác. Mọi lời gọi bắt đầu từ Controller được Spring quản lý; không tự new Service. Mỗi request dùng dữ liệu mới, không có lỗi trùng tên/SKU ngoài tình huống được nêu.
+
+Code Spring được cho ở phần chung và từng câu bên dưới. Bạn chỉ phân tích, không cần tạo project/config hoặc bổ sung những class đề còn thiếu. Spring tự cung cấp implementation của JpaRepository; việc cài đặt repository không phải nhiệm vụ của đề.
 
 ---
 
@@ -33,12 +52,26 @@ INSERT INTO products (sku, name, price, category_id)
 VALUES ('ST-01', 'Pen', 0, 3);
 ```
 
-Sau hai lệnh, Category 3 và Product ST-01 có tồn tại không? Lệnh nào thất bại vì quy tắc nào? Vì sao hai lệnh cùng nằm trong một file SQL vẫn không tự thành một transaction chung?
+Tình huống: người dùng muốn tạo cả Category lẫn Product, không muốn chỉ còn Category trống. Dựa vào mục 1–3 của lesson:
+
+- Lệnh thêm Category có hợp lệ không, và được commit lúc nào trong chế độ đã cho?
+- Lệnh thêm Product có hợp lệ không? Chỉ ra giá trị và constraint liên quan.
+- Kết thúc hai lệnh, Category 3 và Product ST-01 có tồn tại không?
+- Cùng nằm trong một file SQL/request có tự làm hai lệnh thành một transaction chung không? Vì sao?
+- Muốn cả hai cùng thành công hoặc cùng hủy, cần thay đổi ranh giới xử lý thế nào? Nói ý tưởng, chưa cần viết SQL.
 
 **Trả lời:**
+thêm vào category hợp leke , và được commit lúc 
 
 ---
-
+lệnh thêm category hợp lệ , commit lúc mà xong lệnh INSERT INTO categories (id, name) VALUES (3, 'Stationery'); vì nó autocommit 
+Product k hợp lệ , k trùng sku ,name notnull , ở đây price = 0 nên vi phạm mất rồi
+khi kết thúc 2 lênhh , Category tồn tại , product ST-01 không hợp lệ
+cùng nằm trong 1 file SQL /REquest không tự làm 2 lệnh thành 1 transaction chung mà phải cần có syntax để cho tụi chúng chung 1 transaction
+muốn cả 2 cùng thành công thì cùng huỷ thì phải có transaction bọc 2 cái câu query này lại
+ý tưởng là tạo 1 transaction và có INSERT INTO categories (id, name) VALUES (3, 'Stationery');
+INSERT INTO products (sku, name, price, category_id)
+VALUES ('ST-01', 'Pen', 0, 3); và COMMIt , nếu nó sai ở 1 phân đoạn nào nó sẽ tự rollback
 ## Câu 2 - Cùng thành công rồi chủ động `ROLLBACK` (5đ)
 
 ```sql
@@ -49,10 +82,19 @@ VALUES ('ST-01', 'Pen', 15.00, 3);
 ROLLBACK;
 ```
 
-Hai `INSERT` có hợp lệ khi chạy không? Sau `ROLLBACK`, Category 3 và Product ST-01 có còn không? Vì sao "lệnh `INSERT` chạy thành công" không đồng nghĩa "đã lưu vĩnh viễn"?
+Dựa vào mục 4 của lesson:
+
+- BEGIN đặt ranh giới gì cho hai INSERT?
+- Hai INSERT có hợp lệ theo dữ liệu/constraint của đề không?
+- Sau ROLLBACK, Category 3 còn không?
+- Sau ROLLBACK, Product ST-01 còn không?
+- Vì sao INSERT đã chạy thành công nhưng vẫn có thể bị hủy? Nêu vai trò khác nhau của COMMIT và ROLLBACK.
 
 **Trả lời:**
-
+đặt ranh giới là 2 insert này sẽ chung 1 transaction
+hình như là có á , do tôi lừoi đọc lại quá nhưng mà có hợp lệ
+sau rollback thì cả 2 sẽ không còn gì hết nhé , vì nó tuân theo ATOMIC
+INSERT đã chạy thành công nhưng phải được COMMIT thì mới thành công thcuwj sự , nếu bị ROLLBACk thì mất , COMMIT để xác nhận transaction đó thành công và sẽ thay đổi , còn ROLLBACK thì khi xảy ra lỗi thì nó sẽ rollback lại từ đầu 
 ---
 
 ## Câu 3 - `COMMIT` và khả năng nhìn thấy dữ liệu (5đ)
@@ -65,9 +107,20 @@ VALUES ('ST-01', 'Pen', 15.00, 3);
 -- Tạm dừng ở đây; sau đó COMMIT;
 ```
 
-Ngay chỗ tạm dừng, session đang chạy transaction có thể thấy dữ liệu mới của mình không? Một session khác có thấy phần **chưa commit** không? Sau `COMMIT` thì kết quả cuối của hai bảng là gì? Trả lời ở mức khái niệm, không cần giải thích mọi isolation level.
+“Session” ở đây là một kết nối DB. Dựa vào mục 4 của lesson:
+
+- Ở chỗ tạm dừng, session đang ghi có thể đọc lại Category/Product mới của chính mình không?
+- Một session khác có đọc được hai dòng chưa commit đó không?
+- Nếu COMMIT thành công, hai dòng mới còn trong database không?
+- Session khác bắt đầu một lần đọc mới theo mặc định Read Committed sau commit thì có thể thấy hai dòng không? Chỉ nói kết quả, không cần giải thích isolation level.
+- Vì sao đọc thấy dữ liệu ở chính session đang ghi chưa chứng minh dữ liệu đã commit?
 
 **Trả lời:**
+session đang ghi có thể đọc được lại nha , trong phạm vi session đang ghi thì có thể vì nó sdaxd save và flush ( chắc vậy) , c
+ở một session khác thì không đọc được 2 dòng chưa commit , vì đây là liên quan đến MVCC , liên quan đến phiên bản mà sessio nnafy thấy được
+COmmit thành công thì 2 dòng mới còn trong database chứ
+SEssion khác bắt đầu lần đọc mới thì sau khi commit có thể thấy 2 dòng đó vì khi 2 dòng đó commit và session kahsc đọc lại thì nó sẽ đọc được phiên bản mới nhất sau khi commit
+vì là chưa commit , nó chỉ mới save and flush th chứ chưa commit cái transaction
 
 ---
 
@@ -80,74 +133,394 @@ INSERT INTO products (sku, name, price, category_id)
 VALUES ('ST-01', 'Pen', 0, 3);  -- lỗi ở đây
 ```
 
-Product bị lỗi gì? Có thể tiếp tục chạy SQL bình thường rồi `COMMIT` để giữ Category 3 như không có lỗi không? Bước xử lý đơn giản đúng ở bài này là gì, và sau đó database còn Category 3 không?
+Dựa vào mục 4, phần lệnh thứ hai lỗi:
+
+- Product bị từ chối do giá trị nào và constraint nào?
+- Transaction đang mở chuyển sang trạng thái gì sau lỗi SQL này?
+- Có thể chạy SQL bình thường rồi COMMIT để giữ Category như chưa có lỗi không, với giả định không dùng savepoint?
+- Lệnh đơn giản cần dùng để kết thúc transaction lỗi và hủy cả nhóm là gì?
+- Sau bước xử lý đó, Category 3 và Product ST-01 có tồn tại không?
 
 **Trả lời:**
 
----
+---Product bị từ chối do price = 0 ( yêu cầu là > 0)
+transaction chuyển sang trạng thái ROLLBACK sau lỗi SQL này ( ê nhưng mà thiếu COMMIT hay ROLLBACK nhé)
+- Có thể chạy SQL bình thường rồi COMMIT để giữ Category như chưa có lỗi không, với giả định không dùng savepoint? , câu này tôi chưa nghĩ đến nhưng mà không thể , vì đây là lỗi của constrain luôn nên là không thể nào thực thi câu lệnh này
+- ROLLBACK
+- sau bước xử lý này thì không có câu lệnh nào dc tồn tại hết vì ROLLBACK rồi
+
+## Code dùng chung cho câu 5–8
+
+Mỗi khối là một file Java riêng. Khi đặt vào project, các file cùng package; đề bỏ dòng package để gọn. Entity chỉ chứa field cần cho tình huống, không trả thẳng ra HTTP. Constructor không id để JPA/DB sinh id; không cần đoán số id mới ở các câu Spring.
+
+```java
+// File: Category.java
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "categories")
+public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    protected Category() {}
+
+    public Category(String name) {
+        this.name = name;
+    }
+}
+```
+
+```java
+// File: Product.java
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String sku;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    protected Product() {}
+
+    public Product(String sku, String name, BigDecimal price, Category category) {
+        this.sku = sku;
+        this.name = name;
+        this.price = price;
+        this.category = category;
+    }
+}
+```
+
+CHECK(price > 0) đã có ở DB theo giả định đầu đề; annotation @Column không tự định nghĩa CHECK này. Không hỏi JSON serialization, LAZY hay mapping DTO trong bài transaction này.
+
+```java
+// File: CategoryRepository.java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CategoryRepository extends JpaRepository<Category, Long> {}
+```
+
+```java
+// File: ProductRepository.java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {}
+```
+
+```java
+// File: AppException.java
+public class AppException extends RuntimeException {
+    public AppException(String message) {
+        super(message);
+    }
+}
+```
+
+```java
+// File: CheckedProblem.java
+public class CheckedProblem extends Exception {
+    public CheckedProblem(String message) {
+        super(message);
+    }
+}
+```
+
+```java
+// File: EmailGateway.java
+public interface EmailGateway {
+    void send(String recipient, String message);
+}
+```
+
+EmailGateway có một bean implementation đã cấu hình. Trong câu 8B, send() đồng bộ gửi email ra ngoài thành công rồi trả về; không phải hàng đợi DB hay cơ chế gửi sau commit. Bạn không phải viết implementation hoặc học dịch vụ email.
+
+Controller dưới đây cho thấy **chính xác bean nào gọi method nào**. Body/DTO/HTTP error handler không phải phần được chấm; exception được để đi ra khỏi Service, phần HTTP xử lý bên ngoài theo cấu hình ứng dụng. Những endpoint này chỉ là đường vào tình huống, không phải API cần thiết kế/deploy.
+
+```java
+// File: TransactionExamController.java
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/exam/transactions")
+public class TransactionExamController {
+    private final CatalogService catalog;
+    private final RollbackDemoService rollbackDemo;
+    private final CatchDemoService catchDemo;
+    private final SelfInvocationService selfInvocation;
+    private final EmailDemoService emailDemo;
+
+    public TransactionExamController(
+            CatalogService catalog, RollbackDemoService rollbackDemo,
+            CatchDemoService catchDemo, SelfInvocationService selfInvocation,
+            EmailDemoService emailDemo) {
+        this.catalog = catalog;
+        this.rollbackDemo = rollbackDemo;
+        this.catchDemo = catchDemo;
+        this.selfInvocation = selfInvocation;
+        this.emailDemo = emailDemo;
+    }
+
+    @PostMapping("/q5")
+    public void question5() { catalog.register(); }
+
+    @PostMapping("/q6/runtime")
+    public void question6A() { rollbackDemo.registerRuntime(); }
+
+    @PostMapping("/q6/checked")
+    public void question6B() throws CheckedProblem {
+        rollbackDemo.registerChecked();
+    }
+
+    @PostMapping("/q7")
+    public void question7() { catchDemo.register(); }
+
+    @PostMapping("/q8/self")
+    public void question8A() { selfInvocation.handle(); }
+
+    @PostMapping("/q8/email")
+    public void question8B() { emailDemo.registerAndSend(); }
+}
+```
 
 ## Câu 5 - Đặt ranh giới transaction ở đâu? (5đ)
 
-Một thao tác API cần tạo Category rồi tạo Product thuộc Category đó. Controller gọi `CatalogService.register()`, method này lần lượt gọi `CategoryRepository.save()` và `ProductRepository.save()`. Giả sử lần lưu Product lỗi.
+Controller gọi CatalogService.register() bằng endpoint /q5. Code ban đầu **chưa có @Transactional ở Service**, và không có annotation transaction cấp class:
 
-Nên đặt `@Transactional` ở đâu để hai bước là **một đơn vị nghiệp vụ**? Chỉ việc từng repository method tự có transaction riêng đã đủ chưa? Vì sao `save()` đầu tiên trả về không chứng minh Category đã commit?
+```java
+// File: CatalogService.java
+import java.math.BigDecimal;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CatalogService {
+    private final CategoryRepository categories;
+    private final ProductRepository products;
+
+    public CatalogService(CategoryRepository categories, ProductRepository products) {
+        this.categories = categories;
+        this.products = products;
+    }
+
+    public void register() {
+        Category saved = categories.save(new Category("Stationery-Q5"));
+        Product product = new Product("ST-Q5", "Pen", BigDecimal.ZERO, saved);
+        products.saveAndFlush(product);
+    }
+}
+```
+
+Trong code này, saveAndFlush() yêu cầu JPA gửi thay đổi xuống DB trước khi trả về; Product giá 0 bị CHECK chặn. Giả sử mỗi repository write call có transaction riêng nếu không có transaction Service bao ngoài. Không yêu cầu biết implementation saveAndFlush hoặc đoán lúc SQL chạy: đề đã cho bước Product phát sinh lỗi DB.
+
+Dựa vào mục 5–6. Giả sử Controller gọi bean Service được Spring inject, không tự new Service; lỗi lưu Product là lỗi khiến transaction phải rollback. Ý 1–2 phân tích cách sửa code ban đầu; **ý 3–5 phân tích luồng sau khi đã đặt transaction bao ngoài đúng như đề xuất của bạn**:
+
+- Đặt @Transactional trên method nào để bao cả hai thao tác?
+- Vì sao chỉ có hai transaction riêng của hai repository call chưa bảo đảm cùng thành công/cùng hủy?
+- Kể luồng Controller → lớp bao quanh Service → method Service → Repository. Lớp bao quanh làm gì trước khi method chạy?
+- Ai điều phối commit/rollback ở ranh giới đó? Khi lỗi Product khiến cả transaction rollback, Category có được giữ lại không?
+- Vì sao categories.save() đã trả về chưa chứng minh Category đã commit? Có cần SQL luôn chạy ngay tại dòng save() không?
 
 **Trả lời:**
+- Đặt ở register để bao bọc cả 2 thao tác nhé
+- chỉ có riêng 2 transaction riêng của cả 2 sẽ không đảm bảo được vì ta phải hiểu định nghĩa transaction lại , việc tách riêng ra thành 2 transaction khiến cho nó bị isolation , transaction này k dc đụng đến transaction kai và nó sẽ không đảm việc cùng huỷ hay thành công , nên là phải đọc lại trong 1 cái transaction manager
+-lớp bao quảnh thằng Service tôi nhớ là thằng Spring Proxy nó sẽ bao bọc thằng serivce và kiểm tra thấy có method @Transactional nên là sẽ dùng transaction manager để tạo transaction và bỏ các thao tác gom chụm lại thành 1 và nó sẽ được bọc transaction và khi đó thì các thao tác trong method đó sẽ được kiểm soát
+-Transaction manager sẽ điều phối , khi lỗi thì sẽ rollback toàn bộ thì category không được giữ lại vì nó đã được gộp lại thành 1 transaction
+- categories save vẫn chưa đủ chứng minh Category đã được commit được , vì là nó chỉ mới save cái entity cho thg JPa persitent context gì đó giữ thôi thì cần phải có COMMIt thì mới chứng minh dc , không cần SQL phải chạy luôn ngay tại dòng save() vì là mới save() th , chx flush() , chx COMMIT
+ê mà sao tôi bị lạc cái này với Dirty Check v ta =)) 
 
 ---
 
 ## Câu 6 - Runtime exception và checked exception (5đ)
 
-Giả sử `register()` được gọi qua Spring proxy, có `@Transactional` mặc định, trước khi lỗi đã ghi hợp lệ một Category, và không có quy tắc rollback tùy chỉnh. So sánh hai tình huống **độc lập**:
+Controller lần lượt có endpoint /q6/runtime và /q6/checked. Hai request là hai tình huống **độc lập**, không chạy nối tiếp để cộng dồn dữ liệu:
 
-- A: `AppException extends RuntimeException` thoát ra khỏi `register()`.
-- B: `CheckedProblem extends Exception` (checked) thoát ra khỏi `register()`.
+```java
+// File: RollbackDemoService.java
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-Spring mặc định rollback ở tình huống nào? Với B, nếu muốn chắc chắn rollback khi lỗi đó thoát ra thì cấu hình gì? Đừng trả lời theo HTTP status.
+@Service
+public class RollbackDemoService {
+    private final CategoryRepository categories;
+
+    public RollbackDemoService(CategoryRepository categories) {
+        this.categories = categories;
+    }
+
+    @Transactional
+    public void registerRuntime() {
+        categories.save(new Category("Stationery-Q6A"));
+        throw new AppException("business rule failed");
+    }
+
+    @Transactional
+    public void registerChecked() throws CheckedProblem {
+        categories.save(new Category("Stationery-Q6B"));
+        throw new CheckedProblem("checked business problem");
+    }
+}
+```
+
+**Tình huống A:** AppException thoát ra khỏi registerRuntime().
+
+**Tình huống B:** CheckedProblem thoát ra khỏi registerChecked(). Hai exception đã được khai báo ở phần chung; cả hai method được Controller gọi qua proxy, không có try/catch bên trong Service.
+
+Ở cả A/B, lỗi là exception Java, không phải lỗi DB; transaction không bị đánh dấu rollback-only bởi nguyên nhân khác. Dựa vào mục 7:
+
+- A có khiến Spring rollback theo mặc định không? Vì sao?
+- Khi A rollback, Category đã ghi trong transaction còn không?
+- Với B, Spring mặc định thử commit hay rollback, nếu không có lỗi khác?
+- Muốn B cũng rollback khi exception này thoát ra, cần cấu hình gì? Có thể nói bằng lời.
+- Quyết định rollback trong tình huống này dựa vào loại exception/quy tắc transaction hay HTTP 400/404/500? Giải thích ngắn.
 
 **Trả lời:**
+- A có nha , khiến chi Spring Rôlback theo mặc định vì APpEXception đã bị thoát ra thì sẽ bị method ở đó có AOP nó bọc hàm để catch cái AppException thfi nó sẽ rollback
+- Khi A rollback, Category đã ghi trong transaction không còn nhé vì đã được rollback rồi
+- mặcd định thử commit nhé vì đây là lỗi Checked Exception thì mặc định là sẽ thử Commit 
+- Muốn rollback khi exception thoát ra thì ở @Trannsactional phải có RollBackFor = CheckedProblem gì đó 
+- Rollback trong tình huống này phải dựa vào loại exception , quy tắt transaction chứu , vì là rollback thường là của thg unchecked thì nó sẽ sai logic của application , không để rollback mặc định của thằng checked vì nó sẽ được do thằng dev xử lý tình huống này và thường là quy tắc logic của dự án sẽ đúng nên là mặc định sẽ thử commit , chăc svayaj
 
 ---
 
 ## Câu 7 - Bắt và nuốt lỗi, rồi `save()` đã commit chưa? (5đ)
 
-Đây là **mã phác họa**; giả sử `categories.save(...)` hợp lệ, `AppException` là lỗi nghiệp vụ Java (không phải lỗi DB), không có thao tác nào đánh dấu transaction rollback-only:
+Controller gọi endpoint /q7. Category hợp lệ, AppException là lỗi nghiệp vụ Java, không phải lỗi DB; không có thao tác nào đánh dấu transaction rollback-only:
 
 ```java
-@Transactional
-public void register() {
-    categories.save(newCategory);
-    try {
-        throw new AppException("quota exceeded");
-    } catch (AppException ex) {
-        // ghi log rồi bỏ qua, method trả về bình thường
+// File: CatchDemoService.java
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class CatchDemoService {
+    private final CategoryRepository categories;
+
+    public CatchDemoService(CategoryRepository categories) {
+        this.categories = categories;
+    }
+
+    @Transactional
+    public void register() {
+        categories.save(new Category("Stationery-Q7"));
+        try {
+            throw new AppException("quota exceeded");
+        } catch (AppException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }
 ```
 
-Spring có nhìn thấy một `RuntimeException` **thoát ra khỏi method** không? Cuối method, nó sẽ thử commit hay rollback? `save()` trả về có đồng nghĩa Category đã commit ngay tại dòng đó không?
+Method này được bean khác gọi qua proxy. Giả sử việc flush/commit sau đó không gặp lỗi. Dựa vào mục 5 và 7:
+
+- RuntimeException có thoát khỏi register() để lớp bao quanh Service nhận được không?
+- register() kết thúc bình thường hay bằng exception?
+- Theo đúng giả định đề, Spring sẽ thử commit hay rollback, và Category có được giữ khi commit thành công không?
+- Nếu muốn rollback mặc định vì AppException này, thay vì nuốt lỗi nên để lỗi đi tiếp thế nào?
+- Có thể suy rộng “bất kỳ lỗi DB/JPA nào bị catch cũng chắc chắn commit” không? Nêu lưu ý rollback-only trong lesson, không cần cơ chế nội bộ.
 
 **Trả lời:**
+không nhé , vì nó khi có lỗi thì đã được catch ở trong try catch thì nó sẽ không được thoát khỏi register() để lớp bao quanh Service
+- kết thúc bình thường và sẽ được commit
+Spring sẽ thử Commit , Category được giữ lại
+- nếu muốn rollback như mặc định thì bỏ try catch đi , để throw thôi 
+- chưa chắc , nếu như lỗi đó không thoát ra khỏi ngoài thì mặc định sẽ là thử commit , nhưng mà cnếu rollback-only thì sẽ là không thử commit mà chỉ là rollback thôi 
 
 ---
 
 ## Câu 8 - Gọi nội bộ qua `this` và tác động ngoài DB (5đ)
 
-Giả sử bean Spring `CatalogService` được Controller gọi vào `handle()`, không có transaction đang mở trước đó, Spring dùng proxy mode mặc định:
+**A:** Controller gọi endpoint /q8/self, đi vào handle(). Không có transaction đang mở trước đó, không có annotation transaction cấp class. Spring dùng proxy mode mặc định:
 
 ```java
-class CatalogService {
+// File: SelfInvocationService.java
+import java.math.BigDecimal;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class SelfInvocationService {
+    private final CategoryRepository categories;
+    private final ProductRepository products;
+
+    public SelfInvocationService(CategoryRepository categories, ProductRepository products) {
+        this.categories = categories;
+        this.products = products;
+    }
+
     public void handle() {
         this.savePair();
     }
 
     @Transactional
     public void savePair() {
-        // ghi Category, ghi Product, sau đó có thể gửi email
+        Category saved = categories.save(new Category("Stationery-Q8A"));
+        Product product = new Product("ST-Q8A", "Pen", new BigDecimal("15.00"), saved);
+        products.save(product);
     }
 }
 ```
 
-Annotation trên `savePair()` có chắc tạo transaction khi gọi qua `this` không? Bạn có thể đặt ranh giới ở đâu cho đúng? Nếu DB rollback sau khi email đã gửi, transaction DB có tự thu hồi email không?
+**B độc lập:** Controller gọi endpoint /q8/email trực tiếp vào method annotated dưới đây, qua Spring proxy. Category hợp lệ; email gửi thật thành công; sau đó AppException thoát ra. Đây **không phải** lời gọi this như A:
+
+```java
+// File: EmailDemoService.java
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class EmailDemoService {
+    private final CategoryRepository categories;
+    private final EmailGateway emails;
+
+    public EmailDemoService(CategoryRepository categories, EmailGateway emails) {
+        this.categories = categories;
+        this.emails = emails;
+    }
+
+    @Transactional
+    public void registerAndSend() {
+        categories.save(new Category("Stationery-Q8B"));
+        emails.send("learner@example.com", "Category creation requested");
+        throw new AppException("cancel database changes");
+    }
+}
+```
+
+Dựa vào mục 8; tách hai tình huống:
+
+- **A:** this.savePair() có đi qua Spring proxy lần nữa không?
+- **A:** với handle() không có @Transactional và không có transaction bên ngoài, annotation trên savePair() có mở transaction bao cả hai bước như mong muốn không?
+- **A:** nêu một cách sửa vị trí annotation hoặc tách bean để lời gọi đi qua proxy đúng ranh giới.
+- **B độc lập:** giả sử đã sửa để có transaction DB thật; email đã gửi ra ngoài, sau đó DB rollback. Email có tự bị thu hồi không? Vì sao?
+- **B:** transaction DB có thay thế được WHERE đúng và constraint UNIQUE/FK/CHECK không? Vì sao?
 
 **Trả lời:**
+không đi qua một lần nữa nhé , vì là thằng Spring proxy đã bọc cái  public class SelfInvocationService  và nó  kiểm tra chỉ thấy mỗi @Transactional
+    public void savePair() { là thg transactional manager nó sẽ bọc cái phần method SavePair lại và quản lý transaction của nó , vì thg handler gọi this.savePair thì đây là self nên là không được đi qua Spring proxy nx mà nó gọi chính nó nên là không được transaction
+
+- **A:** với handle() không có @Transactional và không có transaction bên ngoài, annotation trên savePair() không mở transaction bao gồm cả 2 bước như mong đợi néh
+**A:** sửa thì chỉ cần 1 là thêm Transaction ở trên chữ method handle() , có thể xoá transaction của thg savePair thì nó vẫn được tính là chung 1 transaction hoặc để , theo tôi là nên để 
+- **B độc lập:** giả sử đã sửa để có transaction DB thật; email đã gửi ra ngoài, sau đó DB rollback. Email không thể thu hồi được vì đây là phần công việc không nằm trong sự quản lý transaction hiện tại , vì đây là nó gọi đến service bên ngoài thì không có nằm trong sự quản lý
+- transaction khong otheer thay thế được where đúng , contraint vì nó chỉ là gôm nhiều câu lệnh lại thành 1 đơn vị công việc mà 
