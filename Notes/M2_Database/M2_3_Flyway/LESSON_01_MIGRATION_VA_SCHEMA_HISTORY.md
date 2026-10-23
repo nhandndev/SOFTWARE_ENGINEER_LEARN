@@ -1,67 +1,143 @@
-# M2-3 · Lesson 01: Migration và lịch sử schema
+# M2-3 · Lesson 01: hiểu Flyway từ một lần thêm cột
 
-> Học 45–60 phút. Mục tiêu: hiểu vì sao database cần lịch sử thay đổi, đọc tên migration và dự đoán file nào chạy. Chỉ đọc và làm đề là đủ cho buổi này; chưa cần cài thêm công cụ.
+> Viết lại ngày 2026-10-23 sau khi rà bài học và cách người học trả lời. Học 45–60 phút, có thể chia hai lượt. Mục tiêu: nhìn file SQL, database thật và lịch sử rồi giải thích được chuyện gì xảy ra. Chưa cần cài Flyway hay code project.
 
-**Đọc theo nhu cầu:** cần hiểu mục 1–7 và tự viết một ALTER ngắn. Không cần thuộc cấu trúc nội bộ của bảng history hoặc thuật toán checksum. Kiến thức này giúp cả backend lẫn dịch vụ AI nâng cấp schema lưu document/job/result mà không làm mỗi môi trường một kiểu.
+**Cách đọc:** đi theo một câu chuyện: app cần thêm description cho Product. Trước tiên phân biệt bốn thứ ở mục 1, xem SQL ở mục 4, rồi trace history và startup ở mục 5–7. Không cần thuộc định nghĩa, thuật toán checksum hoặc mọi cột của history.
 
-## 1. Vấn đề bạn đã gặp khi code JPA
+## 1. Bốn thứ không phải một: Entity, schema, dữ liệu và migration
 
-Bạn thêm `description` vào Product rồi chạy app. Máy bạn có cột mới, nhưng máy đồng đội hoặc database deploy vẫn chỉ có `id`, `sku`, `name`, `price`. Cùng một Java code mà schema khác nhau thì query có thể thất bại.
+Bạn đã viết Controller/Service/Repository. Giả sử app cũ có Product chỉ gồm id và name; tính năng mới cần thêm mô tả.
 
-Entity mô tả dữ liệu mà code mong đợi. Migration mô tả **các bước đưa database từ trạng thái cũ sang trạng thái mới**. Hai việc này liên quan nhưng không giống nhau.
+| Thứ đang nói | Ví dụ | Ý nghĩa |
+|---|---|---|
+| Entity Java | Product có field description | Mapping/model mà code cần |
+| Schema database | products có cột description TEXT | Cấu trúc thực tế của bảng |
+| Dữ liệu nghiệp vụ | Product 10 tên Java Book | Các dòng đang lưu trong bảng |
+| Migration SQL | ALTER TABLE ... ADD COLUMN ... | Bước thay đổi database có tên/version |
 
-Ví dụ muốn thêm cột:
+**Thêm field Java không đồng nghĩa đã thêm cột DB.** Trong bài này Hibernate chỉ kiểm schema, không tự update. Flyway cũng không đọc Entity rồi tự viết SQL thay bạn.
 
-```sql
-ALTER TABLE products ADD COLUMN description TEXT;
+Ví dụ Entity tối giản để hình dung, không phải project hoàn chỉnh:
+
+```java
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    private Long id;
+    private String name;
+    private String description;
+}
 ```
 
-Nếu chỉ chạy tay rồi quên ghi lại, người khác không biết phải làm gì. Ta lưu lệnh SQL vào Git để mỗi môi trường nhận cùng một thay đổi, có thứ tự và có dấu vết.
+Entity cần description, nhưng bảng thật mới có id/name thì code và DB chưa khớp. Việc cần làm là áp dụng SQL thêm cột vào **đúng database**.
 
-## 2. Flyway làm gì?
+### Cùng schema không có nghĩa cùng dữ liệu
 
-Flyway nhận migration trong ứng dụng, kết nối database đích và đối chiếu với lịch sử đã chạy của **database đó**. Versioned migration chạy theo phiên bản và mỗi phiên bản áp dụng một lần; checksum hỗ trợ phát hiện file đã đổi. [Nguồn: versioned migrations](https://documentation.red-gate.com/flyway/flyway-concepts/migrations/versioned-migrations).
+Hai DB có cùng bảng products(id, name, description) nhưng có thể lưu:
 
-```mermaid
-flowchart TD
-    A[File SQL trong Git] --> B[Flyway kết nối database đích]
-    B --> C[Đối chiếu schema history]
-    C --> D[Chọn migration còn chờ]
-    D --> E[Thực thi SQL]
-    E --> F[Ghi lịch sử thành công]
+| DB dev | DB deploy |
+|---|---|
+| Product 10: Java Book | Product 21: Keyboard |
+| Product 11: Pen | Product 22: Mouse |
+
+Cấu trúc giống nhau; dòng dữ liệu khác nhau. Migration thêm cột không tự copy các Product từ dev sang deploy. Đây không phải cơ chế đồng bộ dữ liệu giữa hai DB.
+
+**Tự nói lại:** “Schema là bảng trông như thế nào; dữ liệu là các dòng đang nằm trong bảng.”
+
+## 2. Flyway làm gì, trên database nào?
+
+Nếu chỉ chạy ALTER bằng tay trên dev, deploy chưa nhận thay đổi. Ta lưu SQL vào Git và để Flyway áp dụng theo lịch sử của từng DB.
+
+```text
+File SQL trong repo
+-> Flyway dùng connection tới một DB cụ thể
+-> đọc history của DB đó
+-> xác định bước chưa áp dụng
+-> gửi SQL cho PostgreSQL thực thi
+-> ghi history khi thành công
 ```
 
-Ý nghĩa từng bước:
+Ý nghĩa:
 
-1. File SQL là yêu cầu thay đổi, chưa phải bằng chứng đã chạy.
-2. Database đích là nơi thực sự bị thay đổi. Cùng file nhưng kết nối DB khác sẽ có lịch sử khác.
-3. Schema history trả lời “DB này đã áp dụng phiên bản nào?”.
-4. Flyway chọn những bước còn thiếu theo cấu hình hiện tại.
-5. PostgreSQL thực thi CREATE/ALTER/INSERT; Flyway không thay thế engine SQL.
-6. Sau thành công, lịch sử giúp lần sau không thực hiện lại versioned migration đó.
+1. Có file trong repo chỉ chứng minh có kế hoạch thay đổi.
+2. Connection quyết định DB thật nào nhận SQL; tên folder hoặc tên profile không tự thay thế connection.
+3. History thuộc DB đang kết nối, không phải lịch sử Git.
+4. PostgreSQL thực hiện SQL; Flyway điều phối thứ tự và ghi nhận.
+5. Versioned migration đã thành công không tự thực thi lại mỗi lần migrate trong các ví dụ thông thường của bài.
 
-Flyway không đọc Entity rồi tự nghĩ ra SQL nâng cấp. Bạn viết migration hoặc dùng quy trình tạo migration phù hợp, rồi review nó.
+### Ví dụ chạy nhầm DB đích
 
-## 3. Tên file có ý nghĩa gì?
+| DB | History hiện có | Cột products |
+|---|---|---|
+| shopcore_dev | V1, V2 | id, name, description |
+| shopcore | V1 | id, name |
+
+Bạn migrate vào shopcore_dev thì shopcore vẫn chưa có description. Cần xác nhận đúng URL/DB/schema rồi migrate shopcore theo quy trình phát hành phù hợp.
+
+Sau đó kiểm **hai bằng chứng riêng**: history có V2 thành công và bảng thật có description. Chưa cần thuộc SQL introspection; dùng công cụ DB xem cũng được.
+
+Đây là mô hình học, không hướng dẫn thử SQL tùy tiện trên production. [Cơ chế versioned migration](https://documentation.red-gate.com/flyway/flyway-concepts/migrations/versioned-migrations).
+
+## 3. Đặt tên và xếp thứ tự: không theo ai commit Git trước
+
+Thư mục mặc định:
 
 ```text
 src/main/resources/db/migration/
   V1__create_catalog.sql
   V2__add_product_description.sql
-  V3__add_product_price_index.sql
+  V3__index_description.sql
 ```
 
-`V2__add_product_description.sql` gồm: `V` là versioned, `2` là phiên bản, `__` là hai dấu gạch dưới phân cách, phần cuối là mô tả. Mỗi version phải duy nhất. Thứ tự là số phiên bản: V2 trước V10, không phải thứ tự từ điển của tên file. [Quy tắc naming](https://documentation.red-gate.com/flyway/flyway-concepts/migrations/versioned-migrations).
+Trong `V2__add_product_description.sql`:
 
-`V2_add_column.sql` không theo naming mặc định. Nếu muốn phát hiện tên sai sớm, bật kiểm tra naming ở Lesson 02; đừng chỉ nhìn tên rồi nghĩ file chắc chắn được chạy.
+| Phần | Nghĩa |
+|---|---|
+| V | Versioned migration |
+| 2 | Version |
+| __ | Hai underscore phân cách mặc định |
+| add_product_description | Mô tả để người đọc biết mục đích |
+| .sql | Script SQL |
 
-Ví dụ hai người cùng thêm `V3__add_stock.sql` và `V3__add_price_index.sql`: hai mô tả khác nhau vẫn **trùng version 3**. Không có quy tắc “chọn file tạo trước” để xử lý. Nếu cả hai chưa áp dụng lên môi trường chung, nhóm thống nhất thứ tự và đổi một file sang version chưa dùng; kiểm cả phụ thuộc SQL. Nếu một file đã phát hành thì giữ nguyên version/file đó, thay đổi mới dùng version mới phù hợp.
+Một underscore như V2_add_description.sql không khớp naming mặc định. Việc file sai tên bị bỏ qua hay báo lỗi còn tùy kiểm naming; Lesson 02 cho cấu hình. Hiện tại chỉ cần biết **đúng folder chưa đủ, tên cũng phải đúng**.
 
-## 4. Một chuỗi migration nhỏ, đọc được từ đầu
+V2 đứng trước V10 theo giá trị version, không theo thứ tự chữ của tên file. Các version trong cùng tập migration phải duy nhất.
 
-`V1__create_catalog.sql`:
+### Hai người cùng đặt V2 thì làm gì?
+
+Chưa ai phát hành hai file dưới đây lên DB cần giữ:
 
 ```sql
+-- Nhánh An: V2__add_description.sql
+ALTER TABLE products ADD COLUMN description TEXT;
+
+-- Nhánh Bình: V2__index_description.sql
+CREATE INDEX idx_products_description ON products(description);
+```
+
+Không thể giữ cả hai version 2. Cũng không có luật “ai commit Git trước được chạy trước”.
+
+Đọc SQL để biết phụ thuộc:
+
+```text
+Muốn tạo index trên description -> description phải tồn tại
+-> V2 phải thêm cột
+-> V3 mới tạo index
+```
+
+Nếu index commit trước trong Git, nó vẫn cần chạy **sau bước thêm cột**. Team thống nhất version theo thứ tự hợp lệ rồi xử lý nhánh chưa phát hành. Nếu V2 thêm cột đã chạy trên DB chung, giữ nguyên V2 và thêm index bằng version mới chưa dùng.
+
+**Nhớ:** Git giữ code/script; version thể hiện thứ tự áp dụng schema. Hai loại thứ tự không thay thế nhau.
+
+## 4. Theo dõi một thay đổi từ SQL đến bảng thật
+
+Các SQL sau là một chuỗi minh họa, không giả định đã chạy trong shopcore. DB mới ban đầu trống.
+
+### Bước đầu: V1 tạo bảng
+
+```sql
+-- V1__create_catalog.sql
 CREATE TABLE categories (
     id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
     name TEXT NOT NULL UNIQUE
@@ -76,39 +152,56 @@ CREATE TABLE products (
 );
 ```
 
-Ta tạo categories trước vì products tham chiếu nó. Những constraint chính là kiến thức M2-2, không phải cú pháp riêng của Flyway.
+categories tạo trước vì products tham chiếu nó. Sau V1, schema có hai bảng. V1 **không tự tạo dòng Product** vì không có INSERT.
 
-`V2__add_product_description.sql`:
+Để xem tác động lên dữ liệu cũ, giả sử trước V2 DB đã có:
+
+| id | sku | name | price | category_id |
+|---:|---|---|---:|---:|
+| 10 | BK-01 | Java Book | 120.00 | 1 |
+| 11 | PEN-01 | Pen | 5.00 | 1 |
+
+Category 1 đã tồn tại. Các dòng minh họa này là dữ liệu sẵn có, không suy ID sequence từ chúng.
+
+### Bước mới: V2 thêm cột
 
 ```sql
+-- V2__add_product_description.sql
 ALTER TABLE products ADD COLUMN description TEXT;
 ```
 
-Thêm cột nullable để dòng cũ chưa có mô tả vẫn hợp lệ. Đừng thêm NOT NULL vào một cột mới trên bảng đã có dữ liệu mà chưa có kế hoạch cấp giá trị cho dòng cũ.
+Sau thành công, hai dòng cũ vẫn còn nguyên id/sku/name/price/category_id và có thêm:
 
-`V3__add_product_price_index.sql`:
+| id | name | description |
+|---:|---|---|
+| 10 | Java Book | NULL |
+| 11 | Pen | NULL |
+
+Không xóa bảng để tạo lại. Vì chưa NOT NULL, description chưa có giá trị vẫn hợp lệ.
+
+Nếu ngay từ đầu thêm TEXT NOT NULL mà không default/cấp giá trị, các dòng cũ không đáp ứng điều kiện. Sau này muốn bắt buộc mô tả: cấp giá trị hợp lệ cho dòng cũ rồi siết constraint, đồng thời phải có kế hoạch cho đường ghi của app. Bài này chưa yêu cầu triển khai kế hoạch production đó.
+
+### Bước sau: V3 tạo index
 
 ```sql
-CREATE INDEX idx_products_category_price
-    ON products(category_id, price DESC, id ASC);
+-- V3__index_description.sql
+CREATE INDEX idx_products_description ON products(description);
 ```
 
-Đây là index minh họa nối với M2-1, không phải tuyên bố mọi dự án cần index này. Khi DB đã áp dụng V1, lần migrate tiếp theo còn V2 và V3. Khi DB trống, cần cả ba.
+Index cần cột V2 đã tạo. Đây là ví dụ phụ thuộc SQL, **không khuyến nghị mọi dự án đều cần index description**; chọn index thực tế phải dựa query/đo đạc M2-1.
 
-## 5. Schema history và checksum
+## 5. History và checksum: biết đã chạy gì, không phải chụp toàn DB
 
-Bảng `flyway_schema_history` lưu thông tin các migration đã thực hiện. Bạn có thể quan sát version, description, checksum và trạng thái; đây không phải bảng Product và không chứa bản sao đầy đủ của mọi dữ liệu nghiệp vụ.
+Sau khi V1/V2 thành công, history có thể được minh họa:
 
-Ví dụ minh họa:
+| version | description | checksum minh họa | success |
+|---|---|---|---|
+| 1 | create catalog | token-A | true |
+| 2 | add product description | token-B | true |
 
-| Version | Description | Success |
-|---|---|---|
-| 1 | create catalog | true |
-| 2 | add product description | true |
+token-A/B là nhãn cho dễ hiểu, không phải checksum thật. Bảng mặc định tên `flyway_schema_history`; nó không chứa bản sao mọi Product.
 
-Repository Git có thêm V3. Khi migrate, V3 là bước mới cần áp dụng.
-
-Bạn có thể đọc lịch sử bằng SQL:
+Có thể quan sát khi đã cấu hình đúng schema và history tồn tại:
 
 ```sql
 SELECT installed_rank, version, description, success
@@ -116,37 +209,97 @@ FROM flyway_schema_history
 ORDER BY installed_rank;
 ```
 
-`installed_rank` thể hiện thứ tự bản ghi được cài; `version` thể hiện phiên bản migration. Bảng phải tồn tại trong schema history đã cấu hình; snippet dùng tên/schema mặc định. Lệnh SELECT chỉ giúp quan sát, không hướng dẫn sửa tay history.
+installed_rank là thứ tự được cài, version là phiên bản migration; không cần thuộc cấu trúc nội bộ để học bài này.
 
-Checksum giống dấu nhận diện nội dung mà Flyway đối chiếu với lịch sử, không phải phép chứng minh hai database có mọi bảng/cột giống nhau. Sửa schema bằng SQL tay có thể làm schema lệch mà không đổi checksum file.
-
-`validate` kiểm tra migration khả dụng so với lịch sử và có thể báo mismatch. Nó không chạy tất cả SQL để tái dựng schema rồi so từng cột. [Nguồn: validate](https://documentation.red-gate.com/flyway/reference/commands/validate).
-
-## 6. Vì sao không sửa V1 đã chạy trên môi trường chung?
-
-V1 ở dev đã tạo bảng có name. Bạn sửa V1 thêm description; DB mới sẽ có description nhưng DB cũ đã chạy V1 không tự chạy lại. Lịch sử trở nên không nhất quán, còn validation có thể phát hiện checksum khác.
-
-Cách thông thường: giữ V1 đã phát hành, thêm V2 chứa ALTER. Nếu V1 chưa từng được chia sẻ và chỉ chạy trên DB local bỏ được, bạn có thể sửa rồi dựng lại DB local. Phải biết rõ phạm vi, không áp dụng thói quen đó lên dữ liệu cần giữ.
-
-## 7. Migration, Hibernate và HTTP request
+### Checksum đang so hai thứ gì?
 
 ```text
-App khởi động -> migration -> JPA kiểm tra schema -> app sẵn sàng
-Sau đó: HTTP request -> Controller -> Service -> Repository -> SQL
+Nội dung file hiện tại -> checksum hiện tại
+Nội dung file khi đã áp dụng -> checksum lưu trong history
+-> đối chiếu để phát hiện không khớp
 ```
 
-Flyway thuộc quá trình chuẩn bị database khi khởi động hoặc deploy. Nó không chạy lại tất cả migration mỗi khi client gọi GET products. `ddl-auto=update` cũng không cung cấp quy trình lịch sử SQL được review tương đương. Lesson 02 sẽ dùng Flyway quản lý thay đổi và Hibernate validate Entity.
+Nếu sửa phần SQL của V1 khiến checksum khác, Flyway có thể báo mismatch. **Báo mismatch không có nghĩa SQL mới đã chạy.**
 
-## 8. Tự luyện và tài liệu
+### Validate không phải kiểm toàn bộ schema
 
-Với DB có V1/V2 và repository có V1/V2/V3/V10, hãy dự đoán thứ tự cần chạy: V3 rồi V10, nếu validation và cấu hình không có vấn đề. Nếu có hai file cùng V3, cần giải quyết xung đột phiên bản trước.
+Flyway validate đối chiếu migration có sẵn với history. Nó không kiểm từng cột theo Entity và không tự dựng lại DB để so toàn bộ trạng thái. [Flyway Validate](https://documentation.red-gate.com/flyway/reference/commands/validate).
 
-- [Official: versioned migrations](https://documentation.red-gate.com/flyway/flyway-concepts/migrations/versioned-migrations): đọc naming, thứ tự, bất biến file đã phát hành.
-- [Official: validate](https://documentation.red-gate.com/flyway/reference/commands/validate): đọc checksum và lỗi lịch sử.
-- Video tùy chọn: tìm `Flyway schema history versioned migration PostgreSQL beginner`; kiểm tra ví dụ có chạy app lần hai và giải thích file nào không chạy lại.
+Ví dụ người khác DROP COLUMN bằng tay mà không đổi file/history: checksum vẫn có thể khớp nhưng cột thật đã mất. Vì vậy lúc điều tra cần nhìn cả file, history và schema thực tế. Hibernate schema validation ở Lesson 02 là một cơ chế khác, cũng không nên coi là phép kiểm toàn bộ mọi chi tiết DB.
 
-Bạn đã hiểu khi tự nói được: Entity cần schema nào; migration đưa DB đến schema đó thế nào; lịch sử của mỗi DB lưu gì.
+## 6. Vì sao giữ nguyên migration đã phát hành?
 
-**Tự kiểm bằng lời:** “DB A đã ở V2, DB B trống. Cả hai cùng nhận V3. A chỉ chạy bước mới, B dựng từ V1; cuối cùng schema mong muốn giống nhau. File SQL đã phát hành được giữ nguyên để lịch sử còn đáng tin.” Nếu kể được ý này bằng cách nói của bạn thì không cần học thuộc định nghĩa migration.
+DB chung chạy V1 tạo id/name. Bạn sửa V1 thêm description trong CREATE TABLE.
 
-Làm [đề Lesson 01](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-05__lesson1-lan1.md). Đáp án riêng, chưa mở trước khi làm.
+| Nơi | Điều xảy ra |
+|---|---|
+| DB cũ đã chạy V1 | Không tự chạy V1 lại; có thể gặp checksum mismatch |
+| DB trống dùng V1 đã sửa | Nếu chạy được, nó có cột description ngay từ V1 |
+
+Tên V1 giống nhau nhưng lịch sử/nội dung không nhất quán. Không sửa được chuyện này bằng restart Controller.
+
+Cách thông thường: giữ file đã phát hành, tạo V2 có ALTER thêm cột. DB cũ đi từ V1 tới V2; DB trống đi V1 rồi V2.
+
+Nếu V1 chưa phát hành, chỉ dùng trên DB local bỏ được thì có thể sửa và dựng lại DB đó. Điều kiện “bỏ được, chưa dùng chung” quan trọng; không đem thói quen xóa DB áp dụng lên dữ liệu cần giữ.
+
+## 7. Startup, GET và restart: kiểm lại khác chạy lại SQL
+
+Giả sử đủ dependencies/config, Flyway migrate khi Boot khởi động, Hibernate chỉ validate và DB đang ở V1:
+
+```text
+Khởi động app
+-> Flyway kết nối DB
+-> đọc history: V1 đã có, V2 đang thiếu
+-> PostgreSQL thực thi SQL của V2
+-> ghi V2 thành công
+-> JPA kiểm schema cần cho Entity
+-> app sẵn sàng nhận request
+```
+
+Sau đó:
+
+```text
+GET /api/products
+-> Controller -> Service -> Repository/JPA
+-> PostgreSQL SELECT dữ liệu
+-> map Response DTO -> JSON -> client
+```
+
+GET không gọi lại migration trong setup này. Nếu migration thất bại, không coi app đã khởi động bình thường để Service trả AppException như một lỗi request.
+
+### Mở app lần hai, cùng file và DB
+
+```text
+Flyway vẫn kiểm file/history
+-> thấy V1/V2 đã thành công, không đổi file
+-> không thực thi lại SQL V1/V2
+-> tiếp tục khởi tạo app
+```
+
+**“Không chạy lại SQL cũ” không có nghĩa “Flyway không hoạt động khi restart”.**
+
+Thêm một file version mới hợp lệ thì lần migrate sau mới có bước cần áp dụng. Không tự sửa Java/SQL nghiệp vụ thành migration mỗi request.
+
+## 8. Tự kiểm, tài liệu và phạm vi
+
+### Trace trong 2 phút
+
+Giả sử repo có V1/V2/V3/V10 đều hợp lệ theo thứ tự, không sửa file cũ, mọi bước thành công:
+
+| DB trước migrate | SQL còn cần chạy | Sau restart cùng bản |
+|---|---|---|
+| A đã V1/V2 | V3 rồi V10 | Kiểm lại, không thực thi lại SQL cũ |
+| B trống | V1, V2, V3, V10 | Kiểm lại, không thực thi lại SQL cũ |
+
+Sau đó hai DB có thể cùng schema/version nhưng khác Product. Mỗi DB có history riêng. Nếu nói được ba câu này bằng lời của bạn thì đã nắm nền tảng, không cần thuộc văn mẫu.
+
+### Đọc thêm
+
+- [Official Versioned migrations](https://documentation.red-gate.com/flyway/flyway-concepts/migrations/versioned-migrations): version, order, giữ file đã phát hành.
+- [Official Validate](https://documentation.red-gate.com/flyway/reference/commands/validate): file/history và checksum.
+- [Official Boot initialization](https://docs.spring.io/spring-boot/how-to/data-initialization.html): xem sơ đồ vai trò khi muốn nối với Boot; cấu hình cụ thể học Lesson 02.
+- Video tùy chọn: tìm `Flyway PostgreSQL versioned migration schema history beginner`. Chọn video có chạy lần hai và so sánh history với schema; đây là từ khóa tìm, không khẳng định đã xem một video cụ thể.
+
+Bài này không đòi repair/baseline, repeatable, YAML hoặc CLI. Những thứ đó có lesson riêng.
+
+Làm [đề Lesson 01 hiện hành](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-13__lesson1-lan2.md): câu 1–3 giữ bài bạn đã trả lời, câu 4–8 đã viết ngắn lại. Không xóa câu trả lời hoặc đổi điểm chỉ vì bài học được bổ sung.

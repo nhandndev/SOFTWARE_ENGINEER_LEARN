@@ -473,7 +473,7 @@
 ---
 
 ## Module 2-2 · PostgreSQL thực chiến
-**Trạng thái:** 🟡 Đang học (bắt đầu 2026-10-05, Lesson 01)
+**Trạng thái:** 🟢 Đạt phần học (4 lesson; chưa xác nhận deliverable)
 **Thời gian ước tính:** 12h (4 buổi x 3h)
 **Mục tiêu:** Chuyển shopcore sang PostgreSQL, thao tác dữ liệu an toàn với constraint, transaction và truy vấn có tham số.
 
@@ -510,12 +510,12 @@
 ---
 
 ## Module 2-3 · Flyway Migration
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟡 Đang học (Lesson 01)
 **Thời gian ước tính:** 8h (2 buổi x 4h)
 **Mục tiêu:** Quản lý toàn bộ schema bằng Flyway; seed data; migrate chạy được trong CI.
 
 ### Checklist kiến thức
-- [ ] Versioned migration `V1__description.sql` naming
+- [x] Versioned migration `V1__description.sql` naming
 - [ ] Repeatable migrations `R__` — khi nào dùng
 - [ ] Flyway với Spring Boot autoconfig
 - [ ] Seed data an toàn cho môi trường test/dev

@@ -19,7 +19,7 @@ DataSource cung cấp connection; Flyway thực thi SQL; Hibernate làm ORM. Th�
 
 ## 2. Dependencies: đọc đúng phiên bản dự án
 
-Đã đối chiếu `shopcore/pom.xml` ngày 2026-10-07: dự án dùng **Spring Boot 4.1.1, Java 21**, hiện có webmvc và Lombok, **chưa có JPA/Flyway/PostgreSQL dependencies**. Snippet dưới là những dependency cần thêm nếu sau này thực hành trên shopcore, không phải khẳng định chúng đã được cài. Giữ parent/BOM của Boot quản lý version.
+Đã đọc lại `shopcore/pom.xml` ngày 2026-10-23: dự án khai báo **Spring Boot 4.1.1, Java 21**, có webmvc/Lombok và dependency test webmvc, **chưa có JPA/Flyway/PostgreSQL dependencies**. Snippet dưới là những dependency cần thêm nếu sau này thực hành trên shopcore, không phải khẳng định chúng đã được cài. Giữ parent/BOM của Boot quản lý version; tài liệu Boot current có thể đã lên bản vá mới hơn, không tự nâng pom chỉ để học bài này.
 
 ```xml
 <dependency>
@@ -77,6 +77,8 @@ Giải thích:
 - `ddl-auto: validate`: Hibernate kiểm tra schema phù hợp mapping, không tự sửa schema.
 - `sql.init.mode: never`: tránh thêm một cơ chế schema.sql/data.sql tự chạy song song trong ví dụ.
 
+`classpath:db/migration` là đường tìm file trong ứng dụng đã build; khi viết source Maven, bạn đặt SQL ở `src/main/resources/db/migration`. Nó không phải tên database. `locations` trả lời **lấy script ở đâu**, DataSource URL trả lời **gửi SQL đến DB nào**. Trong setup một DataSource của bài, Flyway dùng DataSource chung; về sau có thể cấu hình DataSource migration riêng, nên không khái quát mọi app luôn chung connection config.
+
 Ví dụ Entity có cột description nhưng migration quên thêm cột: Flyway có thể hoàn tất lịch sử hợp lệ, rồi Hibernate validate báo thiếu cột. Hai cơ chế kiểm tra khác nhau. Nếu migrate thất bại, app chưa sẵn sàng; đây không phải lỗi HTTP do `@RestControllerAdvice` bắt.
 
 Boot khuyến nghị một cơ chế quản lý schema, tránh trộn Flyway với basic SQL initialization. [Nguồn chính thức](https://docs.spring.io/spring-boot/how-to/data-initialization.html).
@@ -90,6 +92,8 @@ Boot khuyến nghị một cơ chế quản lý schema, tránh trộn Flyway v�
 
 Repeatable không có số phiên bản. Nó chạy lần đầu, và chạy lại khi checksum thay đổi; trong một lần migrate, các versioned đang chờ chạy trước repeatable cần áp dụng. Việc viết SQL có thể chạy lại an toàn là trách nhiệm của người viết. [Repeatable migrations](https://documentation.red-gate.com/flyway/flyway-concepts/migrations/repeatable-migrations).
 
+Nói đơn giản: V là các bước tiến đã đánh số; R là một định nghĩa bạn muốn áp lại khi nó đổi. R không phải bộ theo dõi mọi dòng dữ liệu. Nếu người dùng xóa một dòng demo nhưng file/checksum R không đổi, restart không tự chạy lại R chỉ vì dòng đó đã mất.
+
 Ví dụ `R__product_summary.sql`, sau V1 có products/categories:
 
 ```sql
@@ -100,6 +104,8 @@ JOIN categories c ON c.id = p.category_id;
 ```
 
 `CREATE OR REPLACE` giúp cùng định nghĩa có thể áp lại khi view đã tồn tại. Nhưng thay đổi kiểu/cấu trúc view có giới hạn PostgreSQL: không được khẳng định mọi thay đổi đều thay thế được. Dùng versioned migration có kế hoạch khi cần đổi cấu trúc không tương thích.
+
+View thường là câu SELECT được đặt tên, không phải bản sao dữ liệu lưu riêng: khi query view, DB tính kết quả từ các bảng nguồn. `product_name` ở trên là tên cột đầu ra của view, không đổi tên cột name của products. Giới hạn OR REPLACE và ý nghĩa view xem [PostgreSQL CREATE VIEW](https://www.postgresql.org/docs/current/sql-createview.html); không bắt thuộc mọi giới hạn trong bài kiểm tra.
 
 R không mặc định chạy mỗi GET hay mỗi restart nếu nội dung không đổi. R cũng không tự làm một INSERT trùng trở nên an toàn.
 
@@ -161,6 +167,14 @@ Giả định dev DB trống, V1 và R demo hợp lệ:
 1. Lần đầu: V1 tạo schema, R seed dữ liệu, JPA validate.
 2. Lần hai không đổi file: V1 không chạy lại, R không đổi checksum nên không chạy lại.
 3. Thêm V2 và thay nội dung R: V2 chạy trước, R chạy lại sau. Không được sửa V1 đã phát hành để thêm thay đổi mới.
+
+Ví dụ cụ thể cho lần ba: V2 chỉ thêm description nullable; trong R đổi giá seed DEMO-JAVA từ 120 thành 130 nhưng vẫn dùng DO NOTHING. Giả sử Product đó đã có giá 120 và chưa ai sửa dữ liệu: R chạy lại nhưng giá vẫn **120**, vì nhánh conflict không update. Ba việc cần phân biệt là **script có được chạy không**, **SQL chọn nhánh nào**, và **dữ liệu cuối ra sao**.
+
+| Trước startup | Việc Flyway làm | Kết quả cần hiểu |
+|---|---|---|
+| DB trống, có V1/R | Chạy V1 rồi R | Có schema và demo data |
+| DB đã chạy, file không đổi | Đối chiếu, không thực thi lại V1/R | Không tự reset dữ liệu |
+| Thêm V2, đổi R | Chạy V2 rồi R mới | Cột mới có; dòng conflict giữ giá cũ nếu DO NOTHING |
 
 ## 8. Tài liệu và tự kiểm tra
 

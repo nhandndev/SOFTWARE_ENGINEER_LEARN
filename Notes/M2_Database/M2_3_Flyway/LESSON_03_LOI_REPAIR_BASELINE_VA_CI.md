@@ -14,6 +14,8 @@
 
 Nếu đã commit DROP dữ liệu, sửa một dòng history không khôi phục dữ liệu đã mất. Đây là lý do phải xác định vấn đề trước khi dùng lệnh.
 
+Trong bài này: **metadata** là thông tin quản lý như version/checksum, **baseline** là đặt mốc bắt đầu quản lý một DB đã có, **backfill** là cấp giá trị cho dòng cũ, **CI** là chuỗi kiểm tra tự động khi thay đổi code. Chưa cần nhớ cú pháp lệnh production; trước tiên phải nói được thứ bạn muốn sửa là file, history, schema hay dữ liệu.
+
 ## 2. Chẩn đoán từ bằng chứng
 
 ```text
@@ -53,6 +55,17 @@ Nếu V2 chưa từng được áp dụng thành công/chia sẻ như migration 
 
 Không áp dụng kết luận đó cho mọi SQL: PostgreSQL có lệnh không chạy trong transaction block, như `CREATE INDEX CONCURRENTLY`. Migration không transactional có thể để lại trạng thái chạy dở. Cần cấu hình riêng và quy trình kiểm tra/cleanup theo lệnh cụ thể, không nhét tất cả vào cùng file rồi mặc định rollback đầy đủ.
 
+**Trace kết quả của ví dụ V2:**
+
+| Thời điểm | products có stock? | Giá trị stock của dòng cũ |
+|---|---|---|
+| Trước V2 | Chưa | Không có cột |
+| Sau ALTER đầu, trong transaction V2 | Có | NULL |
+| Sau UPDATE, trong transaction V2 | Có | -1; chưa có CHECK mới nên UPDATE này chưa bị CHECK đó chặn |
+| Thêm CHECK thất bại rồi rollback V2 | Không còn cột vừa thêm | Dòng V1 vẫn giữ dữ liệu ban đầu |
+
+Từng file transactional mặc định là một phạm vi commit riêng trong ví dụ, không phải V2 lỗi thì xóa luôn V1 đã commit. Không dùng bảng này để đoán trạng thái của migration chạy ngoài transaction.
+
 ## 4. Checksum mismatch và repair
 
 Tình huống: V1 đã chạy trên DB chung, bạn vô tình sửa V1 trong Git. Hướng đầu tiên là xem diff và khôi phục file đã phát hành đúng nội dung; thay đổi mong muốn đưa vào V mới.
@@ -63,6 +76,18 @@ Ví dụ bạn thêm description vào V1 rồi repair để hết mismatch: DB c
 
 Chỉ dùng repair trong quy trình đã kiểm tra lý do thay đổi, trạng thái schema và tác động tới môi trường khác. Nó không phải nút “bỏ qua lỗi cho app chạy”.
 
+Tự trace một repair **sai mục đích** để nhớ rủi ro:
+
+```text
+DB thật: V1 cũ tạo id/name, chưa có description
+Repo: V1 bị sửa để thêm description
+repair điều chỉnh metadata theo file đang có
+-> không có ALTER thêm description được thực thi bởi repair
+-> DB vẫn thiếu cột, dù một lỗi đối chiếu history có thể đã biến mất
+```
+
+Đó là lý do ưu tiên điều tra/khôi phục file đã phát hành và đưa thay đổi vào V mới, không repair mù. Repair còn có thể ảnh hưởng mục failed/missing của history theo cấu hình; không phải chỉ đổi một số checksum duy nhất.
+
 ## 5. Schema đã tồn tại: baseline là gì?
 
 Bạn có DB cũ được tạo trước khi dùng Flyway. Baseline ghi nhận một mốc để Flyway bắt đầu quản lý lịch sử từ đó; nó không chạy lại toàn bộ SQL trước mốc và không tự kiểm schema cũ đúng từng cột. [Baseline chính thức](https://documentation.red-gate.com/flyway/reference/commands/baseline).
@@ -70,6 +95,13 @@ Bạn có DB cũ được tạo trước khi dùng Flyway. Baseline ghi nhận m
 Ví dụ đã xác minh DB cũ tương đương schema V1. Baseline version 1 trên DB đó khiến các migration có version ≤1 được loại khỏi phần cần chạy; V2 trở lên tiếp tục nâng cấp. Trong DB mới trống, vẫn cần V1 tạo schema từ đầu theo quy trình migrate bình thường.
 
 Trước baseline: xác định DB đúng, sao lưu phù hợp, kiểm schema/constraint/dữ liệu hiện tại so với mốc, chọn version chính xác. Không bật `baseline-on-migrate` chỉ vì muốn hết lỗi non-empty schema: bạn có thể vô tình chấp nhận nhầm DB hoặc schema không đúng.
+
+| DB đích | Đã có schema V1? | Cách bắt đầu trong ví dụ | V1 CREATE có được chạy ở DB đó? |
+|---|---|---|---|
+| DB cũ đã xác minh | Có, tạo từ trước Flyway | Ghi mốc baseline 1, rồi migrate V2 | Không |
+| DB mới trống | Không | Migrate bình thường V1 rồi V2 | Có |
+
+Không baseline 1 một DB trống rồi hy vọng nó tự chạy V1: mốc đó bỏ qua các version tới 1. Baseline là lời xác nhận mốc đã kiểm tra, không phải thao tác tạo lại bảng còn thiếu. Bài này nói về lệnh baseline/marker, không mở rộng sang baseline migration loại B.
 
 ## 6. Forward-only và triển khai tương thích
 
@@ -104,6 +136,8 @@ CI ở đây đơn giản là máy tự chạy các bước kiểm khi bạn đ�
 Đây là kế hoạch để đọc, không khẳng định pipeline đã tồn tại. Dùng đúng PostgreSQL major dự định deploy và version Flyway/Boot tương thích; H2 không chứng minh mọi SQL PostgreSQL hợp lệ. CI dùng credential test qua secret/config của job, không hard-code password prod. Migration lỗi phải làm job thất bại, không continue-on-error để báo xanh.
 
 Ví dụ muốn V2 thêm description nullable: nhánh nâng cấp lưu Product cũ trước migrate, rồi kiểm Product đó còn giữ id/sku/name/price/category_id và description ban đầu NULL sau migrate. Nhánh mới kiểm bảng, FK/UNIQUE/CHECK và Entity mapping. Chỉ thấy exit code migrate thành công chưa chứng minh dữ liệu cũ đúng hoặc app query được; các kiểm tra này là bước tiếp theo của job.
+
+Một check dữ liệu cụ thể cho nhánh nâng cấp: trước migrate Product 10 là BK-01/Java Book/120/Category 1; sau migrate vẫn là các giá trị đó, thêm description=NULL. Nếu bảng tạo mới được nhưng dòng Product 10 mất, kiểm cài mới có thể xanh mà kiểm nâng cấp phải đỏ. Đó là lý do cần hai nhánh, không phải để bắt bạn viết hai project.
 
 Trước merge: review SQL, tên/version duy nhất, file cũ không bị sửa, dữ liệu mẫu không lọt prod, ảnh hưởng lock/runtime, khả năng tương thích code cũ. Nếu nhiều app instance cùng deploy, cần quy trình migration nhất quán; history/locking hỗ trợ nhưng không thay thiết kế release.
 

@@ -10,11 +10,12 @@ Repository có `V1__create_catalog.sql`, `V2__add_description.sql`, `V3__add_pri
 Entity có description nhưng DB deploy chưa có cột này. Migration giải quyết việc gì, khác Entity thế nào?
 
 **Trả lời:**
-
+Migration sẽ giải quyết là 
 ## Câu 2 (5đ)
 Giải thích từng phần của `V2__add_description.sql`. Vì sao `V2_add_description.sql` có vấn đề với naming mặc định?
 
 **Trả lời:**
+
 
 ## Câu 3 (5đ)
 DB A và B cần chạy những file nào, theo thứ tự nào? V10 có chạy trước V3 không?

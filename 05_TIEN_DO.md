@@ -7,9 +7,9 @@
 
 ## Con trỏ hiện tại
 
-- Module đang học: `M2-2` · PostgreSQL thực chiến
+- Module đang học: `M2-3` · Flyway Migration (Lesson 01)
 - Buổi trong tuần: 1 / 5
-- Ngày bắt đầu module: 2026-10-05
+- Ngày bắt đầu module: 2026-10-10
 - Giờ học tuần này: 0h / 20h
 
 ---
@@ -58,8 +58,8 @@
 | M1-5 · Config & Profiles | 🟢 Đạt | 88 | 2026-09-24 | Đã có đề + lesson |
 | M1-6 · Testing | ⏸️ Tạm hoãn | 44 (tạm, câu 1–3) | 2026-09-28 | Đã có đề + lesson (Lesson 01) |
 | M2-1 · SQL & Index | 🟢 Đạt (phạm vi học rút gọn) | 87,5 (Lesson 05; cả 5 lesson ≥ 85) | 2026-10-05 | Đã có đề + lesson |
-| M2-2 · PostgreSQL | 🟡 Đang học (4 lesson đạt) | 96,25 (Lesson 04) | 2026-10-10 | Đã có đề + lesson |
-| M2-3 · Flyway | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M2-2 · PostgreSQL | 🟢 Đạt phần học (4 lesson; chưa xác nhận deliverable) | 97,81 (tổng hợp 4 lesson) | 2026-10-10 | Đã có đề + lesson |
+| M2-3 · Flyway | 🟡 Đang học (Lesson 01 đạt) | 90 (Lesson 01) | 2026-10-23 | Đã có đề + lesson |
 | M2-4 · N+1 & HikariCP | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
 | M3-1 · REST best practices | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
 | M3-2 · Security Core | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
@@ -105,6 +105,9 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-10-23 · M2-3 Lesson 01 · Chấm đủ 8 câu: 36/40 = 90/100, đạt lesson. Đã sửa schema khác dữ liệu và chọn đúng thứ tự An/Bình; còn thiếu kiểm cột thật trên deploy, lý do index cần cột, SQL ALTER câu 5 và nguồn checksum file câu 6. Lưu snapshot/bản bài nộp, giữ lịch sử chấm tạm; tick versioned naming, chưa chốt toàn module/deliverable.
+- 2026-10-23 · M2-3 Lesson 01 · Chấm phần đã làm câu 1–3: 4 + 4,5 + 2 = 10,5/15 = 70/100 trên phần đã trả lời; chưa kết luận lesson/module. Thiếu kiểm history/schema sau migrate, nhầm cùng version là cùng dữ liệu, chọn thứ tự migration theo commit thay vì phụ thuộc SQL. Lưu snapshot và archive bài/rubric cũ; viết lại riêng câu 4–8 rõ ý, giữ nguyên câu 1–3 và bài làm, không tick checklist.
+- 2026-10-10 · Chốt M2-2 theo yêu cầu người học: 156,5/160 = 97,81/100 tổng hợp bốn lesson, đạt phần học; không phải điểm bài thi tổng module, chưa xác nhận deliverable/capstone. Lưu snapshot tổng kết; chuyển sang M2-3 Lesson 01 Migration và schema history với bài học, đề và bài giải có sẵn, chưa có điểm Flyway.
 - 2026-10-10 · M2-2 Lesson 04 · Chấm lại bản đã lưu đủ 8 câu: 38,5/40 = 96,25/100, đạt lesson. Câu 6 đã đủ race MAX+1; câu 8 đã sửa rollback sau commit và tái sử dụng dung lượng, còn thiếu rủi ro khóa/chi phí FULL trong bản hiện tại; câu 4 thiếu kiểm soát sort động. Snapshot chữa bài kèm giải thích phần còn thiếu, giữ lịch sử; không chốt deliverable/toàn module.
 - 2026-10-10 · M2-2 Lesson 04 · Chấm lại đủ 8 câu theo ngữ cảnh: 37/40 = 92,5/100, đạt lesson. Nhận ý JPA starter bổ sung ở câu 1 cho câu 2; đã sửa binding/sort câu 4, đếm ID câu 6 và rủi ro khóa FULL câu 8. Còn củng cố whitelist sort, race MAX+1 và không ROLLBACK transaction đã commit. Cập nhật snapshot/tick checklist khái niệm; cả 4 lesson đạt, chưa xác nhận deliverable hoặc chốt module.
 - 2026-10-10 · M2-2 Lesson 04 · Chấm đủ 8 câu: 29,5/40 = 73,75/100, cần ôn lesson. Đúng câu 1/3/5/7; thiếu Data JPA starter câu 2, nhầm JPA binding/ORDER BY câu 4, thiếu race max+1 và cách đếm câu 6, nhầm rollback sau commit và rủi ro VACUUM FULL câu 8. Cập nhật snapshot chữa từng câu; Lesson 01–03 vẫn đạt, chưa chốt module/tick thêm checklist.

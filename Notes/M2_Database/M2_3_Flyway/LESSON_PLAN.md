@@ -14,7 +14,7 @@ Ba lesson vừa đủ phạm vi checklist hiện tại; không tách mỗi annot
 
 | Checklist | Bài giải thích | Bằng chứng học qua đề |
 |---|---|---|
-| Versioned naming | Lesson 01 mục 3–6 | Câu 2–5, 8 |
+| Versioned naming/order/history | Lesson 01 mục 2–6 | Đề 2026-10-13 bản sửa 2026-10-23: câu 1–6 |
 | Repeatable R__ | Lesson 02 mục 4, 6–7 | Câu 4–5, 7 |
 | Boot autoconfig | Lesson 02 mục 1–3 | Câu 1–3 |
 | Seed dev/test an toàn | Lesson 02 mục 5–6 | Câu 6–8 |
@@ -35,4 +35,4 @@ Không tự chuyển trạng thái module vì file đã được tạo. Việc p
 
 Mỗi đề gồm nhận diện, dự đoán kết quả và áp dụng trên dữ kiện cho sẵn. Lesson 01 có tình huống version conflict và ALTER; Lesson 02 đọc seed SQL; Lesson 03 tìm lỗi CHECK/rollback và mô tả CI. Những property/artifact dài đã cho hoặc có thể tra; không coi nhớ tên công cụ là bằng chứng thay cho hiểu.
 
-M2-2 vẫn cần hoàn thành trước khi học chính thức M2-3. Chuẩn bị bài ở đây không đổi trạng thái hay điểm các module. Phần thực hành deferred theo cách học hiện tại không bị ghi nhầm là đã merge capstone.
+M2-2 đã được chốt phần học ngày 2026-10-10 và M2-3 đang học Lesson 01; trạng thái hiện hành xem 05_TIEN_DO.md. Viết lại tài liệu không đổi điểm hoặc tự công nhận lesson. Phần thực hành deferred theo cách học hiện tại không bị ghi nhầm là đã merge capstone.
