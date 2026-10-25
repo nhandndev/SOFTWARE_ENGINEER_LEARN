@@ -4,6 +4,8 @@
 
 **Học theo thứ tự:** mục 1–5 là chẩn đoán cần nắm; mục 6–8 là nhận diện quy trình deploy/CI để học tiếp module sau. Không bắt nhớ lệnh phục hồi production hoặc viết GitHub Actions YAML khi M4-2 chưa học. Với AI service, thay đổi bảng document/job/model-result cũng cần cách nâng cấp có dữ liệu cũ như ở đây.
 
+Bạn có thể đọc hai lượt: lượt đầu mục 1–5 khoảng 35 phút; lượt sau mục 6–8 khoảng 30 phút. Không cần hiểu hết mọi lệnh trong một lần đọc. Dùng quy tắc: **lỗi ở đâu → xem bằng chứng gì → chọn thao tác sửa thứ đó**, không thử lần lượt repair/baseline/clean cho tới khi app chạy.
+
 ## 1. Ba việc thường bị gọi chung là “sửa migration”
 
 | Việc | Tác động |
@@ -38,6 +40,15 @@ flyway migrate
 ```
 
 `info` quan sát migration/history; `validate` đối chiếu lịch sử và file; `migrate` áp dụng các bước còn chờ. `mvn flyway:migrate` chỉ dùng khi Maven plugin và cấu hình plugin đã được thiết lập; thêm dependency core chưa tự cấu hình mọi lệnh Maven.
+
+| Lỗi quan sát | Kiểm trước | Không sửa bằng |
+|---|---|---|
+| Authentication failed | Lỗi gốc, URL/DB đích, nguồn credential/profile runtime | repair checksum |
+| Checksum mismatch | Diff file đã phát hành, history, schema thật trên đúng DB | Xóa history cho hết thông báo |
+| SQL của migration lỗi | Dòng SQL lỗi, dữ liệu hiện có, phạm vi transaction | Baseline để bỏ qua bước chưa làm đúng |
+| Dữ liệu đã mất sau commit | Phạm vi mất, backup/recovery có sẵn | Chỉ thêm lại cột hoặc repair metadata |
+
+Đây là bảng chẩn đoán, không phải lệnh tự động để chạy lên production. Lệnh CLI ví dụ chỉ giúp nhận diện tên thao tác, chưa phải hướng dẫn vận hành đủ credential/URL/backup.
 
 ## 3. Migration chưa commit bị lỗi: nhìn ranh giới transaction
 
@@ -116,6 +127,21 @@ Ví dụ muốn đổi tên cột name thành title, nhưng phiên bản app cũ
 
 Không cần thuộc thuật ngữ; cần biết schema có thể phục vụ nhiều phiên bản code cùng lúc. App rollback về bản cũ không tự làm database lùi về schema cũ.
 
+### Ví dụ tại sao chỉ copy dữ liệu một lần chưa đủ
+
+Giả sử cột cũ là `name TEXT NOT NULL`, app cũ vẫn INSERT/UPDATE name:
+
+```text
+Thêm title nullable, giữ name
+-> backfill title từ name cho dòng hiện có
+-> app cũ sửa name hoặc thêm dòng mới
+-> title có thể cũ hoặc NULL nếu chưa có cơ chế đồng bộ
+```
+
+Code mới chỉ INSERT title sẽ còn vi phạm NOT NULL của name. Vì vậy giai đoạn chuyển tiếp phải giữ hợp đồng ghi cũ, đồng thời có chiến lược đồng bộ/phối hợp triển khai, không chỉ đổi field Entity. Một phương án dễ hình dung là ngừng ghi có kiểm soát trong cửa sổ chuyển đổi để đồng bộ và chuyển toàn bộ writer; nếu cần chạy song song không ngừng ghi, phải thiết kế đồng bộ mọi writer, kiểm tra cả insert/update chứ không chỉ backfill một lần.
+
+Không coi “dual-write” của riêng app mới là tự giải quyết các ghi từ app cũ. Bài kiểm tra chỉ cần nêu vấn đề và một kế hoạch chuyển đổi hợp lý; không bắt tự code trigger hay triển khai zero-downtime. Chỉ bỏ name khi app cũ và các writer phụ thuộc nó đã hết, dữ liệu đã đồng bộ và code mới không còn cần cột đó. Đây là phân tích dựa trên constraint và luồng ghi đã học, không phải Flyway tự điều phối rollout.
+
 ## 7. Seed và recovery phải phân biệt dữ liệu
 
 Demo seed có thể dựng lại trên DB dev bỏ được. Production Product, đơn hàng, user không phải dữ liệu để drop/clean rồi tạo lại cho nhanh. `clean` có thể xóa object trong schema quản lý; không dùng nó như repair dữ liệu cần giữ.
@@ -150,5 +176,16 @@ Trước merge: review SQL, tên/version duy nhất, file cũ không bị sửa,
 - Video tùy chọn: tìm `Flyway checksum mismatch repair baseline forward migration`; bỏ qua video khuyên repair/clean mọi lỗi mà không kiểm DB.
 
 Tự luyện: giải thích một checksum mismatch, một SQL failure chưa commit và một mất dữ liệu đã commit bằng ba cách xử lý khác nhau.
+
+Tóm tắt lựa chọn:
+
+| Bạn muốn làm gì? | Thao tác đúng loại |
+|---|---|
+| Nâng schema đã phát hành | V mới có SQL phù hợp |
+| Xử lý metadata history đã điều tra rõ | repair có kiểm soát, không thay SQL sửa schema |
+| Bắt đầu quản lý DB cũ đã xác minh | baseline đúng mốc, không tự dựng bảng |
+| Hủy migration transactional chưa commit bị lỗi | Rollback trong phạm vi transaction đó |
+| Lấy lại dữ liệu đã commit mất | Recovery/nguồn dữ liệu phù hợp đã chuẩn bị, không bảo đảm luôn có |
+| Biết release có cài mới/nâng cấp được không | CI kiểm cả DB trống và DB cũ có dữ liệu |
 
 Làm [đề Lesson 03](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-05__lesson3-lan1.md).

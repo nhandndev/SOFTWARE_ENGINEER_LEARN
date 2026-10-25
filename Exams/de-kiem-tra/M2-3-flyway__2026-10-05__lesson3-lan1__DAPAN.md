@@ -9,7 +9,7 @@
 | 3 | CHECK ở lệnh 3 lỗi do stock=-1 (1); cột stock và UPDATE thuộc V2 rollback (2); dữ liệu V1 còn (1); không suy rộng cho SQL không transactional, có thể chạy dở (1). |
 | 4 | Ghi mốc lịch sử (1); không chạy V1 (1); không chứng minh schema đúng (1); V2 tiếp tục migrate (1); xác minh schema trước baseline (1). |
 | 5 | Không tự lấy lại dữ liệu (2); forward fix đổi schema bằng V mới (1); repair chỉ history (1); backup/restore hoặc recovery cho dữ liệu mất (1). |
-| 6 | Thêm title giữ name (1); backfill (1); xử lý đồng bộ ghi/chuyển code (1); chỉ bỏ name khi app cũ hết và dữ liệu đúng (2). |
+| 6 | Thêm title giữ name (1); backfill (1); kiểm soát ghi/chuyển code, bằng đồng bộ mọi writer hoặc ngừng ghi có kế hoạch (1); chỉ bỏ name khi app cũ hết và dữ liệu đúng (2). |
 | 7 | PostgreSQL test phù hợp deploy (1); DB trống migrate/validate (1); DB cũ có dữ liệu migrate (1); kiểm dữ liệu/constraint/app (1); lỗi làm CI fail (1). |
 | 8 | Maven cần plugin/cấu hình (1); CLI cần cài/cấu hình riêng (1); không tự đọc application.yml (1); đúng URL/schema/credential (1); clean xóa object, không dùng cho dữ liệu cần giữ (1). |
 
@@ -56,6 +56,8 @@
 **Đáp án đủ ý:** (1) Thêm title, giữ name để app cũ vẫn chạy. (2) Backfill title từ name và kiểm các dòng được chuyển. (3) Triển khai code tương thích, có kế hoạch đồng bộ ghi trong thời gian hai phiên bản cùng chạy; chỉ backfill một lần không xử lý các ghi mới từ app cũ. (4) Khi app cũ không còn và dữ liệu/luồng đọc ghi đã kiểm đúng, mới bỏ name trong migration sau.
 
 **Chấm nghiêm:** “Add title → copy → drop name ngay” thiếu thời gian tương thích. Nêu dual-write là một cách, không bắt đúng từ đó, nhưng phải giải quyết dữ liệu phát sinh trong giai đoạn chuyển tiếp.
+
+**Làm rõ theo dữ kiện mới:** name vẫn NOT NULL nên code mới chỉ ghi title có thể không INSERT được; cần giữ hợp đồng name trong giai đoạn chuyển tiếp. Chấp nhận kế hoạch ngừng ghi có kiểm soát để đồng bộ/chuyển writer rồi mở lại, không bắt đồng bộ online. Chỉ app mới dual-write chưa bảo đảm các ghi từ app cũ cập nhật title. Đây là giải thích tiêu chí kiểm soát ghi đã có, không cộng điểm phạt mới ngoài 5đ. Chọn đúng phương án đơn giản đủ dữ kiện vẫn nhận đủ.
 
 ### Câu 7 — Hai đường nâng cấp phải đều được kiểm
 

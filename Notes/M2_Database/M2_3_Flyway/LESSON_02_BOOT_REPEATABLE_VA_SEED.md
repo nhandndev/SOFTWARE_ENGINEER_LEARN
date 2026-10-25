@@ -4,6 +4,8 @@
 
 **Cần nắm:** ai chạy migration, cấu hình trỏ DB nào, V khác R, seed nào được vào môi trường nào. **Chỉ tra cứu:** tên artifact theo major Boot và các property dài; đề cho cấu hình để bạn phân tích, không bắt thuộc nguyên YAML.
 
+**Một câu chuyện xuyên bài:** V1 tạo Product/Category; R định nghĩa view hoặc thêm dữ liệu demo; V2 thêm cột mới. Lần startup sau cần phân biệt file nào được chạy với dữ liệu nào thật sự đổi. Các ví dụ là minh họa để đọc, không yêu cầu bạn tự dựng project hoàn chỉnh.
+
 ## 1. Ai gọi Flyway?
 
 Bạn không cần gọi `migrate()` trong Controller. Với dependency và DataSource phù hợp, Boot tự cấu hình Flyway rồi chạy migrate khi khởi động. Sau đó JPA dùng schema đã được chuẩn bị. [Spring Boot database initialization](https://docs.spring.io/spring-boot/how-to/data-initialization.html).
@@ -109,6 +111,8 @@ View thường là câu SELECT được đặt tên, không phải bản sao d�
 
 R không mặc định chạy mỗi GET hay mỗi restart nếu nội dung không đổi. R cũng không tự làm một INSERT trùng trở nên an toàn.
 
+Trong các ví dụ này không có placeholder thay đổi theo thời gian; “không đổi” nghĩa là checksum Flyway tính vẫn giữ nguyên. Không cần học mẹo ép R chạy mỗi lần. Nếu nhiều R cần áp dụng, thứ tự mặc định của chúng theo description, không theo version vì R không có version. Đừng tách Category seed và Product seed thành hai R rồi đoán thứ tự tạo file; ví dụ mục 6 cố ý đặt chúng trong cùng file theo thứ tự SQL. [Repeatable migrations](https://documentation.red-gate.com/flyway/flyway-concepts/migrations/repeatable-migrations).
+
 ## 5. Reference data và demo seed không giống nhau
 
 Reference data là dữ liệu ứng dụng cần để chạy, ví dụ danh sách trạng thái được quy định. Demo seed là vài Product/Category giả để bạn thử API. Không vì dev cần 100 Product mà production cũng cần chúng.
@@ -129,6 +133,16 @@ spring:
 ```
 
 Profile prod chỉ dùng locations chung trong application.yml. Kích hoạt dev bằng cấu hình runtime của M1-5. **Đổi profile không xóa demo data đã được ghi**: dùng nhầm DB prod trong profile dev vẫn có thể làm bẩn prod. History cũng thuộc DB đó; không chia sẻ một DB rồi đổi qua lại locations như thể lịch sử tự biến mất.
+
+Đường đi dễ nhớ:
+
+```text
+Profile dev -> chọn cả db/migration và db/dev
+DB_URL -> chọn database thực sự nhận SQL
+DB_USER/DB_PASSWORD -> xác định tài khoản và quyền
+```
+
+Ba yếu tố không thay thế nhau. Trước migrate, kiểm cấu hình runtime đang có hiệu lực và đúng DB/schema; không in password ra log. Profile dev trỏ nhầm DB prod vẫn nguy hiểm nếu tài khoản có quyền ghi. Tách credential/quyền là hàng rào thêm, không chỉ đặt tên profile.
 
 Với test tự động về sau, có thể đặt seed riêng trong `src/test/resources/db/migration/V9999__test_data.sql`: nó nằm trên test classpath, không đóng gói vào jar production theo cấu trúc Maven thông thường. Version 9999 chỉ là ví dụ cho DB test dùng riêng/dựng lại; không dùng DB test đó để tiếp tục nâng cấp như DB production. Cách test không bắt bạn quay lại học syntax Testing ngay lúc này. [Boot: test-only migrations](https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.migration-tool.flyway.test-only).
 
@@ -184,5 +198,16 @@ Ví dụ cụ thể cho lần ba: V2 chỉ thêm description nullable; trong R �
 - Video tùy chọn: tìm `Spring Boot Flyway PostgreSQL repeatable migrations profiles seed data`; chọn video dùng cùng major Boot với dự án.
 
 Tự trả lời: ai tạo cột? ai kiểm Entity? seed vào DB nào? restart có tự chạy lại R không?
+
+Tóm tắt để chuyển sang làm đề:
+
+| Câu hỏi | Câu trả lời cần giữ |
+|---|---|
+| Ai gọi migrate? | Boot trong setup tự cấu hình, không phải Controller |
+| locations hay URL chọn DB? | locations chọn script, URL/DataSource chọn DB |
+| V/R chạy lại? | V đã thành công không tự rerun; R áp lại khi checksum đổi |
+| DO NOTHING có cập nhật giá không? | Không; có chạy lại script cũng chưa chắc đổi dòng |
+| Thiếu Category trong INSERT...SELECT? | Không có dòng nguồn thì thêm 0 Product |
+| Đổi profile có hoàn tác seed? | Không |
 
 Làm [đề Lesson 02](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-05__lesson2-lan1.md).

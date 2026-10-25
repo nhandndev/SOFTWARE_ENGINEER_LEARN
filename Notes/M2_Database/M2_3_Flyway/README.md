@@ -4,6 +4,8 @@
 
 Bạn đã biết Entity, PostgreSQL constraint và transaction. Module này trả lời: **làm sao nhiều môi trường nâng cấp database theo cùng lịch sử mà không sửa tay tùy tiện?**
 
+Muốn thực hành sau Lesson 01–02: [Lab Flyway có hướng dẫn từng chặng](LAB_LESSON_01_02_FLYWAY.md). Làm trong shopcore với profile/DB local riêng; tự viết ba SQL, có lệnh quan sát và mẫu nộp kết quả, chưa cần CRUD.
+
 | Thứ tự | Bài học | Đề riêng | Bài giải và rubric |
 |---|---|---|---|
 | 1 | [Migration và schema history](LESSON_01_MIGRATION_VA_SCHEMA_HISTORY.md) | [Lesson 01: đề tình huống mới](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-13__lesson1-lan2.md) | [Giải Lesson 01 và rubric](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-13__lesson1-lan2__DAPAN.md) |
@@ -23,5 +25,7 @@ Xem [kế hoạch và phạm vi](LESSON_PLAN.md) để biết checklist nằm �
 **Rà lại ngày 2026-10-07:** setup chính đổi theo Boot 4.1.1 của shopcore; thêm đọc SQL seed/rollback có dữ liệu cụ thể, chia rõ kiến thức cần hiểu và phần tra cứu. Các SQL chính đã được kiểm trên PostgreSQL 17 tạm; chưa chạy Flyway/Boot/CI thật. Báo cáo chất lượng ghi riêng các mức bằng chứng đó.
 
 **Rà lại ngày 2026-10-23:** viết lại Lesson 01 theo từng bước thêm cột, bổ sung bảng trước/sau và phân biệt schema/dữ liệu, history/Git, kiểm lại/chạy lại SQL. Lesson 02–03 thêm trace seed/repeatable, rollback, repair và baseline. Báo cáo chất lượng có mapping đề hiện hành; lượt này kiểm tĩnh và đối chiếu nguồn, không chạy lại DB/Flyway. Điểm/bài làm được giữ nguyên.
+
+Rà sâu riêng Lesson 02–03 cùng ngày: [báo cáo từng task và từng câu hỏi](QUALITY_REVIEW_LESSON_02_03.md). Đề 02 đã có YAML cho sẵn; Lesson 03 làm rõ writer cũ/mới khi name còn NOT NULL và phương án chuyển đổi có kiểm soát. Không tăng số câu hoặc bắt code ngoài phạm vi.
 
 Theo cách học hiện tại, bạn làm đề bằng lời/SQL ngắn. Tài liệu này không tạo project mới, không tự bắt triển khai capstone và không tự ghi nhận migration/CI đã chạy thật. Nếu sau này thực hành, áp dụng trong `shopcore` và báo bằng chứng riêng.

@@ -2,6 +2,32 @@
 
 > LESSON: 8 câu ×5đ =40đ; normalize /40 ×100. Chấm ý nghĩa. Dữ kiện đủ dưới đây, không cần chạy app.
 
+## Dữ kiện chung
+
+Mỗi câu là tình huống độc lập, không cần cài/chạy project. Boot có starter JPA, starter Flyway, module PostgreSQL và pgJDBC; database/account đã được cấp sẵn, kết nối có quyền cần thiết. App không tự gọi migrate từ Controller. R không dùng placeholder thay đổi theo thời gian; không đổi file/cấu hình nghĩa là checksum không đổi.
+
+Đây là YAML để đọc, không bắt thuộc property:
+
+```yaml
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  flyway:
+    locations: classpath:db/migration
+    validate-on-migrate: true
+    validate-migration-naming: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  sql:
+    init:
+      mode: never
+```
+
+Env vars đã có giá trị hợp lệ, trừ câu chỉ rõ cấu hình sai. Khi hỏi cấu hình dev/prod, database của chúng riêng biệt; đề không yêu cầu viết dependency hoặc API chưa học.
+
 ## Câu 1 (5đ)
 Trong Boot 4.1.1 có starter JPA, starter Flyway, module PostgreSQL, JDBC driver và cấu hình đúng, ai gọi migrate? Xếp DataSource, Flyway, JPA validate, nhận HTTP theo thứ tự và nói vai trò mỗi phần. Không cần nhớ tên artifact ngoài dữ kiện đã cho.
 
@@ -13,7 +39,7 @@ Giải thích `ddl-auto: validate`, `flyway.locations`, `validate-migration-nami
 **Trả lời:**
 
 ## Câu 3 (5đ)
-Migration thành công nhưng Entity cần description mà DB chưa có. Lỗi có thể xuất hiện ở bước nào? Có được xem là AppException từ Service hay HTTP handler không?
+Flyway migrate thành công nhưng bảng products thực tế chưa có description, trong khi Entity hiện tại ánh xạ field description. Với `ddl-auto: validate` ở trên: lỗi có thể xuất hiện trước hay sau khi app sẵn sàng nhận HTTP, ở bước nào? Vì sao lịch sử migration hợp lệ chưa đủ chứng minh mapping đúng? Có phải Service ném AppException để HTTP handler trả lỗi không?
 
 **Trả lời:**
 
