@@ -189,4 +189,4 @@ Nếu trả entity ra Controller rồi Jackson đọc category.name, query hoặ
 
 Tự luyện: đổi bảng Product thành cùng category_id rồi kể lại vì sao không thể giữ công thức 1+3 mà không kiểm log. Lesson 02 sẽ sửa fetch plan; bài này chỉ phát hiện đúng.
 
-Làm [đề Lesson 01](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-05__lesson1-lan1.md).
+Làm [đề Lesson 01 hiện hành — bản viết lại 2026-11-01](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-11-01__lesson1-lan2.md). Bản mới có Entity/DTO, bảng dữ liệu, code tình huống session đóng và tiêu chí điểm từng vế. Đề 2026-10-05 vẫn giữ nguyên để bảo toàn lịch sử; không cần làm cả hai.

@@ -1,15 +1,16 @@
 # M2-3 · Flyway Migration
 
-> Bắt đầu Lesson 01 ngày 2026-10-10 sau khi chốt phần học M2-2. Chưa có điểm hay deliverable Flyway được ghi nhận; không cần đọc cả ba lesson trong một buổi. Trạng thái hiện hành xem `05_TIEN_DO.md`.
+> Cập nhật 2026-10-30: theo yêu cầu người học, đã xóa bài học, đề và bài giải Lesson 02 khỏi quy trình bắt buộc. Lesson 01 đạt 90%; Lesson 03 đạt 91,25%. Chốt phần học trong phạm vi hai lesson này, không xác nhận deliverable/CI hoặc lab đã hoàn thành. Trạng thái hiện hành xem `05_TIEN_DO.md`.
 
 Bạn đã biết Entity, PostgreSQL constraint và transaction. Module này trả lời: **làm sao nhiều môi trường nâng cấp database theo cùng lịch sử mà không sửa tay tùy tiện?**
 
-Muốn thực hành sau Lesson 01–02: [Lab Flyway có hướng dẫn từng chặng](LAB_LESSON_01_02_FLYWAY.md). Làm trong shopcore với profile/DB local riêng; tự viết ba SQL, có lệnh quan sát và mẫu nộp kết quả, chưa cần CRUD.
+Muốn thực hành: [Lab Flyway có hướng dẫn từng chặng](LAB_LESSON_01_02_FLYWAY.md). Giữ tên file cũ để bảo toàn liên kết; lab là tài liệu riêng, không còn một đề Lesson 02 phải nộp. Làm trong shopcore với profile/DB local riêng; tự viết ba SQL, có lệnh quan sát và mẫu nộp kết quả, chưa cần CRUD.
+
+Ôn theo bài làm Lesson 03: [README bổ sung phần sai/thiếu và câu chưa trả lời](README_HOC_BO_SUNG_LESSON_03.md), có giải thích từng tình huống và đề tự kiểm tùy chọn. Không tự thay kết quả bài chính bằng việc đọc tài liệu.
 
 | Thứ tự | Bài học | Đề riêng | Bài giải và rubric |
 |---|---|---|---|
 | 1 | [Migration và schema history](LESSON_01_MIGRATION_VA_SCHEMA_HISTORY.md) | [Lesson 01: đề tình huống mới](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-13__lesson1-lan2.md) | [Giải Lesson 01 và rubric](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-13__lesson1-lan2__DAPAN.md) |
-| 2 | [Boot, repeatable và seed](LESSON_02_BOOT_REPEATABLE_VA_SEED.md) | [Lesson 02](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-05__lesson2-lan1.md) | [Giải Lesson 02](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-05__lesson2-lan1__DAPAN.md) |
 | 3 | [Lỗi, repair, baseline và CI](LESSON_03_LOI_REPAIR_BASELINE_VA_CI.md) | [Lesson 03](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-05__lesson3-lan1.md) | [Giải Lesson 03](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-05__lesson3-lan1__DAPAN.md) |
 
 Mỗi file bài giải có đáp án đầy đủ từng câu, giải thích cơ chế và lỗi mất điểm. Áp dụng [quy tắc chấm nghiêm](../QUY_TAC_CHAM_NGHIEM_M2_3_M2_4.md): chấm bằng chứng từng ý, không nương điểm và không bắt học thuộc văn mẫu. Mở bài giải sau khi tự làm đề.
@@ -26,6 +27,6 @@ Xem [kế hoạch và phạm vi](LESSON_PLAN.md) để biết checklist nằm �
 
 **Rà lại ngày 2026-10-23:** viết lại Lesson 01 theo từng bước thêm cột, bổ sung bảng trước/sau và phân biệt schema/dữ liệu, history/Git, kiểm lại/chạy lại SQL. Lesson 02–03 thêm trace seed/repeatable, rollback, repair và baseline. Báo cáo chất lượng có mapping đề hiện hành; lượt này kiểm tĩnh và đối chiếu nguồn, không chạy lại DB/Flyway. Điểm/bài làm được giữ nguyên.
 
-Rà sâu riêng Lesson 02–03 cùng ngày: [báo cáo từng task và từng câu hỏi](QUALITY_REVIEW_LESSON_02_03.md). Đề 02 đã có YAML cho sẵn; Lesson 03 làm rõ writer cũ/mới khi name còn NOT NULL và phương án chuyển đổi có kiểm soát. Không tăng số câu hoặc bắt code ngoài phạm vi.
+Lịch sử rà sâu Lesson 02–03: [báo cáo từng task và từng câu hỏi](QUALITY_REVIEW_LESSON_02_03.md). Các nhận xét về Lesson 02 trong báo cáo là lịch sử trước khi xóa, không phải yêu cầu học/nộp hiện hành.
 
 Theo cách học hiện tại, bạn làm đề bằng lời/SQL ngắn. Tài liệu này không tạo project mới, không tự bắt triển khai capstone và không tự ghi nhận migration/CI đã chạy thật. Nếu sau này thực hành, áp dụng trong `shopcore` và báo bằng chứng riêng.

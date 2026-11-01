@@ -1,5 +1,7 @@
 # Rà riêng Lesson 02–03 Flyway
 
+> Báo cáo lịch sử. Ngày 2026-10-30 người học yêu cầu xóa bộ Lesson 02; các kết quả rà Lesson 02 bên dưới mô tả bản trước khi xóa, không phải lộ trình hiện hành.
+
 Ngày: **2026-10-23**, lượt rà sau yêu cầu “lesson 2-3 kiểm tra chất lượng”. Đây là kiểm bài học/đề/rubric, không chấm lại Lesson 01 hoặc đổi điểm người học.
 
 ## 1. Kết quả theo từng việc
@@ -70,6 +72,6 @@ Không tạo dependency/runtime project mới để làm đẹp báo cáo. Các 
 
 ## 6. Học tiếp thế nào?
 
-Đọc [Lesson 02](LESSON_02_BOOT_REPEATABLE_VA_SEED.md) theo thứ tự 1–7 rồi làm [đề 02](../../../Exams/de-kiem-tra/M2-3-flyway__2026-10-05__lesson2-lan1.md). Lesson 03 học sau; có thể tách đọc phần chẩn đoán và phần triển khai thành hai lượt, không tạo thêm lesson lẻ.
+Hướng dẫn cũ là đọc Lesson 02 rồi làm đề 02; bộ tài liệu đó đã xóa theo yêu cầu ngày 2026-10-30. Hiện xem README module để biết phạm vi mới, hoặc dùng lab riêng khi muốn thực hành. Giữ số Lesson 03 để không đổi tên đề/bài nộp và lịch sử chấm.
 
 Lượt QA này không thay bài làm Lesson 01, snapshot chấm, 05_TIEN_DO.md hay checklist roadmap. Việc bạn vừa sửa bài Lesson 01 nếu cần đổi điểm phải có một lượt chấm riêng.

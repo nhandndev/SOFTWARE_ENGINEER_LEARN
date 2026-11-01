@@ -7,9 +7,9 @@
 
 ## Con trỏ hiện tại
 
-- Module đang học: `M2-3` · Flyway Migration (Lesson 01)
+- Module đang học: `M2-4` · N+1 & HikariCP (Lesson 01)
 - Buổi trong tuần: 1 / 5
-- Ngày bắt đầu module: 2026-10-10
+- Ngày bắt đầu module: 2026-10-30
 - Giờ học tuần này: 0h / 20h
 
 ---
@@ -59,8 +59,8 @@
 | M1-6 · Testing | ⏸️ Tạm hoãn | 44 (tạm, câu 1–3) | 2026-09-28 | Đã có đề + lesson (Lesson 01) |
 | M2-1 · SQL & Index | 🟢 Đạt (phạm vi học rút gọn) | 87,5 (Lesson 05; cả 5 lesson ≥ 85) | 2026-10-05 | Đã có đề + lesson |
 | M2-2 · PostgreSQL | 🟢 Đạt phần học (4 lesson; chưa xác nhận deliverable) | 97,81 (tổng hợp 4 lesson) | 2026-10-10 | Đã có đề + lesson |
-| M2-3 · Flyway | 🟡 Đang học (Lesson 01 đạt) | 90 (Lesson 01) | 2026-10-23 | Đã có đề + lesson |
-| M2-4 · N+1 & HikariCP | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M2-3 · Flyway | 🟢 Đạt phần học rút gọn (Lesson 01, 03; bỏ Lesson 02 theo yêu cầu) | 91,25 (Lesson 03; tổng hợp 2 lesson: 90,625) | 2026-10-30 | Đã có đề + lesson (01, 03); giữ lab riêng |
+| M2-4 · N+1 & HikariCP | 🟡 Đang học (Lesson 01 đạt) | 87,5 (Lesson 01 đủ 8 câu) | 2026-11-01 | Đã có đề + lesson |
 | M3-1 · REST best practices | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
 | M3-2 · Security Core | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
 | M3-3 · JWT | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
@@ -105,6 +105,14 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-11-01 · M2-4 Lesson 01 · Chấm lại đủ 8 câu: 35/40 = 87,5/100, đạt lesson. Câu 2/3/6 tăng mỗi câu 0,5; hiểu luồng LAZY/session/DTO và phạm vi SessionFactory. Còn nhầm không query lúc map ở câu 3, thiếu clear không xóa context/cache, nhầm DTO dropdown chỉ nội bộ và chưa nêu hai điều kiện đo câu 8. Lưu snapshot cùng archive bài nộp/nhận xét trước; module vẫn đang học, chưa xác nhận benchmark/deliverable.
+- 2026-11-01 · M2-4 Lesson 01 · Chấm câu 1,2,3,4,6: 22,5/25 = 90/100 phần đã làm; tính cả câu 3 viết sau dấu phân cách. Hiểu LAZY, query phụ và dùng lại Category trong context; thiếu Category id=2 ở câu 2, cách kiểm SQL log câu 3/6, kiểu trả về DTO câu 6 cần nhất quán. Câu 5/7/8 chưa làm, chưa chốt lesson/module. Lưu snapshot/bài nộp và README bổ sung cả phần thiếu lẫn câu trống; không tick checklist.
+- 2026-10-30 · Theo yêu cầu người học, xóa bài học/đề/bài giải Flyway Lesson 02, giữ lab thực hành và lịch sử chấm; không dùng đề 02 để chặn tiến độ. Chốt M2-3 phần học rút gọn: Lesson 01 36/40, Lesson 03 36,5/40, tổng 72,5/80 = 90,625%; không công nhận repeatable/seed hoặc deliverable/CI đã hoàn thành. Bắt đầu M2-4 Lesson 01 theo yêu cầu chuyển tiếp, chưa có điểm.
+- 2026-10-30 · M2-3 Lesson 03 · Chấm lại bản mới có câu 8 đầy đủ: câu 8 đạt 5/5, tổng 36,5/40 = 91,25/100, đạt lesson; câu 1–7 giữ điểm. Hiểu core/Maven plugin/CLI/Boot, cấu hình DB đích và rủi ro clean. Lưu snapshot và archive bản trước/bài nộp mới; tick kiến thức rollback/forward fix/repair đã được chứng minh, chưa chốt toàn module hoặc deliverable.
+- 2026-10-30 · M2-3 Lesson 03 · Chấm toàn bài: 31,5/40 = 78,75/100, cần ôn; câu 8 ghi “câu này chịu” nên 0/5, câu 1–7 không đổi và giữ điểm. Chữa phân biệt Boot/Maven plugin/CLI, cấu hình DB đích và rủi ro clean; lưu snapshot cùng archive bài nộp/nhận xét trước. Giữ module đang học, không tick checklist hoặc mở module mới.
+- 2026-10-30 · M2-3 Lesson 03 · Chấm lại câu 1–7: 31,5/35 = 90/100 phần đã làm; tính cả câu 7 viết phía trên dòng Trả lời. Câu 1 tăng 1,5đ nhờ URL/DB và user/password; câu 7 đạt 4,5/5, thiếu nêu PostgreSQL test tương thích deploy. Còn câu 8 trống, chưa chốt lesson/module; lưu snapshot và archive bài nộp/nhận xét trước, không tick thêm checklist.
+- 2026-10-30 · M2-3 Lesson 03 · Chấm lại câu 1–6: 25,5/30 =85/100 phần đã làm; câu 7/8 còn trống, chưa chốt lesson/module. Câu 4 sửa đúng baseline; câu 2 cần rõ khôi phục V1 gốc, câu 1 thiếu kiểm lỗi gốc/DB đích/nguồn credential, câu 6 thiếu app/job cũ hết phụ thuộc name trước drop. Lưu snapshot và archive lượt trước/bài nộp mới, không tick thêm checklist.
+- 2026-10-30 · M2-3 Lesson 03 · Chấm câu 2–5 đã làm: 4 + 5 + 3 + 5 = 17/20 = 85/100 trên phần được chấm; câu 1/6/7/8 chưa trả lời, chưa chốt lesson/module. Hiểu rollback V2 và giới hạn phục hồi dữ liệu; thiếu giữ V1 gốc, nhầm baseline tự kiểm toàn schema. Lưu snapshot/bài nộp và README bổ sung bao phủ cả phần sai/thiếu/chưa làm; không tick thêm checklist.
 - 2026-10-23 · M2-3 Lesson 01 · Chấm đủ 8 câu: 36/40 = 90/100, đạt lesson. Đã sửa schema khác dữ liệu và chọn đúng thứ tự An/Bình; còn thiếu kiểm cột thật trên deploy, lý do index cần cột, SQL ALTER câu 5 và nguồn checksum file câu 6. Lưu snapshot/bản bài nộp, giữ lịch sử chấm tạm; tick versioned naming, chưa chốt toàn module/deliverable.
 - 2026-10-23 · M2-3 Lesson 01 · Chấm phần đã làm câu 1–3: 4 + 4,5 + 2 = 10,5/15 = 70/100 trên phần đã trả lời; chưa kết luận lesson/module. Thiếu kiểm history/schema sau migrate, nhầm cùng version là cùng dữ liệu, chọn thứ tự migration theo commit thay vì phụ thuộc SQL. Lưu snapshot và archive bài/rubric cũ; viết lại riêng câu 4–8 rõ ý, giữ nguyên câu 1–3 và bài làm, không tick checklist.
 - 2026-10-10 · Chốt M2-2 theo yêu cầu người học: 156,5/160 = 97,81/100 tổng hợp bốn lesson, đạt phần học; không phải điểm bài thi tổng module, chưa xác nhận deliverable/capstone. Lưu snapshot tổng kết; chuyển sang M2-3 Lesson 01 Migration và schema history với bài học, đề và bài giải có sẵn, chưa có điểm Flyway.

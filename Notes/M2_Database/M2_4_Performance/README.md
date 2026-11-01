@@ -1,12 +1,14 @@
 # M2-4 · N+1 và HikariCP
 
-> Tài liệu soạn sẵn, module vẫn **chưa bắt đầu**. Học sau M2-3 theo roadmap. Không cần thuộc hết cấu hình để bắt đầu; học từ SQL thực tế rồi mới đến pool.
+> Bắt đầu Lesson 01 ngày 2026-10-30 sau khi chốt phạm vi học rút gọn M2-3 theo quyết định người học; chưa có điểm M2-4. Không cần thuộc hết cấu hình để bắt đầu; học từ SQL thực tế rồi mới đến pool.
 
 Module trả lời hai câu: **ORM thực sự chạy bao nhiêu SQL để dựng response? Connection có bị dùng/chờ quá lâu không?** Giảm query, giữ đúng dữ liệu và quản lý connection cần được đo trong cùng điều kiện.
 
+Ôn theo bài làm ngày 2026-11-01: [Học bổ sung Lesson 01 — sai, thiếu và câu chưa làm](README_HOC_BO_SUNG_LESSON_01_TU_BAI_LAM.md). Bao gồm đọc FK, kiểm SQL log, luồng DTO/session đóng, Statistics và giới hạn kết luận tối ưu. Không thay thế bài nộp hoặc tự cập nhật điểm.
+
 | Thứ tự | Bài học | Đề riêng | Bài giải và rubric |
 |---|---|---|---|
-| 1 | [N+1 và SQL log](LESSON_01_N_PLUS_1_VA_SQL_LOG.md) | [Lesson 01](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-05__lesson1-lan1.md) | [Giải Lesson 01](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-05__lesson1-lan1__DAPAN.md) |
+| 1 | [N+1 và SQL log](LESSON_01_N_PLUS_1_VA_SQL_LOG.md) | [Lesson 01 — bản 2026-11-01](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-11-01__lesson1-lan2.md) | [Giải Lesson 01 và rubric](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-11-01__lesson1-lan2__DAPAN.md) |
 | 2 | [Fetch join, graph, batch, DTO](LESSON_02_FETCH_JOIN_ENTITYGRAPH_BATCH_DTO.md) | [Lesson 02](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-05__lesson2-lan1.md) | [Giải Lesson 02](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-05__lesson2-lan1__DAPAN.md) |
 | 3 | [Paging, OSIV, transaction](LESSON_03_PAGING_OSIV_VA_TRANSACTION.md) | [Lesson 03](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-05__lesson3-lan1.md) | [Giải Lesson 03](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-05__lesson3-lan1__DAPAN.md) |
 | 4 | [HikariCP và benchmark](LESSON_04_HIKARICP_VA_BENCHMARK.md) | [Lesson 04](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-06__lesson4-lan1.md) | [Giải Lesson 04](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-06__lesson4-lan1__DAPAN.md) |

@@ -1,6 +1,10 @@
 # Lab Flyway Lesson 01–02: nhìn migration chạy thật
 
+> Cập nhật 2026-10-30: bộ bài học/đề/bài giải Lesson 02 đã bỏ theo yêu cầu người học. Lab này vẫn giữ làm tài liệu thực hành riêng, không phải bài thi bắt buộc. Tên file giữ nguyên để các liên kết cũ vẫn hoạt động.
+
 > Làm trong **shopcore hiện có**, không tạo project mới. Khoảng 60–90 phút, có thể chia hai buổi. Mình cho cấu hình, yêu cầu và SQL quan sát; bạn tự viết ba file migration. Chưa cần Controller/Service/Repository hoặc CRUD.
+
+**Môi trường đã được setup ngày 2026-10-30:** xem [hướng dẫn chạy nhanh](../../../shopcore/FLYWAY_LAB.md). Trên máy hiện tại bạn bỏ qua bước tạo Docker/dependency/profile ở mục 3–5, vì chúng đã được chuẩn bị bằng Compose. Không chạy docker run lần nữa vì trùng tên container. Bắt đầu viết V1 ở mục 7. Password profile hiện có default local khớp Compose, không bắt buộc export env. Các mục setup dưới giữ làm tham khảo cho một máy chưa setup.
 
 ## 1. Kết quả cần thấy
 
@@ -224,7 +228,7 @@ Dừng app. Tạo **db/flyway-lab/dev/R__demo_catalog.sql**. Tự viết **hai l
 1. Thêm Category tên Demo Books; tên đã có thì không thêm trùng.
 2. Thêm Product sku DEMO-JAVA, name Java Book, price 120.00. Lấy category_id bằng SELECT Category có name Demo Books, không hard-code ID. SKU đã có thì DO NOTHING, không update.
 
-Yêu cầu giữ UNIQUE(name), UNIQUE(sku) của V1. Gợi ý: ON CONFLICT ... DO NOTHING và INSERT ... SELECT trong Lesson 02 mục 6. Không điền description vì V2 chưa xuất hiện.
+Yêu cầu giữ UNIQUE(name), UNIQUE(sku) của V1. Gợi ý: ON CONFLICT ... DO NOTHING giữ dòng cũ khi trùng khóa; INSERT ... SELECT lấy category_id từ dòng Category thực tế. Không điền description vì V2 chưa xuất hiện. Repeatable chạy lần đầu và chạy lại khi checksum đổi, không mặc định chạy mỗi restart; khi có cả V mới và R cần chạy, V chạy trước R.
 
 Chạy app, kiểm history và:
 
@@ -334,7 +338,7 @@ Kiểm pg_isready rồi chạy app đúng profile. Không chạy lại docker ru
 
 ## Tài liệu liên quan
 
-- [Lesson 01](LESSON_01_MIGRATION_VA_SCHEMA_HISTORY.md), [Lesson 02](LESSON_02_BOOT_REPEATABLE_VA_SEED.md).
+- [Lesson 01](LESSON_01_MIGRATION_VA_SCHEMA_HISTORY.md).
 - [Boot database initialization](https://docs.spring.io/spring-boot/how-to/data-initialization.html).
 - [Repeatable migrations](https://documentation.red-gate.com/flyway/flyway-concepts/migrations/repeatable-migrations).
 - [PostgreSQL Docker official image](https://hub.docker.com/_/postgres): init env, database và persistent volume.

@@ -510,7 +510,7 @@
 ---
 
 ## Module 2-3 · Flyway Migration
-**Trạng thái:** 🟡 Đang học (Lesson 01)
+**Trạng thái:** 🟢 Đạt phần học rút gọn (Lesson 01, 03; bỏ Lesson 02 theo yêu cầu 2026-10-30, chưa xác nhận deliverable)
 **Thời gian ước tính:** 8h (2 buổi x 4h)
 **Mục tiêu:** Quản lý toàn bộ schema bằng Flyway; seed data; migrate chạy được trong CI.
 
@@ -519,7 +519,7 @@
 - [ ] Repeatable migrations `R__` — khi nào dùng
 - [ ] Flyway với Spring Boot autoconfig
 - [ ] Seed data an toàn cho môi trường test/dev
-- [ ] Rollback strategy (forward-only vs repair) — khái niệm
+- [x] Rollback strategy (forward-only vs repair) — khái niệm
 
 ### Phần bỏ qua giai đoạn này
 - Liquibase — đã chọn Flyway; không học song song
@@ -544,7 +544,7 @@
 ---
 
 ## Module 2-4 · Performance: N+1 sâu & HikariCP
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟡 Đang học (Lesson 01)
 **Thời gian ước tính:** 16h (4 buổi x 4h)
 **Mục tiêu:** Fix N+1 bằng JOIN FETCH / `@EntityGraph` / batch; tune HikariCP và báo cáo benchmark.
 

@@ -100,7 +100,7 @@ Trong `V2__add_product_description.sql`:
 | add_product_description | Mô tả để người đọc biết mục đích |
 | .sql | Script SQL |
 
-Một underscore như V2_add_description.sql không khớp naming mặc định. Việc file sai tên bị bỏ qua hay báo lỗi còn tùy kiểm naming; Lesson 02 cho cấu hình. Hiện tại chỉ cần biết **đúng folder chưa đủ, tên cũng phải đúng**.
+Một underscore như V2_add_description.sql không khớp naming mặc định. Việc file sai tên bị bỏ qua hay báo lỗi còn tùy kiểm naming; xem cấu hình trong lab thực hành. Hiện tại chỉ cần biết **đúng folder chưa đủ, tên cũng phải đúng**.
 
 V2 đứng trước V10 theo giá trị version, không theo thứ tự chữ của tên file. Các version trong cùng tập migration phải duy nhất.
 
@@ -225,7 +225,7 @@ Nếu sửa phần SQL của V1 khiến checksum khác, Flyway có thể báo mi
 
 Flyway validate đối chiếu migration có sẵn với history. Nó không kiểm từng cột theo Entity và không tự dựng lại DB để so toàn bộ trạng thái. [Flyway Validate](https://documentation.red-gate.com/flyway/reference/commands/validate).
 
-Ví dụ người khác DROP COLUMN bằng tay mà không đổi file/history: checksum vẫn có thể khớp nhưng cột thật đã mất. Vì vậy lúc điều tra cần nhìn cả file, history và schema thực tế. Hibernate schema validation ở Lesson 02 là một cơ chế khác, cũng không nên coi là phép kiểm toàn bộ mọi chi tiết DB.
+Ví dụ người khác DROP COLUMN bằng tay mà không đổi file/history: checksum vẫn có thể khớp nhưng cột thật đã mất. Vì vậy lúc điều tra cần nhìn cả file, history và schema thực tế. Hibernate schema validation là một cơ chế khác, cũng không nên coi là phép kiểm toàn bộ mọi chi tiết DB.
 
 ## 6. Vì sao giữ nguyên migration đã phát hành?
 
@@ -297,7 +297,7 @@ Sau đó hai DB có thể cùng schema/version nhưng khác Product. Mỗi DB c�
 
 - [Official Versioned migrations](https://documentation.red-gate.com/flyway/flyway-concepts/migrations/versioned-migrations): version, order, giữ file đã phát hành.
 - [Official Validate](https://documentation.red-gate.com/flyway/reference/commands/validate): file/history và checksum.
-- [Official Boot initialization](https://docs.spring.io/spring-boot/how-to/data-initialization.html): xem sơ đồ vai trò khi muốn nối với Boot; cấu hình cụ thể học Lesson 02.
+- [Official Boot initialization](https://docs.spring.io/spring-boot/how-to/data-initialization.html): xem sơ đồ vai trò khi muốn nối với Boot; cấu hình cụ thể xem lab thực hành.
 - Video tùy chọn: tìm `Flyway PostgreSQL versioned migration schema history beginner`. Chọn video có chạy lần hai và so sánh history với schema; đây là từ khóa tìm, không khẳng định đã xem một video cụ thể.
 
 Bài này không đòi repair/baseline, repeatable, YAML hoặc CLI. Những thứ đó có lesson riêng.
