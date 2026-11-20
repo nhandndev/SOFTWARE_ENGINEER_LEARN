@@ -544,7 +544,7 @@
 ---
 
 ## Module 2-4 · Performance: N+1 sâu & HikariCP
-**Trạng thái:** 🟡 Đang học (Lesson 01)
+**Trạng thái:** ⏸️ Tạm dừng theo yêu cầu 2026-11-20 (Lesson 01 đạt; Lesson 02 mới chấm tạm, chưa hoàn thành module)
 **Thời gian ước tính:** 16h (4 buổi x 4h)
 **Mục tiêu:** Fix N+1 bằng JOIN FETCH / `@EntityGraph` / batch; tune HikariCP và báo cáo benchmark.
 
@@ -580,12 +580,12 @@
 # Chặng 3 — API & Security (74h / 4 tuần)
 
 ## Module 3-1 · REST API best practices
-**Trạng thái:** 🔵 Chưa bắt đầu
+**Trạng thái:** 🟡 Đang học (Lesson 01, bắt đầu 2026-11-20 theo quyết định tạm dừng M2-4)
 **Thời gian ước tính:** 12h (4 buổi x 3h)
 **Mục tiêu:** Chuẩn hoá versioning, pagination và error format toàn bộ API shopcore.
 
 ### Checklist kiến thức
-- [ ] URL versioning `/api/v1`
+- [x] URL versioning `/api/v1`
 - [ ] Pagination/filter/sort convention thống nhất
 - [ ] Idempotency cho PUT/DELETE (khái niệm)
 - [ ] Error response format thống nhất (ProblemDetail)

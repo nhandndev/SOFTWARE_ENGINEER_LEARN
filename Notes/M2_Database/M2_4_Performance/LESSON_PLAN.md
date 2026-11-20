@@ -16,7 +16,7 @@ Nối hướng Backend → AWS → AI Engineer: dùng ít lượt DB hợp lý, 
 | Checklist | Bài | Câu kiểm tra |
 |---|---|---|
 | Phát hiện N+1 SQL log/statistics | Lesson 01 mục 2–5 | Câu 1–4, 6–7 |
-| JOIN FETCH/EntityGraph/BatchSize | Lesson 02 mục 2–4 | Câu 1–4, 7–8 |
+| JOIN FETCH/EntityGraph/BatchSize | Lesson 02 mục 2–4 | Đề 2026-11-10 câu 2–8, 13–16 |
 | open-in-view tắt | Lesson 03 mục 4–5 | Câu 5–6 |
 | Hikari maximumPoolSize/timeout/leakDetection | Lesson 04 mục 1–6 | Câu 1–5 |
 | Đo số query và latency trước–sau | Lesson 01 mục 5; Lesson 04 mục 7–9 | Lesson 04 câu 6–8 |
@@ -36,4 +36,4 @@ Không học sâu second-level cache, Redis, mọi Hibernate tuning flag hoặc 
 - Biết tra: logger/Statistics, package JPQL, BatchSize property, flag fail collection paging, idle/lifetime/validation timeout và meter name.
 - Chưa cần: full Actuator/Grafana, JUnit syntax, load-test framework, nâng cao cache, thông số tối ưu cố định cho mọi hệ thống.
 
-Đề đã có ngữ cảnh code/data và phần áp dụng: bỏ field quan hệ khỏi DTO (Lesson 01), chọn fetch theo use case (Lesson 02), sửa count filter (Lesson 03), đọc thử nghiệm nhiều mức pool (Lesson 04). Không yêu cầu viết nguyên project để trả lời 8 câu của một lesson.
+Đề đã có ngữ cảnh code/data và phần áp dụng: bỏ field quan hệ khỏi DTO (Lesson 01), chọn fetch theo use case (Lesson 02), sửa count filter (Lesson 03), đọc thử nghiệm nhiều mức pool (Lesson 04). Không yêu cầu viết nguyên project. Lesson 02 hiện hành có 16 câu ×5đ theo yêu cầu ngày 2026-11-10; các lesson khác hiện giữ 8 câu. Xem bảng coverage riêng để đối chiếu từng ý bài học, không tự chốt trạng thái khi chỉ soạn đề.

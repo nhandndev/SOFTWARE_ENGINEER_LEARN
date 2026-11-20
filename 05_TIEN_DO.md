@@ -7,9 +7,9 @@
 
 ## Con trỏ hiện tại
 
-- Module đang học: `M2-4` · N+1 & HikariCP (Lesson 01)
+- Module đang học: `M3-1` · REST best practices (Lesson 01)
 - Buổi trong tuần: 1 / 5
-- Ngày bắt đầu module: 2026-10-30
+- Ngày bắt đầu module: 2026-11-20
 - Giờ học tuần này: 0h / 20h
 
 ---
@@ -29,6 +29,8 @@
 **Không có đường tắt** `🔵 → 🟢`.
 
 **Ngoại lệ theo quyết định của người học (2026-09-28):** M1-6 được tạm hoãn để học M2-1 trước. Đây không phải trạng thái đạt; checklist và deliverable Testing vẫn còn nguyên.
+
+**Ngoại lệ theo quyết định của người học (2026-11-20):** Tạm dừng M2-4 và bắt đầu M3-1 Lesson 01. Giữ Lesson 01 M2-4 đã đạt và điểm tạm Lesson 02; không ghi nhận M2-4 đã hoàn thành, không tick phần fetch/batch/pool hoặc benchmark chưa được chứng minh.
 
 ### Ngưỡng điểm
 
@@ -60,8 +62,8 @@
 | M2-1 · SQL & Index | 🟢 Đạt (phạm vi học rút gọn) | 87,5 (Lesson 05; cả 5 lesson ≥ 85) | 2026-10-05 | Đã có đề + lesson |
 | M2-2 · PostgreSQL | 🟢 Đạt phần học (4 lesson; chưa xác nhận deliverable) | 97,81 (tổng hợp 4 lesson) | 2026-10-10 | Đã có đề + lesson |
 | M2-3 · Flyway | 🟢 Đạt phần học rút gọn (Lesson 01, 03; bỏ Lesson 02 theo yêu cầu) | 91,25 (Lesson 03; tổng hợp 2 lesson: 90,625) | 2026-10-30 | Đã có đề + lesson (01, 03); giữ lab riêng |
-| M2-4 · N+1 & HikariCP | 🟡 Đang học (Lesson 01 đạt) | 87,5 (Lesson 01 đủ 8 câu) | 2026-11-01 | Đã có đề + lesson |
-| M3-1 · REST best practices | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
+| M2-4 · N+1 & HikariCP | ⏸️ Tạm dừng theo yêu cầu (Lesson 01 đạt; L02 chấm tạm) | 90 (tạm L02 câu 1–3) | 2026-11-10 | Đã có đề + lesson |
+| M3-1 · REST best practices | 🟡 Đang học (Lesson 01 đạt; câu16 cần củng cố) | 85,625 (L01: đề cũ 68,5/80) | 2026-11-20 | Đã có đề + lesson |
 | M3-2 · Security Core | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
 | M3-3 · JWT | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
 | M3-4 · OAuth2 / OIDC | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
@@ -105,6 +107,13 @@
 
 ## Nhật ký học (mới nhất lên đầu)
 
+- 2026-11-20 · M3-1 Lesson01 · Chấm lại đủ16câu đềcũ theo bản đã sửa:68,5/80=85,625%, đạtLesson01; câu16 đạt2/5 vì ý2/3 chưa làm, đã chữa bằng bảngstate và cậpnhậtxengiữa. Lưu bài nộp/nhậnxét archive5; không chấm đềvá mới, không bắt thi thêm để côngnhận đạt; module vẫn đang học, chưa xác nhận deliverable.
+- 2026-11-20 · M3-1 Lesson01 · Rà toàn bộ16 câu và lịch sử: câu15 mới thêm PUT/200, nhận thêm2đ, tổng60/80=75%; phầncũ còn20đ sai/thiếu. Tạo README đánh giá và đềvá THI_LAI riêng12câu/20đ chỉ kiểm cácvếthiếu, kèm rubric; đềvá chưa làm/chưa cóđiểm, cần≥17/20 để chốtLesson01 qua đềvá. Giữ bài/snapshot cũ, không tickchecklist hoặc tự công nhận đạt.
+- 2026-11-20 · M3-1 Lesson01 · Chấm đủ16câu:58/80=72,5/100, cầnôn. Câu11/12/14 mới đạt5/5; câu15 đạt2,5 do chưa sửaPUT/200, câu16 đạt2 do mới trả lời target. Câu1–10/13 không đổi giữđiểm; cần sửa status/list, semanticsPUT và key, hoàn thành vếthiếu. Lưu snapshot cùngarchive bài nộp/nhận xét trước; khôngtick checklist hoặc chốtmodule, M2-4 giữtạmdừng.
+- 2026-11-20 · M3-1 Lesson 01 · Chấm lại câu1–10 và13: 38,5/55 =70/100 phần đã làm. Chỉ câu13 mới, đạt5/5 nhờ phân biệt unique SKU/409 với replay và ý định gọi; câu1–10 không đổi nên giữ điểm. Câu11/12/14/15/16 trống chưa chấm; lưu snapshot cùng archive nhận xét/bài nộp trước, không tick checklist hoặc chốt lesson/module.
+- 2026-11-20 · M3-1 Lesson 01 · Chấm câu 1–10 đã làm: 33,5/50 = 67/100 phần được chấm; câu4/10 mới trả lời một phần, câu11–16 trống chưa chấm. Hiểu versioning và phân biệt status/body; cần sửa URL resource,204 không body/list rỗng200, safe/idempotent và PUT gánstock3 thay vì dùng key để che cộng sai. Lưu snapshot và bài nộp, không tick checklist hoặc chốt lesson/module; M2-4 giữ tạm dừng.
+- 2026-11-20 · Theo yêu cầu người học, tạm dừng M2-4 vì muốn chuyển hướng học tiếp, không công nhận đạt toàn module; giữ điểm và lịch sử cũ. Bắt đầu M3-1 REST best practices Lesson 01; giữ kế hoạch 3 lesson, viết lại riêng Lesson 01 cùng đề/đáp án/rubric. Chưa có điểm M3-1, không tick checklist hoặc ghi nhận deliverable.
+- 2026-11-10 · M2-4 Lesson 02 · Chấm câu 1–3: 13,5/15 = 90/100 phần đã làm; câu 1/3 đạt 5, câu 2 đạt 3,5 do lý do JOIN lọc/fetch chưa chuẩn và thiếu kiểm runtime. Câu 4–16 còn trống, chưa chốt lesson/module. Lưu snapshot/bài nộp, nhận phần câu 1 sau dấu phân cách; giữ checklist và trạng thái module đang học.
 - 2026-11-01 · M2-4 Lesson 01 · Chấm lại đủ 8 câu: 35/40 = 87,5/100, đạt lesson. Câu 2/3/6 tăng mỗi câu 0,5; hiểu luồng LAZY/session/DTO và phạm vi SessionFactory. Còn nhầm không query lúc map ở câu 3, thiếu clear không xóa context/cache, nhầm DTO dropdown chỉ nội bộ và chưa nêu hai điều kiện đo câu 8. Lưu snapshot cùng archive bài nộp/nhận xét trước; module vẫn đang học, chưa xác nhận benchmark/deliverable.
 - 2026-11-01 · M2-4 Lesson 01 · Chấm câu 1,2,3,4,6: 22,5/25 = 90/100 phần đã làm; tính cả câu 3 viết sau dấu phân cách. Hiểu LAZY, query phụ và dùng lại Category trong context; thiếu Category id=2 ở câu 2, cách kiểm SQL log câu 3/6, kiểu trả về DTO câu 6 cần nhất quán. Câu 5/7/8 chưa làm, chưa chốt lesson/module. Lưu snapshot/bài nộp và README bổ sung cả phần thiếu lẫn câu trống; không tick checklist.
 - 2026-10-30 · Theo yêu cầu người học, xóa bài học/đề/bài giải Flyway Lesson 02, giữ lab thực hành và lịch sử chấm; không dùng đề 02 để chặn tiến độ. Chốt M2-3 phần học rút gọn: Lesson 01 36/40, Lesson 03 36,5/40, tổng 72,5/80 = 90,625%; không công nhận repeatable/seed hoặc deliverable/CI đã hoàn thành. Bắt đầu M2-4 Lesson 01 theo yêu cầu chuyển tiếp, chưa có điểm.

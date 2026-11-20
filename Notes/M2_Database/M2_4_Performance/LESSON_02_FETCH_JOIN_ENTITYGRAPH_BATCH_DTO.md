@@ -151,4 +151,4 @@ Trước 4 query và sau 1 query chỉ chứng minh giảm query trong mẫu. N�
 
 Tự luyện: list chỉ có Product id/name chọn projection hoặc query Product đủ cột; list cần Category.name có thể fetch to-one hoặc projection; Category chứa nhiều Product cần thận trọng paging ở Lesson 03. Không phải thuộc một “cách tốt nhất cho mọi API”.
 
-Làm [đề Lesson 02](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-10-05__lesson2-lan1.md).
+Làm [đề Lesson 02 hiện hành — 16 câu, bản 2026-11-10](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-11-10__lesson2-lan2.md). Bản mới kiểm toàn bộ kiến thức trong bài, có Entity/DTO/dữ liệu và điểm từng vế; [bài giải/rubric riêng](../../../Exams/de-kiem-tra/M2-4-perf-jpa__2026-11-10__lesson2-lan2__DAPAN.md), mở sau khi tự làm. Đề 8 câu cũ vẫn giữ để bảo toàn lịch sử, không cần làm cả hai. Xem [coverage/QA](QUALITY_REVIEW_LESSON_02_EXAM_2026_11_10.md).

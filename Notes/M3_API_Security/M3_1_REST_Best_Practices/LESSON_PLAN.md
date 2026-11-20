@@ -1,11 +1,11 @@
 # M3-1 — Kế hoạch và độ phủ
 
-Nguồn phạm vi: Module3-1 trong `01_LO_TRINH.md`; học viên đã đạt M1-2/M1-4. Không dạy lại3-layer như kiến thức mới. Chưa đổi trạng thái học M3-1.
+Nguồn phạm vi: Module3-1 trong `01_LO_TRINH.md`; học viên đã đạt M1-2/M1-4. Không dạy lại3-layer như kiến thức mới. Ngày2026-11-20 Lesson01 đã đạt68,5/80; viết lại Lesson02 kèm đề12câu/60đ. Không tự ghi nhận Lesson02 đã đạt.
 
 | Checklist roadmap | Bài | Bằng chứng trong đề |
 |---|---|---|
 | URL versioning /api/v1 | L01 mục2–4 | L01 câu1–3 |
-| Pagination/filter/sort nhất quán | L02 mục1–7 | L02 câu1–8 |
+| Pagination/filter/sort nhất quán | L02 mới mục2–12 | L02 mới câu1–12; bảng độ phủ ở đáp án |
 | Idempotency PUT/DELETE | L01 mục5–8 | L01 câu4–8 |
 | Error format ProblemDetail | L03 mục1–6 | L03 câu1–6,8 |
 | HATEOAS nhận diện | L03 mục7 | L03 câu7 |
@@ -17,7 +17,7 @@ Nguồn phạm vi: Module3-1 trong `01_LO_TRINH.md`; học viên đã đạt M1-
 3. Lỗi: ProblemDetail nối với common đã viết; MVC vs business vs filter/startup; HATEOAS nhận diện.
 4. Tự sửa đáp án thiếu, đối chiếu ba contract. Có thể vẽ hoặc viết vài dòng code; không bắt dựng project chỉ để làm đề.
 
-Đề lesson có8 câu ×5đ. Có câu đọc HTTP, tính dữ liệu, chữa code ngắn và tình huống. Chấp nhận giải thích tương đương; không yêu cầu thuộc framework API. Không có bài nộp thực hành nào được tự đánh dấu đã làm.
+Đề cũ có8câu×5đ; các bản mới dùng sốcâu/điểm ghi rõ trong đề. Lesson02 mới có12câu×5đ=60đ, đạt51đ. Có đọcHTTP, tính dữ liệu, chữa code ngắn và tình huống; không cần thuộc framework API. Không tự đánh dấu có bài nộp thực hành.
 
 ## Ranh giới với các module khác
 
