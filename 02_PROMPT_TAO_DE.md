@@ -2,13 +2,25 @@
 
 > Dán toàn bộ file này cho AI khi cần tạo đề. Điền khối Input trước.
 
+## Hướng kiểm tra hiện hành — từ 2026-11-21
+
+Người học ưu tiên nền SE/Backend để học AI Engineering: **hiểu rộng và hiểu bản chất, vẫn đào sâu các phần thiết yếu**, không bỏ nền Software hoặc chỉ học lướt. Bài học giữ chi tiết để đọc/tra cứu; không phải mọi chi tiết trong bài đều cần biến thành câu kiểm tra học thuộc.
+
+- Mặc định `TU_DUY_RONG`: khoảng8 tình huống có dữ kiện đủ; mỗi câu5đ, có thể điều chỉnh số câu để phủ các mảng chính và ghi đúng tổng điểm.
+- Kiểm: đang xảy ra gì, vì sao, hậu quả, lớp/cơ chế nào chịu trách nhiệm, nên chọn cách nào và giới hạn của cách đó. Chấp nhận giải thích ngắn có lý do.
+- Giữ nghiêm các nguyên tắc quan trọng thuộc bài: tính đúng đắn, dữ liệu/transaction, bảo mật, contract, xử lý lỗi và độ tin cậy. Không đánh đổi các nguyên tắc này để học nhanh.
+- Không bắt thuộc tên exception, factory method, signature override, imports hoặc tự code lại nguyên project chỉ để chứng minh hiểu. Được dùng đoạn code đủ ngữ cảnh để đọc/chữa lỗi hoặc bài thực hành ngắn khi nó kiểm được điều quan trọng.
+- Không biến thành trắc nghiệm chỉ đoán hoặc hỏi lan man kiến thức chưa dạy. Không thêm AI/ML ngoài bài chỉ vì đích đến là AI Engineering.
+- Ngưỡng85%, snapshot khi chấm và quy tắc công nhận tiến độ vẫn giữ. Không tự bỏ module/deliverable, không đánh dấu thực hành đã xong khi mới giải thích được.
+- Các format sâu bên dưới vẫn dùng khi người học yêu cầu rõ; không tự áp bảng20câu/code mini vào một đề `TU_DUY_RONG`.
+
 ---
 
 ## Input (người dùng cung cấp)
 
 ```
 topic = <1 trong 41 topic hợp lệ bên dưới>
-che_do = DAY_DU | NHANH | THI_LAI | PHONG_VAN   (mặc định: DAY_DU)
+che_do = TU_DUY_RONG | DAY_DU | NHANH | THI_LAI | PHONG_VAN   (mặc định: TU_DUY_RONG)
 trong_tam = <chủ đề con muốn tập trung>         (tuỳ chọn)
 tao_dap_an = co | khong                         (mặc định: co)
 ```
@@ -27,6 +39,7 @@ tao_dap_an = co | khong                         (mặc định: co)
 
 | Chế độ | Tổng câu | Lý thuyết (3đ/câu) | Tình huống (5đ/câu) | Code mini (10đ/câu) | Tổng điểm thô |
 |---|---|---|---|---|---|
+| `TU_DUY_RONG` | Mặc định8 | Không kiểm thuộc lòng rời rạc | Mặc định8 tình huống ×5đ | Không bắt code project; có thể đọc/chữa code ngắn | Mặc định **40đ**, đạt34đ; thay số câu thì đổi mẫu số thực |
 | `DAY_DU` | 20 | 10 | 8 | 2 | 10×3 + 8×5 + 2×10 = **90đ** |
 | `NHANH` | 10 | 6 | 3 | 1 | 6×3 + 3×5 + 1×10 = **43đ** |
 | `THI_LAI` | ≤12 | ~6 | ~4 | ~2 | tối đa **58đ** — ưu tiên topic đã sai/yếu; nếu thiếu câu thì bổ sung cùng nhóm kiến thức đó |

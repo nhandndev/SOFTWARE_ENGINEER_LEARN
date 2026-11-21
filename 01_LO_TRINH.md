@@ -580,16 +580,16 @@
 # Chặng 3 — API & Security (74h / 4 tuần)
 
 ## Module 3-1 · REST API best practices
-**Trạng thái:** 🟡 Đang học (Lesson 01, bắt đầu 2026-11-20 theo quyết định tạm dừng M2-4)
+**Trạng thái:** 🟢 Đạt phần học (3 lesson; chưa xác nhận deliverable)
 **Thời gian ước tính:** 12h (4 buổi x 3h)
 **Mục tiêu:** Chuẩn hoá versioning, pagination và error format toàn bộ API shopcore.
 
 ### Checklist kiến thức
 - [x] URL versioning `/api/v1`
-- [ ] Pagination/filter/sort convention thống nhất
+- [x] Pagination/filter/sort convention thống nhất
 - [ ] Idempotency cho PUT/DELETE (khái niệm)
-- [ ] Error response format thống nhất (ProblemDetail)
-- [ ] HATEOAS — nhận diện; không bắt buộc triển khai đầy đủ
+- [x] Error response format thống nhất (ProblemDetail)
+- [x] HATEOAS — nhận diện; không bắt buộc triển khai đầy đủ
 
 ### Phần bỏ qua giai đoạn này
 - API Gateway / BFF pattern — thuộc microservices sau này

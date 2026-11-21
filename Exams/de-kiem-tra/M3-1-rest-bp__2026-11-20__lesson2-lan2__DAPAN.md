@@ -1,5 +1,7 @@
 # Đáp án và rubric — M3-1 Lesson 02, bản 2026-11-20
 
+> Cập nhật cách diễn đạt câu hỏi ngày2026-11-21; giữ nguyên kiến thức, đáp án số và thang điểm. Nguồn getter chấp nhận mô tả bằng lời rõ ràng, không bắt thuộc tên API.
+
 [Đề 12 câu](M3-1-rest-bp__2026-11-20__lesson2-lan2.md). **60đ; đạt từ 51đ =85%.** Chưa có bài nộp, không sinh điểm/trạng thái.
 
 ## Quy tắc chấm
@@ -16,7 +18,7 @@
 
 1. Page0,size20: 0,5 mỗi giá trị.
 2. Sort id ASC: 1đ.
-3. Keyword JAVA sau trim, không phân biệt hoa/thường: 0,5 mỗi ý.
+3. Keyword JAVA sau trim; tên chứa java viết thường vẫn khớp vì không phân biệt hoa/thường: 0,5 mỗi ý.
 4. Không tự áp 0; không truyền filter đó nghĩa là không hạn chế theo nó: 1đ.
 5. Blank sau trim nghĩa là không lọc keyword: 1đ.
 
@@ -93,7 +95,7 @@ Ba ý đầu chỉ nêu status đúng chưa có lý do: 0,5/ý.
 ## Câu 9 — 5đ
 
 1. Map Product → ProductResponse, content là DTO list: 1đ.
-2. Size lấy getSize()=2: 0,5; totalElements lấy getTotalElements()=3: 1đ; totalPages lấy getTotalPages()=2: 0,5. Mỗi tiêu chí gồm nguồn và giá trị; thiếu một phần nhận tối đa một nửa điểm tiêu chí.
+2. Size lấy kích thước yêu cầu của Page (getSize)=2: 0,5; totalElements lấy tổng Product khớp của Page (getTotalElements)=3: 1đ; totalPages lấy tổng trang của Page (getTotalPages)=2: 0,5. Nhận mô tả nguồn tương đương, không bắt tên getter. Mỗi tiêu chí gồm nguồn và giá trị; thiếu một phần nhận tối đa một nửa điểm tiêu chí.
 3. Map1–1 không lọc/chuyển trang, giữ metadata query đúng: 1đ.
 4. DTO page kiểm soát schema, JSON nội bộ PageImpl có thể đổi khi nâng framework: 1đ.
 

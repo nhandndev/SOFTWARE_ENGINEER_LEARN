@@ -1,5 +1,18 @@
 # Kiểm chất lượng M3-1 Lesson 02 — 2026-11-20
 
+## Bổ sung 2026-11-21 — kiểm cách hỏi rõ ràng
+
+- Đọc lại đề hiện hành: cả12 ô trả lời còn trống. Lưu nguyên bản đề/đáp án trước sửa vào Exams/de-kiem-tra/archive, không mất bài làm.
+- Viết lại đủ12câu, không thay dataset, đáp án tính toán, trọng số hoặc tổng60đ.
+- Giải nghĩa filter/sort/tie-break/offset/content/metadata ngay trong đề.
+- Thay “có hiệu lực”, “trace”, “count bug”, “kể luồng” bằng yêu cầu đầu ra cụ thể: điền số, liệt kê ID, chỉ nhánh code, phân biệt bước binding/range.
+- Câu3 ghi đủ hai URL thay vì phụ thuộc cách trả lời câu2. Câu6 tách rõ hai tình huống khác nhau. Câu7 ghi rõ ba thứ cần nêu và chia điểm. Câu12 chỉ định năm bước theo trách nhiệm lớp.
+- Câu9 chấp nhận nêu nguồn metadata bằng lời, không bắt thuộc getter; rubric cập nhật tương ứng.
+- Không thêm kiến thức hoặc đòi code project. Không cập nhật điểm/trạng thái/chỉ tiêu học.
+- Kiểm lại số câu, điểm từng câu, ô trả lời, dataset khớp bản cũ, JSON/code fence và liên kết của tài liệu hiện hành.
+
+---
+
 Phạm vi: [bài học mới](LESSON_02_PAGINATION_FILTER_SORT_CONTRACT.md), [đề 12 câu](../../../Exams/de-kiem-tra/M3-1-rest-bp__2026-11-20__lesson2-lan2.md), [đáp án/rubric](../../../Exams/de-kiem-tra/M3-1-rest-bp__2026-11-20__lesson2-lan2__DAPAN.md). Đây là báo cáo kiểm tài liệu, không phải snapshot chấm học viên.
 
 ## Task 1 — Phạm vi và năng lực hiện tại

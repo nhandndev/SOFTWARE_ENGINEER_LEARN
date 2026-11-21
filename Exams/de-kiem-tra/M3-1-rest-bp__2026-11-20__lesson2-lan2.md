@@ -1,6 +1,6 @@
 # M3-1 · Lesson 02 — Kiểm tra list contract theo luồng dữ liệu
 
-> Bản mới 2026-11-20. LESSON: **12 câu × 5đ = 60đ**, đạt **51/60 = 85%**. Khoảng 60–90 phút, có thể chia hai buổi. Trả lời bằng lời, bảng ID, JSON hoặc code ngắn. Chấm ý nghĩa, không chấm học thuộc imports/API.
+> Bản tạo 2026-11-20, **viết rõ lại ngày 2026-11-21**. Vẫn **12 câu × 5đ = 60đ**, đạt **51/60 = 85%**. Chỉ đổi cách hỏi, không thêm kiến thức hoặc tăng độ khó. Có thể chia hai buổi, tổng khoảng 60–90 phút.
 
 [Bài học tương ứng](../../Notes/M3_API_Security/M3_1_REST_Best_Practices/LESSON_02_PAGINATION_FILTER_SORT_CONTRACT.md). Đáp án/rubric cùng tên thêm `__DAPAN.md`; mở sau khi làm. Không cần nộp project.
 
@@ -36,50 +36,143 @@ Category 1/2 tồn tại; Category 999 và Product 999 không tồn tại.
 
 totalElements đếm Product khớp filter trên toàn tập; totalPages = ceil(totalElements/size), tổng 0 thì 0 trang. Mỗi câu độc lập. Không có param lặp; keyword không có wildcard đặc biệt. Không cần Specification/locking/ProblemDetail.
 
+### Đọc các từ trong câu hỏi như sau
+
+- **Filter:** chọn những Product thỏa điều kiện.
+- **Sort:** sắp xếp các Product đã chọn.
+- **Tie-break:** khi hai Product bằng nhau ở field đang sort, dùng id ASC để quyết định ai đứng trước.
+- **Offset:** số dòng bỏ qua trước khi lấy trang, bằng page×size.
+- **Content:** các Product thực sự có trong trang đang trả.
+- **Metadata:** page, size, totalElements, totalPages; không phải một loại object bí mật khác.
+- **Policy/contract:** quy ước của đề trong bảng trên. Hỏi “theo policy” nghĩa là dùng bảng này, không đoán mặc định của Spring.
+
+**Cách trả lời:** đánh số theo từng ý; câu tính dữ liệu chỉ cần ID/số/JSON được yêu cầu. Chỉ viết lý do khi câu có hỏi vì sao. Không cần viết văn dài hoặc code cả project. Bảng dữ liệu đầu đề được dùng cho mọi câu, trừ tình huống riêng đã ghi rõ.
+
 ---
 
-## Câu 1 — Đọc và normalize request (5đ)
+## Câu 1 — Client không gửi đủ param: server dùng giá trị nào? (5đ)
 
 ```http
 GET /api/v1/products?keyword=%20%20JAVA%20%20
 ```
 
-`%20` là space sau decode. Không có param khác.
+Sau khi đọc URL, server nhận keyword là chuỗi `"  JAVA  "` có hai space mỗi đầu. Client không gửi page, size, sort, categoryId, minPrice hoặc maxPrice.
 
-1. Nêu page và size có hiệu lực. **(1đ)**
-2. Nêu sort có hiệu lực. **(1đ)**
-3. Sau trim, keyword là gì; tìm có phân biệt hoa/thường không? **(1đ)**
-4. Category/min/max không có thì có tự áp giá trị 0 không? Nêu nghĩa đúng. **(1đ)**
-5. Keyword chỉ chứa space sau decode thì có lọc tên rỗng hay coi như không lọc? **(1đ)**
+1. Dựa vào default trong bảng, điền `page = ...`, `size = ...`. **(1đ)**
+2. Điền `sắp theo field ...`, `chiều asc hay desc ...`. **(1đ)**
+3. Sau trim, chuỗi keyword còn lại là gì? Tên Product chứa `java` viết thường có được xem là khớp không? **(1đ)**
+4. Không truyền categoryId/minPrice/maxPrice nghĩa là **không áp ba điều kiện đó**, hay server phải tự lọc categoryId=0 và price=0? Chọn và giải thích một câu. **(1đ)**
+5. Tình huống riêng: nếu keyword chỉ là `"    "`, server phải tìm tên rỗng hay bỏ điều kiện keyword? **(1đ)**
 
 **Trả lời:**
-
+1. Page0,size20:
+2. Sort id ASC: 
+3. Keyword JAVA sau trim; tên chứa java viết thường vẫn khớp vì không phân biệt hoa/thường: 
+4. Không tự áp 0; không truyền filter đó nghĩa là không hạn chế theo nó: 
+5. Blank sau trim nghĩa là không lọc keyword: 
 ---
 
-## Câu 2 — Trace filter, sort, page đầu (5đ)
+## Câu 2 — Tính kết quả của một URL cụ thể (5đ)
 
 ```http
 GET /api/v1/products?categoryId=1&minPrice=100&page=0&size=2&sort=price,asc
 ```
 
-1. Nêu ID khớp filter và thứ tự sau sort/tie-break. **(1đ)**
-2. Offset và ID trong content theo đúng thứ tự? **(1đ)**
-3. totalElements và totalPages? **(1đ)**
-4. Nêu HTTP status và body đủ năm field của PageResponse. Có thể dùng contentIds thay object nếu ghi rõ đó là viết tắt của content DTO. **(2đ)**
+Chỉ xét request này trên bảng sáu Product đầu đề. Bạn cần trả lời theo bốn bước:
+
+1. Trước khi lấy trang, Product nào thỏa **đồng thời categoryId=1 và price≥100**? Liệt kê ID, rồi viết lại các ID theo thứ tự price ASC, bằng giá thì id ASC. **(1đ)**
+2. Tính `offset = page×size`. Sau khi bỏ qua offset dòng và lấy tối đa size dòng, content gồm ID nào theo thứ tự? **(1đ)**
+3. Đếm toàn bộ Product khớp ở bước1 để điền totalElements; tính totalPages. **(1đ)**
+4. Viết status HTTP và một JSON gồm content,page,size,totalElements,totalPages. Được dùng `"contentIds":[...]` thay danh sách DTO để đỡ gõ; ghi rõ đây là cách viết tắt, không phải đổi schema API. **(2đ)**
 
 **Trả lời:**
+
+1. Tập Product sau Filter và Sort
+- Product thỏa điều kiện: ID 10, 11, 13.
+- Thứ tự sau Sort: 10 → 11 → 13.
+2. Pagination
+- page = 0, size = 2.
+- offset = 0.
+- Content của trang đầu: Product 10, 11.
+3. Metadata
+- totalElements = 3.
+- totalPages = 2.
+4. HTTP Response
+
+Status: 200 OK.
+{
+  "content": [
+    {
+      "id": 10,
+      "name": "Java Basic",
+      "price": 100,
+      "categoryId": 1
+    },
+    {
+      "id": 11,
+      "name": "Spring Guide",
+      "price": 100,
+      "categoryId": 1
+    }
+  ],
+  "page": 0,
+  "size": 2,
+  "totalElements": 3,
+  "totalPages": 2
+}
 
 ---
 
 ## Câu 3 — Trang cuối, trang vượt cuối (5đ)
 
-Giữ nguyên filter/sort/size câu 2; xét riêng page 1 và page 2.
+Hai request độc lập dưới đây đều dùng bảng dữ liệu đầu đề, không cần dựa vào câu trả lời câu2:
 
-1. Page 1: content ID, page, size, totalElements, totalPages là gì? **(2đ)**
-2. Page 2: HTTP status và năm field trên là gì? **(2đ)**
-3. Vì sao không lấy content.size() làm totalElements, cũng không đổi size thành số dòng thực trả? **(1đ)**
+```http
+GET /api/v1/products?categoryId=1&minPrice=100&page=1&size=2&sort=price,asc
+GET /api/v1/products?categoryId=1&minPrice=100&page=2&size=2&sort=price,asc
+```
+
+1. Với URL page=1, điền `contentIds=...; page=...; size=...; totalElements=...; totalPages=...`. **(2đ)**
+2. Với URL page=2, điền lại năm giá trị trên và thêm `HTTP status=...`. Không tự đổi sang page khác. **(2đ)**
+3. Giải thích hai điều: totalElements đếm cả tập lọc hay chỉ trang hiện tại? Size là số dòng tối đa được yêu cầu hay số dòng thực có trong content? **(1đ)**
 
 **Trả lời:**
+
+1. Page 1, size 2
+{
+  "content": [
+    {
+      "id": 13,
+      "name": "Java Advanced",
+      "price": 150,
+      "categoryId": 1
+    }
+  ],
+  "page": 1,
+  "size": 2,
+  "totalElements": 3,
+  "totalPages": 2
+}
+
+
+2. Page 2, size 2
+
+Status: 200 OK.
+{
+  "content": [],
+  "page": 2,
+  "size": 2,
+  "totalElements": 3,
+  "totalPages": 2
+}
+
+
+Trang vượt cuối không trả 404 và không làm totalElements trở thành 0.
+
+3. Phân biệt size và content.size()
+- size: Kích thước trang Client yêu cầu.
+- content.size(): Số phần tử thực tế trong trang hiện tại.
+- totalElements: Tổng phần tử khớp bộ lọc trước khi phân trang.
 
 ---
 
@@ -102,11 +195,46 @@ return repository.findAll(pageable);
 
 Các method trên chỉ lọc điều kiện có trong tên; không ngầm áp filter khác.
 
-1. Code trả ID nào và bỏ điều kiện nào? **(2đ)**
-2. Đúng contract phải trả ID nào và tổng bao nhiêu Product? **(1đ)**
-3. Sửa bằng lời/pseudocode để content và count cùng đúng. Vì sao không chỉ lấy hai trang riêng rồi ghép? Không cần syntax Specification. **(2đ)**
+1. Với URL đã cho, nhánh nào của if/else chạy? Keyword còn được kiểm không? Liệt kê các ID mà **code hiện tại** trả về. **(2đ)**
+2. Nếu làm đúng yêu cầu “thuộc Category1 **và** tên chứa java”, ID nào được trả và totalElements bằng bao nhiêu? **(1đ)**
+3. Mô tả cách sửa: hai điều kiện cần kết hợp trước hay sau khi lấy trang? Phần đếm tổng phải dùng những điều kiện nào? Nếu gọi hai method riêng rồi ghép kết quả hai trang, tại sao chưa bảo đảm đúng yêu cầu AND? Không cần viết query/Specification. **(2đ)**
 
 **Trả lời:**
+
+1. Lỗi của code
+
+Khi categoryId có giá trị, nhánh if đầu tiên chạy và trả kết quả ngay.
+
+Điều kiện keyword bị bỏ qua.
+
+Kết quả sai:
+10 — Java Basic
+11 — Spring Guide
+13 — Java Advanced
+
+
+2. Kết quả đúng
+
+Khi áp dụng:
+categoryId = 1 AND keyword chứa "java"
+
+
+Kết quả:
+10 — Java Basic
+13 — Java Advanced
+
+
+totalElements = 2.
+
+3. Hướng xử lý
+
+Phải kết hợp các điều kiện bằng AND trước khi Pagination.
+
+Count Query cũng phải áp dụng cùng điều kiện.
+
+Không thể sửa đúng bằng cách lấy hai Page đã phân trang riêng rồi ghép lại, vì cách đó không bảo toàn phép giao và metadata.
+
+Có thể sử dụng query kết hợp điều kiện hoặc JPA Specification.
 
 ---
 
@@ -120,22 +248,101 @@ Request categoryId=2, page=0, size=2, sort=id,asc. Implementation làm:
 3. Chỉ giữ Product categoryId=2 trong phần đã lấy
 ```
 
-1. Kết quả sai của implementation trên là gì? **(1đ)**
-2. ID và totalElements đúng phải là gì? **(1đ)**
-3. Nêu thứ tự logic đúng filter/sort/page và vì sao tránh bỏ mất kết quả. **(2đ)**
-4. Với DB lớn, nên query filter/page tại Repository/DB hay load toàn bộ về Service rồi cắt Java? Nêu một lý do. **(1đ)**
+1. Thực hiện đúng ba bước sai ở trên: sau bước3 còn ID nào? Nếu không có thì viết `[]`. **(1đ)**
+2. Bỏ implementation sai, tính lại theo contract: content đúng gồm ID nào, totalElements đúng là bao nhiêu? **(1đ)**
+3. Sắp xếp ba việc **lọc / sắp thứ tự / lấy trang** theo thứ tự logic đúng. Vì sao lấy trang từ toàn bảng rồi mới lọc có thể làm mất Product phù hợp? **(2đ)**
+4. Khi DB có rất nhiều dòng, chọn một cách và nêu lý do: cho DB lọc/lấy trang qua Repository, hay tải cả bảng về Service để lọc bằng Java? **(1đ)**
 
 **Trả lời:**
+
+1. Cách xử lý sai
+
+Backend phân trang trước:
+Page 0, size 2 → 10, 11
+
+
+Sau đó mới Filter categoryId = 2.
+
+Kết quả:
+[]
+
+
+2. Kết quả đúng
+
+Phải Filter toàn bộ tập dữ liệu trước.
+
+Product thuộc Category 2:
+12, 15
+
+
+Sau đó mới Pagination.
+
+Kết quả:
+content = [12, 15]
+totalElements = 2
+
+
+3. Thứ tự xử lý đúng
+Filter → Sort → Pagination → Map DTO
+
+
+Không lọc sau khi đã cắt trang, vì có thể bỏ sót Product phù hợp nằm ngoài trang ban đầu.
+
+4. Nên xử lý ở đâu?
+
+Nên áp dụng Filter, Sort và Pagination tại Repository/Database.
+
+Không nên load toàn bộ Product về Service rồi mới Filter và Pagination bằng Java cho tập dữ liệu lớn, vì tốn bộ nhớ và chi phí truyền dữ liệu không cần thiết.
 
 ---
 
-## Câu 6 — Thứ tự rõ không có nghĩa cùng snapshot (5đ)
+## Câu 6 — Bằng giá thì xếp ai trước? Có chèn dòng thì trang thay đổi sao? (5đ)
 
-1. Trên dữ liệu tĩnh, sort=price,desc cho thứ tự ID nào theo policy tie-break? Vì sao chỉ sort price chưa phân định đủ? **(2đ)**
-2. Tình huống riêng: không filter, sort id ASC, size 2. Page 0 được lấy khi dữ liệu là 10,11,12,13,14,15. Sau đó DB có thêm Product id=9, rồi client lấy page 1. Giả định id9 đã được chèn hợp lệ, không hỏi identity sinh số thế nào. Page 0 và page 1 chứa ID nào, ID nào lặp? **(2đ)**
-3. Vì sao tie-break unique không tự ngăn hiện tượng ở ý 2? Không cần giải pháp cursor/lock. **(1đ)**
+Hai tình huống **khác nhau**, không lấy sort của tình huống1 dùng cho tình huống2:
+
+1. **Không có ai sửa dữ liệu:** sắp cả sáu Product theo price DESC; nếu bằng giá dùng id ASC. Liệt kê đủ sáu ID theo thứ tự. Chỉ ra hai Product nào bằng giá, và vì sao chỉ ORDER BY price chưa quyết định ai đứng trước trong cặp đó. **(2đ)**
+2. **Có người chèn dòng:** không lọc; sort theo id ASC; size=2. Client lấy page0 khi dãy ID là `10,11,12,13,14,15`. Sau đó DB có thêm id9 hợp lệ, dãy thành `9,10,11,12,13,14,15`; client mới lấy page1. Điền `page0 đã nhận=[...]; page1 nhận=[...]; ID bị nhận lặp=...`. Không hỏi cơ chế sinh id9. **(2đ)**
+3. Ở tình huống2, id đã unique và có thứ tự rõ. Vì sao client vẫn có thể nhận lại một ID khi chuyển trang? Chỉ giải thích việc vị trí dòng đổi do chèn, không cần giải pháp cursor/lock. **(1đ)**
 
 **Trả lời:**
+
+1. Thứ tự Sort
+
+Thứ tự đúng:
+13 → 10 → 11 → 15 → 12 → 14
+
+
+Hai Product có cùng giá 100 cần thêm id ASC để xác định thứ tự rõ ràng.
+
+2. Offset Pagination khi có INSERT
+
+Ban đầu:
+10, 11, 12, 13, 14, 15
+
+
+Client lấy Page 0, size 2:
+10, 11
+
+
+Sau đó INSERT Product #9.
+
+Dữ liệu mới:
+9, 10, 11, 12, 13, 14, 15
+
+
+Client lấy Page 1, size 2:
+11, 12
+
+
+Product #11 bị lặp giữa hai trang.
+
+3. Nguyên nhân
+
+Offset dựa vào vị trí phần tử trong tập dữ liệu tại thời điểm query.
+
+Khi dữ liệu thay đổi, các vị trí có thể bị dịch chuyển.
+
+Tie-break giúp xác định thứ tự trong một tập dữ liệu cố định, nhưng không tạo snapshot nhất quán giữa nhiều HTTP request.
 
 ---
 
@@ -143,7 +350,13 @@ Request categoryId=2, page=0, size=2, sort=id,asc. Implementation làm:
 
 Controller dùng @RequestParam bind page/size sang int, categoryId sang Long, giá sang BigDecimal; sau bind có code kiểm đúng bảng policy. Handler trả 400 cho lỗi tương ứng. Không cấu hình tự sửa/cap input sai.
 
-Mỗi input độc lập: nêu **status và lý do/bước bị chặn**, điểm từng dòng bên dưới. Không cần tên exception chính xác.
+Mỗi input là một request riêng; các param không ghi đều hợp lệ. Với từng dòng, viết:
+
+- HTTP status.
+- Giá trị sai quy tắc nào.
+- Lỗi xảy ra **khi đổi chuỗi sang kiểu Java, trước Controller method**, hay **sau khi đổi kiểu được, lúc code kiểm giới hạn**.
+
+Không cần nhớ tên exception. Dòng1đ: status0,5 + lý do/bước0,5; dòng0,5đ: mỗi phần0,25.
 
 | Input | Điểm | Trả lời |
 |---|---:|---|
@@ -157,19 +370,83 @@ Mỗi input độc lập: nêu **status và lý do/bước bị chặn**, điể
 
 **Trả lời:**
 
+Theo API Contract, các request dưới đây đều phải trả 400 Bad Request.
+Input	Nguyên nhân
+page=abc	Không thể chuyển "abc" thành int; lỗi Binding trước Controller method
+page=-1	Chuyển được thành số nguyên nhưng vi phạm page >= 0
+size=101	Vượt giới hạn tối đa 100
+size=0	Nhỏ hơn giới hạn tối thiểu 1
+categoryId=0	Category ID phải là số nguyên dương
+minPrice=-1	Giá tối thiểu không được âm
+minPrice=150&maxPrice=100	Khoảng giá không hợp lệ vì min > max
+
+Phân biệt:
+- Binding kiểm tra có chuyển được dữ liệu từ HTTP sang kiểu Java hay không.
+- Validation kiểm tra giá trị có tuân thủ API Contract hay không.
+@RequestParam không tự bảo đảm tất cả quy tắc của dự án.
+
 ---
 
 ## Câu 8 — Sort allowlist và điều framework không tự biết (5đ)
 
-Helper checkedPage trong bài học kiểm đúng một cặp, allowlist và direction rồi tạo PageRequest. Các input độc lập:
+Đề này chỉ cho sort theo id/name/price, chiều asc/desc và đúng một cặp `field,direction`. Helper checkedPage kiểm ba điều đó rồi mới tạo PageRequest. Các input độc lập:
 
-1. sort=price,sideways: trả gì, vì sao? **(1đ)**
-2. sort=secretCost,asc: trả gì, vì sao? **(1đ)**
-3. sort=price,asc,id,desc: trả gì, vì sao? **(1đ)**
-4. Chỉ nhận Pageable có chứng minh API đã enforce size ≤ 100 và allowlist này chưa? Cần kiểm/cấu hình gì ở mức ý nghĩa? **(1đ)**
-5. Có kết luận mọi sort field lạ trong Spring Data đều là SQL injection không? Chỉ nhận diện giới hạn, không viết exploit. **(1đ)**
+1. Client gửi `sort=price,sideways`. Nêu HTTP status và phần không hợp lệ: tên field, chiều, hay số phần? **(1đ)**
+2. Client gửi `sort=secretCost,asc`. Nêu HTTP status và phần không hợp lệ. **(1đ)**
+3. Client gửi `sort=price,asc,id,desc`. Nêu HTTP status và quy tắc một cặp bị vi phạm thế nào. **(1đ)**
+4. Đồng đội chỉ viết Controller nhận `Pageable pageable`, không cho bạn xem validator/cấu hình. Từ dòng đó có thể khẳng định size>100 và field ngoài danh sách chắc chắn bị trả400 chưa? Nêu việc còn cần kiểm, không cần code. **(1đ)**
+5. Đồng đội nói “cứ field ngoài danh sách là đã chứng minh có SQL injection”. Bạn đồng ý không? Phân biệt **vi phạm danh sách sort được công bố** với **lỗ hổng phụ thuộc cách tạo query**. Không cần ví dụ tấn công. **(1đ)**
 
 **Trả lời:**
+
+1. Direction không hợp lệ
+GET /products?sort=price,up
+
+
+Trả 400 Bad Request.
+
+Vì up không thuộc asc hoặc desc.
+
+2. Field không thuộc Allowlist
+GET /products?sort=costPrice,asc
+
+
+Trả 400 Bad Request.
+
+Vì Shopcore chỉ hỗ trợ:
+id
+name
+price
+
+
+3. Sort sai định dạng
+
+Ví dụ:
+GET /products?sort=price
+
+
+Trả 400 Bad Request.
+
+Vì contract yêu cầu đúng một cặp:
+field,direction
+
+
+4. Pageable không tự bảo đảm toàn bộ Contract
+
+Dùng Pageable không đồng nghĩa đã kiểm tra đúng mọi rule về:
+- Page và Size.
+- Sort field Allowlist.
+- Sort direction.
+- Định dạng Sort.
+Cần kiểm tra hoặc cấu hình validation phù hợp để bảo đảm Backend thực hiện đúng contract.
+
+5. Sort field lạ và SQL Injection
+
+Không thể kết luận mọi Sort field không hợp lệ đều gây SQL Injection.
+
+Nguy cơ phụ thuộc cách Backend xây dựng truy vấn.
+
+Không nên nối raw input từ Client trực tiếp vào SQL.
 
 ---
 
@@ -194,39 +471,173 @@ return PageResponse.builder()
         .build();
 ```
 
-1. Nêu cách đổi content thành DTO, không trả entity. Không cần getter từng field. **(1đ)**
-2. Sửa nguồn của size,totalElements,totalPages và ghi giá trị đúng. **(2đ)**
-3. Mapping một Product → một DTO có cần đổi page/total không? Vì sao? **(1đ)**
-4. Vì sao dùng DTO page ổn định thay vì coi JSON tự serialize PageImpl là contract bất biến? **(1đ)**
+1. Dòng `.content(page.getContent())` đang lấy entity. Bạn sẽ chuyển mỗi Product thành kiểu gì trước khi đưa vào content? Mô tả cách map hoặc viết code ngắn, không cần getter từng field. **(1đ)**
+2. Với ba dòng size/totalElements/totalPages, mỗi dòng hãy ghi **lấy từ thông tin nào của Page** và **giá trị cụ thể theo dữ kiện**. Không cần nhớ chính xác tên getter nếu mô tả rõ nguồn. **(2đ)**
+3. Giả sử mỗi entity đổi thành đúng một DTO, không bỏ/thêm dòng: có phải tính lại page/total không? Vì sao? **(1đ)**
+4. Frontend cần năm field PageResponse đã công bố. Vì sao tự quản lý DTO này giúp kiểm soát response khi nâng Spring Data, thay vì hứa JSON nội bộ PageImpl sẽ không bao giờ đổi? **(1đ)**
 
 **Trả lời:**
+
+1. Chuyển Entity thành DTO
+Page<ProductResponse> dto =
+    page.map(mapper::toResponse);
+
+
+Page.map() chuyển từng Product thành ProductResponse.
+
+content sau đó là danh sách DTO, không phải Entity.
+
+2. Metadata
+
+Trong tình huống đề bài:
+size = 2
+totalElements = 3
+totalPages = 2
+
+
+Nguồn lấy metadata:
+dto.getSize();          // 2
+dto.getTotalElements(); // 3
+dto.getTotalPages();    // 2
+
+
+3. Map không làm thay đổi số dòng
+
+Mapper chuyển một Entity thành một DTO, không lọc thêm dữ liệu hoặc phân trang lại.
+
+Vì vậy metadata được giữ lại.
+
+4. Tại sao cần PageResponse riêng?
+
+DTO PageResponse giúp kiểm soát cấu trúc JSON công khai cho Client.
+
+Không nên phụ thuộc vào cấu trúc JSON nội bộ của PageImpl, vì cách biểu diễn đó có thể thay đổi khi nâng cấp framework.
+
+Code minh họa:
+Page<ProductResponse> dto =
+    page.map(mapper::toResponse);
+
+return PageResponse.<ProductResponse>builder()
+    .content(dto.getContent())
+    .page(dto.getNumber())
+    .size(dto.getSize())
+    .totalElements(dto.getTotalElements())
+    .totalPages(dto.getTotalPages())
+    .build();
 
 ---
 
 ## Câu 10 — Count đếm cái gì? (5đ)
 
-Query content áp categoryId=1 AND price≥100. Count bug lại là `SELECT COUNT(*) FROM products;`. Dùng dataset đầu bài, không có JOIN ở ý 1/2.
+Request cần Product thuộc Category1 và giá≥100. Query lấy content đã áp cả hai điều kiện. Nhưng query đếm tổng lại là:
 
-1. Count bug là bao nhiêu, total đúng là bao nhiêu? **(1đ)**
-2. Viết nghĩa điều kiện count đúng. Có áp LIMIT/OFFSET của trang lên count không? **(2đ)**
-3. Tình huống độc lập: JOIN trả các Product ID 10,10,13. API công bố đếm số Product khác nhau. Total đúng bao nhiêu, vì sao không lấy số JOIN rows? **(1đ)**
-4. Chỉ sửa total JSON bằng số ước đoán nhưng để query content/count sai thì đã sửa gốc chưa? Nêu hướng sửa đúng nghĩa, không viết fetch join. **(1đ)**
+```sql
+SELECT COUNT(*) FROM products;
+```
+
+Dùng bảng sáu Product đầu đề; không có JOIN ở ý1/2.
+
+1. Query COUNT(*) trên đang trả số nào? Nếu chỉ đếm Product đúng hai điều kiện của request thì phải là số nào? **(1đ)**
+2. Nêu điều kiện WHERE cần dùng cho query đếm, bằng lời hoặc SQL. Query đếm tổng có chỉ đếm các dòng của trang hiện tại bằng LIMIT/OFFSET không? **(2đ)**
+3. Tình huống riêng: kết quả JOIN có ba dòng mang Product ID `10,10,13`. API đếm **Product khác nhau**, không đếm dòng JOIN. TotalElements cần là bao nhiêu? Giải thích cách đếm. **(1đ)**
+4. Một bạn sửa số totalElements trong JSON bằng tay nhưng không sửa query. Cách đó có bảo đảm đúng các filter/request khác không? Nêu cần sửa điều gì ở query để total tự đúng theo dữ liệu. **(1đ)**
 
 **Trả lời:**
+
+1. Count sai và Count đúng
+Count sai = 6
+Count đúng = 3
+
+
+2. Count phải dùng cùng bộ lọc
+
+Điều kiện đúng:
+WHERE category_id = 1
+  AND price >= 100
+
+
+Ví dụ:
+SELECT COUNT(*)
+FROM products
+WHERE category_id = 1
+  AND price >= 100;
+
+
+Không áp dụng LIMIT/OFFSET để đếm tổng tập khớp Filter.
+
+3. JOIN có thể làm trùng Product
+
+Trong tình huống đề bài, có hai Product khác nhau:
+10, 13
+
+
+Tổng Product khác nhau là 2, không phải 3 dòng JOIN.
+
+Nếu contract đếm Product, phải tránh nhầm số dòng JOIN với số Product.
+
+Một hướng:
+COUNT(DISTINCT p.id)
+
+
+4. Hướng xử lý
+
+Cả Content Query và Count Query phải giữ đúng:
+- Bộ lọc được yêu cầu.
+- Đơn vị dữ liệu cần phân trang và đếm: Product.
+- Quy tắc loại trùng khi JOIN nếu cần.
+Không sửa metadata bằng cách đoán số rồi gán vào JSON.
 
 ---
 
 ## Câu 11 — Filter không khớp, parent không có, trang vượt cuối (5đ)
 
-Các request độc lập, param đều đúng kiểu/range:
+Các request độc lập, param đều đúng kiểu/range. Dùng bảng sáu dòng; Category999 không tồn tại. Điền kết quả cho từng request, không cần viết DTO từng Product:
 
-1. GET /api/v1/products?categoryId=999&page=0&size=2: status,content,totalElements,totalPages? **(2đ)**
-2. GET /api/v1/categories/999/products: status và lý do theo policy parent? **(1đ)**
-3. GET /api/v1/products?page=999&size=2&sort=id,asc: status,content,totalElements,totalPages và page có bị đổi thành trang cuối không? **(2đ)**
+1. `GET /api/v1/products?categoryId=999&page=0&size=2`: điền `status=...; content=...; totalElements=...; totalPages=...`. Ở đây categoryId chỉ là **điều kiện lọc Product**. **(2đ)**
+2. `GET /api/v1/categories/999/products`: đây là danh sách nằm dưới **parent Category999**. Theo policy đầu đề, status gì và tại sao? **(1đ)**
+3. `GET /api/v1/products?page=999&size=2&sort=id,asc`: không có filter, chỉ yêu cầu trang rất xa. Điền status,content,totalElements,totalPages và page trong response. Có tự đổi page999 về trang cuối không? **(2đ)**
 
 Không hỏi error body schema. Đừng dùng policy parent cho filter tự do ở ý 1.
 
 **Trả lời:**
+
+1. Filter không có kết quả
+GET /api/v1/products?categoryId=999
+
+
+Trả 200 OK.
+{
+  "content": [],
+  "page": 0,
+  "size": 20,
+  "totalElements": 0,
+  "totalPages": 0
+}
+
+
+2. Parent Category không tồn tại
+GET /api/v1/categories/999/products
+
+
+Trả 404 Not Found.
+
+Vì Category #999 không tồn tại và contract yêu cầu kiểm tra Parent Resource.
+
+3. Page vượt cuối
+GET /api/v1/products?page=999&size=2
+
+
+Trả 200 OK.
+{
+  "content": [],
+  "page": 999,
+  "size": 2,
+  "totalElements": 6,
+  "totalPages": 3
+}
+
+
+Backend giữ nguyên page=999, không tự ép về trang cuối.
 
 ---
 
@@ -238,18 +649,95 @@ GET /api/v1/products?categoryId=2&page=0&size=2&sort=id,asc
 
 Controller/Service đã inject đúng. Repository thực hiện filter/sort/page/count tại DB; entity có getter cần thiết; không phát sinh lỗi DB/lazy.
 
-Kể ngắn luồng theo **năm bước, mỗi bước 1đ**:
+Không hỏi bạn học thuộc tên các thành phần nội bộ Spring. Chỉ cần giải thích **dữ liệu đi qua năm bước nào**, mỗi bước1đ:
 
-1. Query string được đưa vào Java param thế nào; kiểm input ở đâu?
-2. Service truyền điều kiện và yêu cầu trang gì xuống Repository?
-3. Repository trả content ID và totalElements/totalPages nào?
-4. Service biến kết quả thành DTO response gì; có lọc thêm trong mapper không?
-5. Controller trả status/body gì; object thành JSON ở bước nào?
+1. **Đầu vào Controller:** ai đổi chuỗi categoryId/page/size thành số Java? Code có kiểm range/sort trước khi query không?
+2. **Service gọi Repository:** ghi categoryId, page, size và thứ tự sort cần truyền xuống; không cần viết method signature.
+3. **Repository trả kết quả:** tính content ID, totalElements và totalPages từ bảng đầu đề cho đúng URL này.
+4. **Service dựng response:** entity trong content được đổi thành class DTO nào và được chứa trong object page nào? Có lọc bỏ thêm dòng trong mapper không?
+5. **Trả client:** nêu status thành công, kiểu body theo contract; ai chuyển object Java thành JSON trước khi gửi? Chỉ cần nói cơ chế serializer của Spring, không cần tên class nội bộ.
 
 Không cần kể FilterChain/HandlerAdapter hoặc viết cả project.
 
 **Trả lời:**
 
+1. Spring MVC / Controller
+
+Client gửi Query Parameters.
+
+Spring thực hiện Binding:
+Query String → Java Parameters
+
+
+Backend kiểm tra:
+- Range của page, size, price.
+- Sort Allowlist.
+- Các điều kiện Filter.
+Đồng thời normalize input như trim keyword trước khi truy vấn.
+
+2. Service
+
+Service nhận điều kiện lọc và Pageable.
+
+Trong tình huống đề bài:
+categoryId = 2
+page = 0
+size = 2
+sort = id ASC
+
+
+3. Repository / Database
+
+Repository áp dụng Filter, Sort và Pagination tại Database.
+
+Kết quả:
+content = Product 12, Product 15
+totalElements = 2
+totalPages = 1
+
+
+4. Service Mapping
+
+Service chuyển Entity thành DTO theo quan hệ một-một:
+Page<ProductResponse> dtoPage =
+    entities.map(mapper::toResponse);
+
+
+Sau đó đóng gói thành PageResponse<ProductResponse>.
+
+Không lọc thêm Product trong Mapper.
+
+5. Controller trả Response
+
+Controller trả object PageResponse.
+
+Spring HTTP Message Converter sử dụng JSON serializer phù hợp để chuyển object thành JSON và gửi cho Client với HTTP 200 OK.
+Toàn bộ luồng
+Client
+  ↓
+GET /api/v1/products?categoryId=2&page=0&size=2
+  ↓
+Spring MVC Binding
+  ↓
+Validation + Normalize Input
+  ↓
+Service
+  ↓
+Repository
+  ↓
+Database
+  ├── Filter categoryId = 2
+  ├── Sort id ASC
+  ├── Pagination page 0, size 2
+  └── Count tổng Product khớp filter
+  ↓
+Page<Product>
+  ↓
+Page.map()
+  ↓
+
 ---
 
 Chấm riêng 60đ, không cộng điểm Lesson 01. Đề cũ 2026-10-07 giữ làm lịch sử, không bắt làm cả hai. Khi nộp, chỉ rõ bản lesson2-lan2 này; mỗi lần chấm đều lưu snapshot nhận xét từng câu.
+
+Bản ngày2026-11-21 chỉ viết lại câu chữ cho rõ. Bản trước chỉnh được lưu trong thư mục archive; dữ liệu,12câu,60đ và phạm vi kiến thức giữ nguyên.

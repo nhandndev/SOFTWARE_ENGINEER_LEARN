@@ -2,6 +2,8 @@
 
 > Dán toàn bộ file này cho AI khi đã làm xong đề. Điền đường dẫn file đề đã làm.
 
+> **Hướng học từ 2026-11-21:** với đề `TU_DUY_RONG`, chấm theo khả năng hiểu bản chất, giải thích luồng và ra quyết định trong tình huống; không đòi thêm code hoặc chi tiết framework ngoài câu hỏi. Vẫn chấm nghiêm lỗi cốt lõi về dữ liệu/bảo mật/contract/độ tin cậy. Giữ ngưỡng85%; hiểu lý thuyết không tự chứng minh deliverable đã code xong.
+
 ---
 
 ## Input

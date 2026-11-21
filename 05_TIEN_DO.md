@@ -63,7 +63,7 @@
 | M2-2 · PostgreSQL | 🟢 Đạt phần học (4 lesson; chưa xác nhận deliverable) | 97,81 (tổng hợp 4 lesson) | 2026-10-10 | Đã có đề + lesson |
 | M2-3 · Flyway | 🟢 Đạt phần học rút gọn (Lesson 01, 03; bỏ Lesson 02 theo yêu cầu) | 91,25 (Lesson 03; tổng hợp 2 lesson: 90,625) | 2026-10-30 | Đã có đề + lesson (01, 03); giữ lab riêng |
 | M2-4 · N+1 & HikariCP | ⏸️ Tạm dừng theo yêu cầu (Lesson 01 đạt; L02 chấm tạm) | 90 (tạm L02 câu 1–3) | 2026-11-10 | Đã có đề + lesson |
-| M3-1 · REST best practices | 🟡 Đang học (Lesson 01 đạt; câu16 cần củng cố) | 85,625 (L01: đề cũ 68,5/80) | 2026-11-20 | Đã có đề + lesson |
+| M3-1 · REST best practices | 🟢 Đạt phần học (3 lesson; chưa xác nhận deliverable) | 91,25 (L03:36,5/40, đủ8câu) | 2026-11-21 | Đã có đề + lesson |
 | M3-2 · Security Core | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
 | M3-3 · JWT | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
 | M3-4 · OAuth2 / OIDC | 🔵 Chưa bắt đầu | — | — | Đã có đề + lesson |
@@ -106,6 +106,16 @@
 ---
 
 ## Nhật ký học (mới nhất lên đầu)
+
+- 2026-11-21 · M3-1 Lesson03 · Câu4 bổ sung đủ5/5, tổng36,5/40=91,25%, đạtLesson03; các câu khác giữđiểm. Cả3lesson≥85% (L01:85,625;L02:100;L03:91,25), chốtđạt phầnkiếnthức theo hướnghọc hiện hành; chưa xácnhận project/deliverable, giữ cácđiểmyếu đểôn. Lưu snapshot bàiđủ/nhậnxéttrước và tổngkếtmodule; tickProblemDetail/HATEOASphầnkiếnthức, khôngtickidempotencycònthiếu hoặc giảđịnhcapstoneđãxong.
+
+- 2026-11-21 · M3-1 Lesson03 TU_DUY_RONG · Chấm lại phầnđãlàm lần2:31,5/35=90%; câu6 đãđủ5/5 (tăng3), câu7 đãđủ5/5 (tăng2,5), câu1/2/3/5/8 chưađổi giữđiểm. Câu4 trống chưa chấm, chưa chốtLesson03/module; lưu archive bài/nhậnxét trước, khôngtickchecklist hoặc xác nhận deliverable.
+
+- 2026-11-21 · M3-1 Lesson03 TU_DUY_RONG · Chấm câu1,2,3,5,6,7,8:26/35=74,29% phầnđãlàm; câu4 trống chưa chấm, cácvếtrống6/7 chưa cóđiểm. Cần sửa queryparamkhácJSON, sai method405 và HTTPstatuskhácbodystatus; bổ sung log/ID,giớihạnAdvice,kếhoạchchuyểnclient. Lưu snapshot bài nộp và nhận xét; chưa chốtLesson03/module, khôngtickchecklist, giữL01/L02đạt.
+
+- 2026-11-21 · M3-1 Lesson02 · Nhận đúng file bài làm mới9f8bae2e, điền nguyên câu2–12 vào đề, giữ câu1. Chấm đủ12câu60/60=100%, đạtLesson02; sửa nhẹ cách bámURL/size và inputsort, không trừ tiêu chí ngoài đề. Lưu nguồn/snapshotbàiđiền/nhậnxétlần2; chỉtick pagination/filter/sort, modulevẫnđanghọc, cònLesson03 và chưa xác nhận deliverable.
+
+- 2026-11-21 · M3-1 Lesson02 · Câu1 đúng5/5; câu2–12 trong đề trống. File đính kèm trùng nội dung đáp án/rubric nên hỏi xác nhận trước khi điền như bài làm; lưu snapshot bài nộp, nội dung gửi và nhận xét. Chưa xét đạt/trượtLesson02; giữ Lesson01 đạt85,625%, không tickchecklist hoặc mởlessonmới.
 
 - 2026-11-20 · M3-1 Lesson01 · Chấm lại đủ16câu đềcũ theo bản đã sửa:68,5/80=85,625%, đạtLesson01; câu16 đạt2/5 vì ý2/3 chưa làm, đã chữa bằng bảngstate và cậpnhậtxengiữa. Lưu bài nộp/nhậnxét archive5; không chấm đềvá mới, không bắt thi thêm để côngnhận đạt; module vẫn đang học, chưa xác nhận deliverable.
 - 2026-11-20 · M3-1 Lesson01 · Rà toàn bộ16 câu và lịch sử: câu15 mới thêm PUT/200, nhận thêm2đ, tổng60/80=75%; phầncũ còn20đ sai/thiếu. Tạo README đánh giá và đềvá THI_LAI riêng12câu/20đ chỉ kiểm cácvếthiếu, kèm rubric; đềvá chưa làm/chưa cóđiểm, cần≥17/20 để chốtLesson01 qua đềvá. Giữ bài/snapshot cũ, không tickchecklist hoặc tự công nhận đạt.

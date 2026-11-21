@@ -1,6 +1,7 @@
 # M3-1 — Chấm nghiêm, không chấm học thuộc
 
-- Dùng tổng điểm của đúng bản đề: bộ cũ40đ; Lesson01 bản2026-11-20 là80đ; Lesson02 mới là60đ; đềvá chỉ dùng tổng riêng của nó. Điểm = điểm thô/tổng thực×100. Lesson02 đạt từ51/60; không làm tròn để nâng lên85. Ngưỡng chung: ≥85 đạt, 55–<85 cần ôn, <55 học lại.
+- Hướng hiện hành: hiểu rộng/nắm bản chất, giữ nghiêm phần quan trọng; không ép nhớ cú pháp hoặc code lại project. Không đánh đồng học nhanh với bỏ nền Software/bảo mật/dữ liệu/độ tin cậy.
+- Dùng tổng điểm đúng bản: Lesson01 là80đ; Lesson02 đã chấm60đ; Lesson03 TU_DUY_RONG hiện40đ, đạt34đ. Bản Lesson03 trước12câu/60đ đã lưu archive, không dùng rubric cũ để chấm đề mới. Điểm=thô/tổng thực×100; không làm tròn để nâng lên85. Ngưỡng chung: ≥85 đạt, 55–<85 cần ôn, <55 học lại.
 - Bảng rubric mỗi đáp án là nguồn chia điểm. Chỉ cho điểm ý viết ra hoặc suy ra trực tiếp rõ ràng; không đoán người học biết vì đã làm project.
 - Một tiêu chí1đ: đủ và đúng1; đúng một phần0,5; sai/vắng0. Tiêu chí nhiều điểm chia theo các vế đã nêu, có thể dùng bước0,25 và phải giải thích. Không cho điểm từ khóa không có ý nghĩa trong tình huống.
 - Đúng kết luận nhưng thiếu lý do/điều kiện/bước kiểm: chỉ nhận phần kết luận. Tự mâu thuẫn chưa sửa rõ: tiêu chí liên quan0. Không trừ điểm âm, không phạt hai lần cùng ý, không tự đặt luật sai một câu trượt cả bài.
